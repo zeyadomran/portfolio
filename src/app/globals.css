@@ -1,0 +1,19 @@
+@layer theme, base, od-layout, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+@import "lenis/dist/lenis.css";
+@import "./design-system.css";
+
+/* The export supplies the base reset. Tailwind preflight would change its button,
+   heading, and border metrics. Utilities compose the shared layout primitives. */
+@theme inline {
+  --color-background: var(--black);
+  --color-foreground: var(--text);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-line: var(--line);
+  --font-mono: var(--font-space-mono), monospace;
+  --spacing-gutter: var(--gutter);
+  --spacing-section: var(--section-gap);
+}

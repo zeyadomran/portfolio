@@ -1,0 +1,7 @@
+design/
+.yarn/
+yarn.lock
+.next/
+node_modules/
+public/
+.verification/
