@@ -1,0 +1,165 @@
+{
+  "brand": "Zeyad Omran",
+  "version": "1.1.0",
+  "status": "baseline selected and applied to portfolio header and favicon",
+  "palette": {
+    "background": "#000000",
+    "foreground": "#F5F7FA",
+    "neutral": "#B8B8B8",
+    "accent": "#4C70F0"
+  },
+  "routes": [
+    {
+      "id": "panel",
+      "number": "01",
+      "name": "Panel",
+      "character": "Precise. Open. Modular.",
+      "role": "The closest continuation of your current identity.",
+      "idea": "Separate interface panels form a Z beside an open rectangular O. A blue cursor gives the system one point of focus.",
+      "type": "Uppercase / Space Mono Regular",
+      "word": "upperRegular",
+      "minimum": 48,
+      "mono_minimum": 32,
+      "word_minimum": 240,
+      "clear": 16,
+      "color": "Neutral linework carries the symbol. White carries the name. Blue belongs only to the cursor.",
+      "motion": "Move the cursor by one grid step on hover or focus, then return it. Keep the outlined panels stationary.",
+      "small": "Below 48px, use the heavier single-color symbol. Do not use the outlined version below 48px or the single-color symbol below 32px.",
+      "alt": "Four outlined rectangles step through a Z beside a rectangular O with a blue cursor square."
+    },
+    {
+      "id": "fold",
+      "number": "02",
+      "name": "Fold",
+      "character": "Compact. Angular. Bold.",
+      "role": "The strongest silhouette for a compact header mark.",
+      "idea": "A broad Z folds around an angular O counter. One small blue plane identifies the terminal without weakening the silhouette.",
+      "type": "Uppercase / Space Mono Bold",
+      "word": "upperBold",
+      "minimum": 32,
+      "mono_minimum": 24,
+      "word_minimum": 200,
+      "clear": 16,
+      "color": "White defines the mass of the monogram. One rectangular plane carries blue; no extra colored faces are added.",
+      "motion": "Shift the blue terminal by at most one quarter of its width on hover or focus. Keep the main silhouette fixed.",
+      "small": "Use the single-color silhouette below 32px. Its open counter and broad diagonal remain the defining elements; stop at 24px.",
+      "alt": "A filled angular Z wraps a cut-out O counter, with a small blue rectangular terminal."
+    },
+    {
+      "id": "baseline",
+      "number": "03",
+      "name": "Baseline",
+      "character": "Quiet. Personal. Typographic.",
+      "role": "The most direct expression of your name.",
+      "idea": "Lowercase lettering sits on two offset lines. The compact symbol repeats those baselines as two rails and a square terminal.",
+      "type": "Lowercase / Space Mono Regular",
+      "word": "lowerRegular",
+      "minimum": 32,
+      "mono_minimum": 24,
+      "word_minimum": 160,
+      "clear": 16,
+      "color": "White gives the name priority. Neutral rails support it. Blue marks the endpoint of the reading line.",
+      "motion": "Reveal the second rail and terminal together in a short opacity transition. Keep the lettering still.",
+      "small": "Use the rails-only symbol below the wordmark minimum. For a single-color application, retain both rails and the terminal square; stop at 24px.",
+      "alt": "Two offset horizontal rails end in a blue square, echoing the two lines of the lowercase wordmark."
+    }
+  ],
+  "vectorAssets": {
+    "assets/identity/panel/symbol.svg": {
+      "width": 200,
+      "height": 200
+    },
+    "assets/identity/panel/symbol-mono.svg": {
+      "width": 200,
+      "height": 200
+    },
+    "assets/identity/panel/wordmark.svg": {
+      "width": 708.41626,
+      "height": 120.7999954
+    },
+    "assets/identity/panel/lockup-horizontal.svg": {
+      "width": 667.4997071999999,
+      "height": 168
+    },
+    "assets/identity/panel/lockup-mono.svg": {
+      "width": 667.4997071999999,
+      "height": 168
+    },
+    "assets/identity/panel/lockup-stacked.svg": {
+      "width": 470.66640639999997,
+      "height": 254.591997056
+    },
+    "assets/identity/fold/symbol.svg": {
+      "width": 200,
+      "height": 200
+    },
+    "assets/identity/fold/symbol-mono.svg": {
+      "width": 200,
+      "height": 200
+    },
+    "assets/identity/fold/wordmark.svg": {
+      "width": 719.6936,
+      "height": 122.7
+    },
+    "assets/identity/fold/lockup-horizontal.svg": {
+      "width": 675.619392,
+      "height": 168
+    },
+    "assets/identity/fold/lockup-mono.svg": {
+      "width": 675.619392,
+      "height": 168
+    },
+    "assets/identity/fold/lockup-stacked.svg": {
+      "width": 477.883904,
+      "height": 255.808
+    },
+    "assets/identity/baseline/symbol.svg": {
+      "width": 200,
+      "height": 200
+    },
+    "assets/identity/baseline/symbol-mono.svg": {
+      "width": 200,
+      "height": 200
+    },
+    "assets/identity/baseline/wordmark.svg": {
+      "width": 427.5265,
+      "height": 212.3999939
+    },
+    "assets/identity/baseline/lockup-horizontal.svg": {
+      "width": 683.91569856,
+      "height": 168
+    },
+    "assets/identity/baseline/lockup-mono.svg": {
+      "width": 683.91569856,
+      "height": 168
+    },
+    "assets/identity/baseline/lockup-stacked.svg": {
+      "width": 290.89696000000004,
+      "height": 313.215996096
+    }
+  },
+  "generatedImages": [
+    {
+      "id": "panel",
+      "path": "assets/identity/panel/concept.png",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "id": "fold",
+      "path": "assets/identity/fold/concept.png",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "id": "baseline",
+      "path": "assets/identity/baseline/concept.png",
+      "width": 1536,
+      "height": 1024
+    }
+  ],
+  "fontLicense": "../OFL-SpaceMono.txt",
+  "generationMethod": "Built-in image_gen tool; three independent logo-brand prompts",
+  "selectedRoute": "baseline",
+  "activeSymbol": "assets/identity/baseline/symbol.svg"
+}

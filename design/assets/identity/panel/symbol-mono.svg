@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" role="img" aria-labelledby="title desc">
+<title id="title">Panel / Single-color symbol - Zeyad Omran</title>
+<desc id="desc">Four outlined rectangles step through a Z beside a rectangular O with a black cursor square. Transparent background. Black single-color artwork for a light background.</desc>
+<metadata>Identity directions / Zeyad Omran. Lettering derived from Space Mono under SIL Open Font License 1.1; see assets/OFL-SpaceMono.txt. Geometry and lettering remain editable SVG paths.</metadata>
+<style>:root{--identity-ink:#000000;--identity-line:#000000;--identity-accent:#000000}.ink{fill:var(--identity-ink)}.neutral{fill:var(--identity-line)}.line{stroke:var(--identity-line)}.accent{fill:var(--identity-accent)}</style>
+<g stroke-linecap="butt" stroke-linejoin="miter"><g id="modular-panels" fill="none" class="line" stroke-width="8">
+<rect x="32" y="44" width="56" height="16"/><rect x="64" y="68" width="24" height="16"/>
+<rect x="32" y="92" width="24" height="16"/><rect x="32" y="116" width="56" height="16"/>
+<rect x="104" y="44" width="64" height="88"/></g>
+<rect id="cursor" class="accent" x="144" y="108" width="12" height="12"/></g>
+</svg>
