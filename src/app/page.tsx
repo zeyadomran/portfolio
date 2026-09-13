@@ -5,10 +5,21 @@ import { Work } from "@/components/portfolio/work";
 import { Contact } from "@/components/portfolio/contact";
 import { Footer } from "@/components/portfolio/footer";
 import { PortfolioMotion } from "@/components/portfolio/motion";
+import { portfolioStructuredData } from "@/lib/seo";
 
 export default function PortfolioPage() {
   return (
     <>
+      <script
+        id="portfolio-structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(portfolioStructuredData).replace(
+            /</g,
+            "\\u003c",
+          ),
+        }}
+      />
       <a className="skip-link" href="#main">
         Skip to content
       </a>

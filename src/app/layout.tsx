@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { isPreviewDeployment, site, siteUrl } from "@/lib/seo";
 import "./globals.css";
 
 const spaceMono = localFont({
@@ -22,16 +23,52 @@ const spaceMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Zeyad Omran — Software Developer",
-  description:
-    "Zeyad Omran — software developer at IBM, building intuitive interfaces and practical AI tools.",
+  metadataBase: new URL(site.url),
+  title: site.title,
+  description: site.description,
+  applicationName: site.name,
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  publisher: site.name,
+  alternates: { canonical: site.url },
+  robots: {
+    index: !isPreviewDeployment,
+    follow: true,
+    googleBot: {
+      index: !isPreviewDeployment,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
-    title: "Zeyad Omran — Software Developer",
-    description: "I build software that helps people do more, faster.",
+    title: site.title,
+    description: site.description,
+    url: site.url,
+    siteName: site.name,
     type: "website",
     locale: "en_CA",
   },
-  twitter: { card: "summary" },
+  twitter: {
+    card: "summary_large_image",
+    title: site.title,
+    description: site.description,
+    images: [
+      {
+        url: siteUrl("/opengraph-image"),
+        alt: site.socialImageAlt,
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    other: process.env.BING_SITE_VERIFICATION
+      ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION }
+      : undefined,
+  },
 };
 
 export const viewport: Viewport = {

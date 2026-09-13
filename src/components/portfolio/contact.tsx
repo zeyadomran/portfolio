@@ -116,7 +116,7 @@ export function Contact() {
             rel="noopener noreferrer"
           >
             <span className="link-label">
-              LinkedIn
+              Linkedin
               <span className="sr-only">
                 {" "}
                 — Zeyad Omran, opens in a new tab
@@ -135,7 +135,7 @@ export function Contact() {
             rel="noopener noreferrer"
           >
             <span className="link-label">
-              GitHub
+              Github
               <span className="sr-only"> — zeyadomran, opens in a new tab</span>
             </span>
             <span className="link-arrow">
