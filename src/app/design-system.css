@@ -1155,6 +1155,20 @@ html[data-suspended="true"] .ambient-unit {
 .contact-link .link-arrow {
   align-self: flex-end;
 }
+@media (max-width: 599px) {
+  .contact-links {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .contact-link {
+    flex-direction: row;
+    align-items: center;
+    aspect-ratio: auto;
+    min-height: 6rem;
+  }
+  .contact-link .link-arrow {
+    align-self: center;
+  }
+}
 .contact-link::before {
   content: "";
   position: absolute;
