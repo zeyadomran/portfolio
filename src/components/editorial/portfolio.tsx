@@ -426,7 +426,26 @@ export function EditorialPortfolio() {
             <Arrow diagonal />
           </a>
           <div className="contact-bottom flex items-center justify-between">
-            <CopyEmail />
+            <div className="contact-actions">
+              <CopyEmail />
+              <a
+                className="resume-download"
+                href="/Zeyad_Omran_Resume_SWE_AI.pdf"
+                download="Zeyad_Omran_Resume_SWE_AI.pdf"
+              >
+                Download resume
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  aria-hidden="true"
+                >
+                  <path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5" />
+                </svg>
+                <span className="sr-only"> (PDF)</span>
+              </a>
+            </div>
             <div>
               <a
                 href="https://linkedin.com/in/zeyadomran"

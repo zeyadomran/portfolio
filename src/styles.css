@@ -1241,6 +1241,12 @@ main:focus {
 }
 .contact-bottom {
   margin-top: 15px;
+  flex-wrap: wrap;
+  gap: 12px 30px;
+}
+.contact-actions {
+  @apply flex flex-wrap items-center;
+  gap: 12px 24px;
 }
 .copy-email button {
   @apply flex min-h-[44px] items-center p-0;
@@ -1259,6 +1265,16 @@ main:focus {
 .contact-bottom a svg {
   width: 14px;
   height: 14px;
+}
+.contact-bottom .resume-download {
+  border: 1px solid var(--line);
+  padding: 0 14px;
+  gap: 10px;
+}
+.resume-download:hover {
+  color: var(--paper);
+  background: var(--ink);
+  border-color: var(--ink);
 }
 .ed-footer {
   @apply w-full flex-none;
