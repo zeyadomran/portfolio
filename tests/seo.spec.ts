@@ -15,6 +15,24 @@ test("server HTML exposes canonical metadata and connected profile structured da
     "content",
     site.description,
   );
+  for (const selector of [
+    'meta[property="og:title"]',
+    'meta[name="twitter:title"]',
+  ]) {
+    await expect(page.locator(`head ${selector}`)).toHaveAttribute(
+      "content",
+      site.title,
+    );
+  }
+  for (const selector of [
+    'meta[property="og:description"]',
+    'meta[name="twitter:description"]',
+  ]) {
+    await expect(page.locator(`head ${selector}`)).toHaveAttribute(
+      "content",
+      site.description,
+    );
+  }
   await expect(page.locator('head link[rel="canonical"]')).toHaveCount(1);
   // Next.js normalizes the root URL without a trailing slash; both identify the same URL.
   const canonical = await page
@@ -49,6 +67,19 @@ test("server HTML exposes canonical metadata and connected profile structured da
   expect(person.name).toBe(site.name);
   expect(person.sameAs).toEqual(site.profiles);
   expect(profile.mainEntity["@id"]).toBe(person["@id"]);
+  expect(profile.hasPart).toHaveLength(3);
+  for (const section of profile.hasPart) {
+    const url = new URL(section.url);
+    expect(url.origin).toBe(new URL(site.url).origin);
+    expect(section["@id"]).toBe(section.url);
+    expect(section.isPartOf["@id"]).toBe(profile["@id"]);
+    const article = page.locator(`article${url.hash}`);
+    await expect(article).toHaveCount(1);
+    await expect(article).toContainText(new RegExp(section.name, "i"));
+    await expect(article.locator("details.story-detail")).toContainText(
+      "My contribution",
+    );
+  }
 });
 
 test("crawler endpoints contain only the canonical home page", async ({

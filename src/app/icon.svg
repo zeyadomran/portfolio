@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" role="img" aria-labelledby="title desc">
-<title id="title">Baseline / Symbol - Zeyad Omran</title>
-<desc id="desc">Two offset horizontal rails end in a blue square, echoing the two lines of the lowercase wordmark. Transparent background. Light artwork for a black background.</desc>
-<metadata>Identity directions / Zeyad Omran. Lettering derived from Space Mono under SIL Open Font License 1.1; see assets/OFL-SpaceMono.txt. Geometry and lettering remain editable SVG paths.</metadata>
-<style>:root{--identity-ink:#F5F7FA;--identity-line:#B8B8B8;--identity-accent:#4C70F0}.ink{fill:var(--identity-ink)}.neutral{fill:var(--identity-line)}.line{stroke:var(--identity-line)}.accent{fill:var(--identity-accent)}</style>
-<g stroke-linecap="butt" stroke-linejoin="miter"><g id="baseline-rails" class="neutral"><rect x="32" y="56" width="104" height="16"/><rect x="64" y="104" width="80" height="16"/></g>
-<rect id="terminal" class="accent" x="152" y="104" width="16" height="16"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-label="Zeyad Omran">
+  <title>Zeyad Omran. Z stamp with layers.</title>
+  <style>
+    svg { color: #183d2b; }
+    @media (prefers-color-scheme: dark) { svg { color: #f1f3ef; } }
+  </style>
+  <path fill="currentColor" fill-rule="evenodd" d="M32 8H92V68H86V14H32Z M20 20H80V80H74V26H20Z M8 32H68V92H8Z M20.5 44.5H55.5V52.833L33 71.167H55.5V79.5H20.5V71.167L43 52.833H20.5Z"/>
 </svg>

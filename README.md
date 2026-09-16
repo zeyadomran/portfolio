@@ -1,64 +1,50 @@
 # Zeyad Omran's portfolio
 
-A Next.js App Router portfolio built from the supplied design export, with TypeScript, Tailwind CSS, local Space Mono fonts, and Lenis. Content is server rendered; navigation, stories, skills, and geometric motion are progressively enhanced after hydration.
+An editorial portfolio for product teams hiring a design-minded software engineer. Built with Next.js App Router, React, TypeScript, local PP Neue Montreal typography, and authored CSS. The story connects AI assistant interfaces, reusable frontend systems, performance, and an HCI-informed approach to work.
 
 ## Local development
 
-Use Node.js 20.9 or newer and Yarn Classic 1.22.22.
-
-```sh
-yarn install --frozen-lockfile
-yarn dev
-```
-
-Open http://localhost:3000. The repository pins Yarn v1 in `packageManager` and `.yarnrc`. If Yarn is not on PATH, the checked-in release works directly:
+Use Node.js 20.9 or newer and the checked-in Yarn Classic 1.22.22 release.
 
 ```sh
 node .yarn/releases/yarn-1.22.22.cjs install --frozen-lockfile
 node .yarn/releases/yarn-1.22.22.cjs dev
 ```
 
+Open http://localhost:3000. Before building a fresh checkout, provision the three local font files described in `src/app/fonts/README.md`; raw font binaries are intentionally ignored by Git.
+
+## Editing the story
+
+- `src/components/editorial/portfolio.tsx`: server-rendered story, work chapters, native disclosures, experience, and contact information.
+- `src/components/editorial/interactions.tsx`: navigation state, pointer response, scroll progress, restrained parallax, assistant workspace, component configurator, timing illustration, and copy-email action.
+- `src/app/globals.css`: color and spacing tokens, typography, composition, interaction states, mobile layouts, reduced-motion and print styles.
+- `src/app/layout.tsx`: local font loading and metadata.
+- `src/lib/seo.ts`: public identity, canonical URL, structured data, and social metadata.
+- `src/app/opengraph-image.tsx`: generated 1200×630 social image.
+
+The assistant study keeps chat in a full-height right-hand panel. Opening the workspace changes only the remaining area to its left; the chat retains its width and position. Demo form values survive closing and reopening. The fictional content illustrates the interaction and is labeled accordingly.
+
+The component study exposes real local configuration state. The performance illustration uses a common eight-second scale for the reported eight-to-three-second rendering result at 50 rows; it is not a live benchmark. That result belongs to the field-template/parser optimization, separate from the shared-table migration.
+
+Native scrolling is retained. The desktop layout uses modest parallax and sticky figures where the viewport has enough room. On narrow screens, chapter titles precede figures and content stacks. Reduced-motion CSS removes animation and transforms. Core text, navigation, contact links, and native disclosures are server rendered.
+
+Older components under `src/components/portfolio/`, the old runtime, and the original `design/` reference remain in the repository for reference but are not imported by the current home page. The current experience does not use Lenis.
+
 ## Validation
 
 ```sh
-yarn lint
-yarn typecheck
-yarn build
-yarn test:e2e
+node .yarn/releases/yarn-1.22.22.cjs lint
+node .yarn/releases/yarn-1.22.22.cjs typecheck
+node .yarn/releases/yarn-1.22.22.cjs build
+node .yarn/releases/yarn-1.22.22.cjs test:e2e
 ```
 
-The browser checks use installed Google Chrome and start the production server automatically. Alternatively, install Chromium with `yarn playwright install chromium` and set `PLAYWRIGHT_CHANNEL=chromium`. Tests cover the nine design viewports, stories, filters, keyboard navigation, history, reduced motion, and content without JavaScript.
+The Playwright specifications cover five responsive widths, assistant positioning and retained form state, component configuration, navigation, reduced motion, keyboard access, no-JavaScript content, contact layout, and SEO. They use installed Google Chrome by default; set `PLAYWRIGHT_CHANNEL=chromium` after installing the Playwright browser to use Chromium instead. Use a production build for production browser checks; the configuration can reuse an existing local server.
 
-## Editing
+## Deployment and search
 
-- `src/app/page.tsx` composes the portfolio sections.
-- `src/components/portfolio/` contains editable React components and the client motion boundary.
-- `src/app/globals.css` exposes the design tokens to Tailwind. Shared layout primitives use utility classes; `design-system.css` preserves detailed composition, responsive rules, and interaction states. Tailwind Preflight is omitted to retain the authored base styles.
-- `src/lib/portfolio-runtime.js` preserves the supplied DOM animation algorithm with an explicit React disposer. Its listeners, observers, animations, and DOM enhancements are restored on unmount, including development Strict Mode remounts.
-- `public/assets/` contains the production assets and applicable licenses; `src/app/icon.svg` is the selected Baseline favicon.
-- `design/` is the original reference export. Application components do not import it, and it is not a public route. The identity comparison and overlapping partials are not separate portfolio pages.
+The canonical domain remains https://zeyadomran.com. For a Next.js deployment, use `yarn install --frozen-lockfile` and `yarn build`, with the project root as the build directory. Provision the local fonts in the build environment before building. The redesign was prepared and checked locally; it has not been published.
 
-## Vercel
+Title, description, canonical metadata, Open Graph, Twitter metadata, connected WebSite/ProfilePage/Person JSON-LD, robots, and the sitemap remain supported. Vercel preview/development environments receive `noindex` and an empty sitemap. Optional `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` values emit verification tags; see `.env.example`.
 
-Import this repository, select **Next.js**, and leave the root directory at the repository root. Use `yarn install --frozen-lockfile` for installation and `yarn build` for the build; keep the default Next.js output setting. No environment variables are required. Select a supported Node.js version satisfying the package's engine requirement.
-
-The site is ready for deployment; this task does not provision a Vercel project or publish it. The canonical production domain is **https://zeyadomran.com**.
-
-## Search and sharing
-
-`src/lib/seo.ts` is the source for the public identity, canonical domain, title, description, and structured data. Metadata targets searches for **Zeyad Omran** and **software developer** and describes the work already shown on the page.
-
-- Server-rendered title, description, author, canonical, indexing directives, Open Graph, and Twitter card metadata.
-- Connected `WebSite`, `ProfilePage`, and `Person` JSON-LD, using the existing employer, education, skills, and public profile links.
-- `/opengraph-image` produces a 1200×630 PNG using the portfolio's local font and identity.
-- `/robots.txt` allows crawling and advertises `/sitemap.xml`. The sitemap lists the single canonical page; section anchors are not separate pages. It omits an artificial last-modified date.
-- Vercel preview/development deployments render `noindex`, omit the sitemap advertisement, and return an empty sitemap. Crawling remains allowed so crawlers can read `noindex`. Production builds remain indexable.
-- Optional `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` environment variables emit the corresponding ownership-verification tags. Copy only the real provider token; see `.env.example`. No placeholder verification tags are emitted.
-
-After deployment, attach the canonical domain in Vercel, verify the site in [Google Search Console](https://search.google.com/search-console), submit `https://zeyadomran.com/sitemap.xml`, and inspect the home page to confirm Google can access it. A Search Console Domain property uses DNS verification; a URL-prefix property can use the optional HTML verification tag. Set production verification variables in Vercel and rebuild before verifying.
-
-Metadata helps search engines interpret the site; it does not guarantee a top ranking. The implementation omits `meta keywords`, which [Google does not use for indexing or ranking](https://developers.google.com/search/docs/crawling-indexing/special-tags). Keep visible work and profile information current. Structured data can be checked after launch with [Google's Rich Results Test](https://search.google.com/test/rich-results).
-
-Run the focused SEO checks with `yarn test:e2e tests/seo.spec.ts` after `yarn build`. They inspect server-rendered tags, JSON-LD relationships, crawler endpoints, and the social image's PNG dimensions.
-
-See [IMPLEMENTATION-PLAN.md](IMPLEMENTATION-PLAN.md) for the design review and implementation record.
+Keep contribution claims generic and evidence-backed. Do not insert internal service or repository names, imply ownership of AI models/backend systems, or turn an illustrative graphic into a claimed product screenshot.

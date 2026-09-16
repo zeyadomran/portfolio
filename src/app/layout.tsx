@@ -3,23 +3,34 @@ import localFont from "next/font/local";
 import { isPreviewDeployment, site, siteUrl } from "@/lib/seo";
 import "./globals.css";
 
-const spaceMono = localFont({
+const neueDisplay = localFont({
   src: [
     {
-      path: "../../public/assets/SpaceMono-Regular.ttf",
+      path: "./fonts/PPNeueMontreal-Regular.otf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../../public/assets/SpaceMono-Bold.ttf",
-      weight: "700",
+      path: "./fonts/PPNeueMontreal-Semibold.otf",
+      weight: "600",
       style: "normal",
     },
   ],
-  variable: "--font-space-mono",
+  variable: "--font-neue-display",
   display: "swap",
   preload: true,
-  adjustFontFallback: false,
+});
+const neueText = localFont({
+  src: [
+    {
+      path: "./fonts/PPNeueMontrealText-Book.otf",
+      weight: "375",
+      style: "normal",
+    },
+  ],
+  variable: "--font-neue-text",
+  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -72,18 +83,16 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
-  colorScheme: "dark",
+  themeColor: "#f1f3ef",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-motion="off" className={spaceMono.variable}>
-      <body className="bg-background text-foreground font-mono">
-        {children}
-      </body>
+    <html lang="en" className={`${neueDisplay.variable} ${neueText.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }
