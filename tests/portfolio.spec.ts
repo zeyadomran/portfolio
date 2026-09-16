@@ -1,169 +1,146 @@
 import { test, expect } from "@playwright/test";
 
-const viewports = [
-  [360, 800],
-  [390, 844],
-  [430, 932],
-  [600, 960],
-  [820, 1180],
-  [1024, 768],
-  [1366, 768],
-  [1440, 900],
-  [1920, 1080],
-];
-
-for (const [width, height] of viewports) {
-  test(`content and responsive layout at ${width}x${height}`, async ({
+for (const width of [320, 390, 768, 1280, 1440]) {
+  test(`narrative and navigation remain usable at ${width}px`, async ({
     page,
   }) => {
-    const errors: string[] = [];
-    page.on("pageerror", (error) => errors.push(error.message));
-    await page.setViewportSize({ width, height });
+    await page.setViewportSize({ width, height: 900 });
     await page.goto("/");
-    await expect(page.locator("html")).toHaveAttribute("data-motion", "on");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(
-      /ZEYAD\s*OMRAN/,
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "Complexity,made human.",
     );
+    await expect(page.getByRole("article")).toHaveCount(3);
+    await page
+      .getByRole("link", { name: "Explore my work", exact: true })
+      .click();
+    await expect(page).toHaveURL(/#work$/);
+    await page.locator("#assistant").scrollIntoViewIfNeeded();
+    await expect(
+      page.getByRole("heading", { name: "An answer is only the beginning." }),
+    ).toBeVisible();
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     ).toBe(true);
     if (width < 768) {
-      await expect(page.locator(".is-pinned")).toHaveCount(0);
-      await expect(page.locator("[data-stage][hidden]")).toHaveCount(0);
+      const intro = await page.locator("#assistant .case-intro").boundingBox();
+      const figure = await page
+        .locator("#assistant .case-figure")
+        .boundingBox();
+      expect(intro!.y + intro!.height).toBeLessThanOrEqual(figure!.y);
     }
-    await page.getByRole("link", { name: "Work", exact: true }).click();
-    await expect(page.locator(".company-logo")).toBeInViewport();
-    await expect
-      .poll(() =>
-        page
-          .locator(".company-logo")
-          .evaluate((image: HTMLImageElement) => image.naturalWidth),
-      )
-      .toBeGreaterThan(0);
-    await page.getByRole("link", { name: "Contact", exact: true }).click();
-    await expect(page).toHaveURL(/#links$/);
-    await expect(page.locator("#links")).toBeInViewport();
-    await expect(page.locator("a.contact-link")).toHaveCount(3);
-    expect(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth <= innerWidth,
-      ),
-    ).toBe(true);
-    expect(errors).toEqual([]);
   });
 }
 
-test("skills selection, announcements, and native horizontal scrolling", async ({
+test("workspace fills the left side while the assistant stays fixed on the right", async ({
   page,
 }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
-  await page.getByRole("button", { name: "AI Tools", exact: true }).click();
-  await expect(page.locator("#skills-ai")).toBeVisible();
-  await expect(page.getByRole("status")).toHaveText("AI Tools / 5 tools");
+  await page.goto("/#assistant");
+  const before = await page.locator(".right-assistant").boundingBox();
+  await page
+    .getByRole("button", { name: "Open workspace", exact: true })
+    .click();
+  const after = await page.locator(".right-assistant").boundingBox();
+  const workspace = await page.locator(".side-workspace").boundingBox();
+  expect(after!.x).toBeCloseTo(before!.x, 0);
+  expect(after!.width).toBeCloseTo(before!.width, 0);
+  expect(after!.height).toBeCloseTo(before!.height, 0);
+  await expect(page.locator(".side-workspace")).toBeVisible();
+  expect(workspace!.x).toBeLessThan(after!.x);
+  const name = page.getByRole("textbox", {
+    name: "Illustrative overview name",
+  });
+  await name.fill("Quarterly overview");
+  await page
+    .getByRole("combobox", { name: "Illustrative reporting period" })
+    .selectOption("Last month");
+  await page.locator(".workspace-heading button").click();
+  await page
+    .getByRole("button", { name: "Open workspace", exact: true })
+    .click();
+  await expect(name).toHaveValue("Quarterly overview");
   await expect(
-    page.getByRole("button", { name: "AI Tools", exact: true }),
-  ).toHaveAttribute("aria-pressed", "true");
-  await expect(page.locator("#skills-frontend")).toBeHidden();
-  await page.getByRole("button", { name: "Front-End", exact: true }).click();
-  const rail = page.locator("#skills-frontend ul");
-  await rail.focus();
-  await page.keyboard.press("End");
-  await page.keyboard.press("ArrowRight");
-  await expect
-    .poll(() => rail.evaluate((element) => element.scrollLeft))
-    .toBeGreaterThan(0);
-});
-
-test("desktop stories select and reverse while preserving button focus", async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto("/");
-  await expect(page.locator("[data-story=about]")).toHaveClass(/is-pinned/);
-  const story = page.locator("[data-story=about]");
-  const buttons = story.locator("[data-stage-button]");
-  await buttons.nth(2).click();
-  await expect(buttons.nth(2)).toHaveAttribute("aria-current", "step");
-  await expect(story.locator("[data-stage]").nth(2)).toBeVisible();
-  await expect(buttons.nth(2)).toBeFocused();
-  await buttons.nth(0).click();
-  await expect(buttons.nth(0)).toHaveAttribute("aria-current", "step");
-  await expect(story.locator("[data-stage]").nth(0)).toBeVisible();
-});
-
-test("mobile chapter links focus the heading and browser history restores navigation", async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
-  await page.getByRole("button", { name: "Show HCI", exact: true }).click();
-  await expect(page).toHaveURL(/#interest-hci$/);
-  await expect(page.locator("#interest-hci")).toBeFocused();
-  await page.getByRole("link", { name: "Contact", exact: true }).click();
-  await page.goBack();
-  await expect(page).toHaveURL(/#interest-hci$/);
-  await expect(page.locator("#interest-hci")).toBeInViewport();
-});
-
-test("reduced motion exposes every chapter and keeps skill controls working", async ({
-  page,
-}) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/");
-  await expect(page.locator(".skills-explorer")).toHaveAttribute(
-    "data-enhanced",
-    "true",
+    page.getByRole("combobox", { name: "Illustrative reporting period" }),
+  ).toHaveValue("Last month");
+  await page.getByRole("button", { name: "Prepare draft" }).click();
+  await expect(page.locator(".workspace-content [role=status]")).toHaveText(
+    "Your draft is ready. Your conversation stays in view.",
   );
-  await expect(page.locator("html")).toHaveAttribute("data-motion", "off");
-  await expect(page.locator(".is-pinned")).toHaveCount(0);
-  await expect(page.locator("[data-stage]:visible")).toHaveCount(5);
-  await page.getByRole("button", { name: "Back-End", exact: true }).click();
-  await expect(page.locator("#skills-backend")).toBeVisible();
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await expect(page.locator("html")).toHaveAttribute("data-motion", "on");
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(page.locator("[data-stage]:visible")).toHaveCount(5);
+  await expect(page).toHaveURL(/#assistant$/);
 });
 
-test("without JavaScript every chapter, category, and contact destination is available", async ({
+test("configuration and rendered components stay in sync", async ({ page }) => {
+  await page.goto("/#systems");
+  await page.getByRole("checkbox", { name: "Chart", exact: true }).uncheck();
+  await expect(page.locator(".chart-widget")).toHaveCount(0);
+  await page.locator(".configuration summary").click();
+  await expect(page.locator(".configuration pre")).not.toContainText('"chart"');
+  await page.getByRole("button", { name: "Overview", exact: true }).click();
+  await expect(
+    page.getByRole("checkbox", { name: "Chart", exact: true }),
+  ).toBeChecked();
+  await expect(page.locator(".chart-widget")).toBeVisible();
+  await expect(page.locator(".configuration pre")).toContainText('"chart"');
+});
+
+test("work stays current when returning from About to a work chapter", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByRole("link", { name: "About", exact: true }).click();
+  await expect(
+    page.getByRole("link", { name: "About", exact: true }),
+  ).toHaveAttribute("aria-current", "location");
+  await page.locator("#systems").scrollIntoViewIfNeeded();
+  await expect(
+    page.getByRole("link", { name: "Work", exact: true }),
+  ).toHaveAttribute("aria-current", "location");
+});
+
+test("reduced motion retains the complete narrative and disclosures", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  for (const id of ["assistant", "systems", "optimization"]) {
+    await page.locator(`#${id} .story-detail summary`).click();
+    await expect(page.locator(`#${id} .story-detail`)).toHaveAttribute(
+      "open",
+      "",
+    );
+    await expect(page.locator(`#${id} .story-detail h4`).first()).toBeVisible();
+  }
+  await page
+    .getByRole("button", { name: "Replay comparison", exact: true })
+    .click();
+  await expect(page.locator(".timing-tracks")).not.toHaveClass(/is-playing/);
+});
+
+test("the core story and contact remain available without JavaScript", async ({
   browser,
 }) => {
-  const context = await browser.newContext({
-    javaScriptEnabled: false,
-    viewport: { width: 390, height: 844 },
-  });
+  const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto("http://localhost:3000");
-  await expect(page.locator("[data-stage]:visible")).toHaveCount(5);
-  await expect(page.locator("[data-skill-group]:visible")).toHaveCount(5);
+  await page.goto("/");
+  await expect(page.getByRole("article")).toHaveCount(3);
+  await page.locator("#assistant .story-detail summary").click();
+  await expect(page.locator("#assistant .story-detail")).toHaveAttribute(
+    "open",
+    "",
+  );
   await expect(
-    page.locator("a[href='mailto:ziomran@gmail.com'].contact-link"),
-  ).toBeVisible();
-  await page.getByRole("link", { name: "Contact", exact: true }).click();
-  await expect(page).toHaveURL(/#links$/);
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth,
-    ),
-  ).toBe(true);
+    page.getByRole("link", { name: "ziomran@gmail.com", exact: true }),
+  ).toHaveAttribute("href", "mailto:ziomran@gmail.com");
   await context.close();
 });
 
-test("keyboard skip link and contact destinations", async ({ page }) => {
+test("skip link is available to a keyboard reader", async ({ page }) => {
   await page.goto("/");
   await page.keyboard.press("Tab");
   await expect(
     page.getByRole("link", { name: "Skip to content" }),
   ).toBeFocused();
   await page.keyboard.press("Enter");
-  await expect(page.locator("#main")).toBeFocused();
-  await expect(
-    page.locator(".contact-link[href='https://linkedin.com/in/zeyadomran']"),
-  ).toHaveAttribute("rel", /noopener/);
-  await expect(
-    page.locator(".contact-link[href='https://github.com/zeyadomran']"),
-  ).toHaveAttribute("target", "_blank");
+  await expect(page.locator("main")).toBeFocused();
 });

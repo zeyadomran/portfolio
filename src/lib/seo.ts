@@ -2,11 +2,11 @@
 export const site = {
   name: "Zeyad Omran",
   url: "https://zeyadomran.com/",
-  title: "Zeyad Omran | Software Developer at IBM",
+  title: "Zeyad Omran | Software Developer & Interface Design",
   description:
-    "Zeyad Omran is a software developer at IBM building intuitive interfaces, reusable frontend systems, and practical AI tools. Explore his work and experience.",
+    "Software developer at IBM focused on clear interfaces. Explore Zeyad Omran's work in AI assistants, reusable UI builders and frontend optimization.",
   socialImageAlt:
-    "Zeyad Omran — Software Developer at IBM. Intuitive interfaces and practical AI tools.",
+    "Zeyad Omran. Complexity, made human. Software developer at IBM.",
   profiles: [
     "https://linkedin.com/in/zeyadomran",
     "https://github.com/zeyadomran",
@@ -42,6 +42,35 @@ export const portfolioStructuredData = {
       inLanguage: "en-CA",
       isPartOf: { "@id": siteUrl("#website") },
       mainEntity: { "@id": siteUrl("#person") },
+      hasPart: [
+        {
+          "@type": "WebPageElement",
+          "@id": siteUrl("#assistant"),
+          url: siteUrl("#assistant"),
+          name: "AI Assistant",
+          description:
+            "Frontend delivery of an AI assistant with expandable workspaces that keep tasks and conversation together.",
+          isPartOf: { "@id": siteUrl("#profile") },
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": siteUrl("#systems"),
+          url: siteUrl("#systems"),
+          name: "Modularity",
+          description:
+            "Shared frontend components and UI builders that help teams deliver new pages and use cases faster.",
+          isPartOf: { "@id": siteUrl("#profile") },
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": siteUrl("#optimization"),
+          url: siteUrl("#optimization"),
+          name: "Optimization",
+          description:
+            "Frontend performance optimization using parallel execution and early exit guards, reducing reported rendering time from eight seconds to three.",
+          isPartOf: { "@id": siteUrl("#profile") },
+        },
+      ],
     },
     {
       "@type": "Person",
@@ -60,8 +89,12 @@ export const portfolioStructuredData = {
       knowsAbout: [
         "Frontend development",
         "Human-computer interaction",
-        "AI agents",
+        "AI assistant interfaces",
+        "Reusable UI builders",
+        "Frontend performance optimization",
         "React",
+        "Angular",
+        "NgRx",
         "Next.js",
         "TypeScript",
         "Web accessibility",
