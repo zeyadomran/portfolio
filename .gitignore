@@ -12,3 +12,5 @@ next-env.d.ts
 !.env.example
 yarn-error.log
 .DS_Store
+
+dist/

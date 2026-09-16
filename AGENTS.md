@@ -1,9 +1,9 @@
-<!-- BEGIN:nextjs-agent-rules -->
+# Portfolio guidance
 
-# This is NOT the Next.js you know
+Preserve the current editorial design, interactions, local typography, and evidence-backed contribution claims. Public IBM copy describes confirmed frontend work and uses generic names; illustrations remain labeled as such.
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+Before changing page structure, styling, or interactions, read README.md's "Editing the story" section for the product contracts. Core content and native disclosures must remain usable without JavaScript; keep prerendered HTML and browser hydration consistent.
 
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+For SEO or deployment changes, read `src/lib/seo.ts`, `scripts/site-metadata.ts`, and README.md's "Deployment and search" section. Preserve canonical identity, section anchors, and preview indexing behavior.
 
-<!-- END:nextjs-agent-rules -->
+Validate changes with the commands in README.md's "Validation" section. Run the build before static-output tests and Playwright. Keep `design/archive/` outside the active application.

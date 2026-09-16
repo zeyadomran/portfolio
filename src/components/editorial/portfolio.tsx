@@ -17,7 +17,7 @@ function SectionLabel({
   children: React.ReactNode;
 }) {
   return (
-    <p className="section-label">
+    <p className="section-label flex items-center">
       <span className="tiny-square" />
       {number}
       <span>{children}</span>
@@ -35,17 +35,17 @@ export function EditorialPortfolio() {
       <StoryMotion />
       <main id="main" tabIndex={-1}>
         <section
-          className="ed-hero ed-wrap"
+          className="ed-hero ed-wrap flex flex-col"
           id="home"
           data-chapter
           aria-labelledby="hero-title"
         >
-          <div className="hero-meta">
+          <div className="hero-meta flex justify-between text-muted">
             <span>SOFTWARE DEVELOPER AT IBM</span>
             <span>ENGINEERING × HUMAN COMPUTER INTERACTION</span>
           </div>
-          <div className="hero-composition">
-            <div className="hero-copy">
+          <div className="hero-composition grid flex-1 items-center">
+            <div className="hero-copy relative z-[2]">
               <h1 id="hero-title">
                 Complexity,
                 <br />
@@ -56,7 +56,10 @@ export function EditorialPortfolio() {
                   I’m Zeyad. I build interfaces that help people understand
                   what’s in front of them and what to do next.
                 </p>
-                <a className="editorial-link" href="#work">
+                <a
+                  className="editorial-link inline-flex items-center"
+                  href="#work"
+                >
                   Explore my work
                   <Arrow />
                 </a>
@@ -67,7 +70,7 @@ export function EditorialPortfolio() {
         </section>
 
         <section
-          className="work-intro ed-wrap"
+          className="work-intro ed-wrap grid"
           id="work"
           data-chapter
           aria-labelledby="work-title"
@@ -89,11 +92,11 @@ export function EditorialPortfolio() {
           data-nav="work"
           aria-labelledby="assistant-title"
         >
-          <div className="case-header">
+          <div className="case-header flex justify-between">
             <span>01 / AI ASSISTANT</span>
             <span>IBM · SOFTWARE DEVELOPER</span>
           </div>
-          <div className="case-grid">
+          <div className="case-grid grid items-start">
             <div className="case-intro">
               <p className="eyebrow">AI ASSISTANT INTERFACES</p>
               <h3 id="assistant-title">
@@ -117,7 +120,7 @@ export function EditorialPortfolio() {
                 panel. Forms and embedded screens fill the remaining space, so
                 people can work while keeping the conversation in view.
               </p>
-              <div className="case-facts">
+              <div className="case-facts flex">
                 <div>
                   <strong>5</strong>
                   <span>partner teams</span>
@@ -167,11 +170,11 @@ export function EditorialPortfolio() {
           data-nav="work"
           aria-labelledby="systems-title"
         >
-          <div className="case-header">
+          <div className="case-header flex justify-between">
             <span>02 / MODULARITY</span>
             <span>IBM · SHARED FRONTEND PLATFORMS</span>
           </div>
-          <div className="case-grid">
+          <div className="case-grid grid items-start">
             <div className="case-intro">
               <p className="eyebrow">REUSABLE INTERFACES & UI BUILDERS</p>
               <h3 id="systems-title">
@@ -194,7 +197,7 @@ export function EditorialPortfolio() {
                 share data. The goal was to deliver new pages and use cases
                 faster without rebuilding the same interfaces.
               </p>
-              <div className="system-principles">
+              <div className="system-principles flex flex-wrap gap-0">
                 <span>Shared components</span>
                 <span>Coordinated data</span>
                 <span>Consistent interactions</span>
@@ -239,11 +242,11 @@ export function EditorialPortfolio() {
           data-nav="work"
           aria-labelledby="optimization-title"
         >
-          <div className="case-header">
+          <div className="case-header flex justify-between">
             <span>03 / OPTIMIZATION</span>
             <span>IBM · INTERFACE PERFORMANCE</span>
           </div>
-          <div className="case-grid">
+          <div className="case-grid grid items-start">
             <div className="case-intro">
               <p className="eyebrow">RENDERING PERFORMANCE</p>
               <h3 id="optimization-title">
@@ -264,7 +267,7 @@ export function EditorialPortfolio() {
                 I optimized a table parsing path, reducing reported rendering
                 time from eight seconds to three.
               </p>
-              <div className="result-note">
+              <div className="result-note flex items-baseline">
                 <span className="tiny-square" />
                 <p>
                   Five seconds faster
@@ -312,7 +315,7 @@ export function EditorialPortfolio() {
         >
           <div className="ed-wrap">
             <SectionLabel number="02">ABOUT</SectionLabel>
-            <div className="about-grid">
+            <div className="about-grid grid">
               <h2 id="about-title">
                 I care about
                 <br />
@@ -346,7 +349,7 @@ export function EditorialPortfolio() {
                 </p>
               </div>
             </div>
-            <div className="experience">
+            <div className="experience grid">
               <div>
                 <span className="eyebrow">EXPERIENCE</span>
               </div>
@@ -386,7 +389,7 @@ export function EditorialPortfolio() {
                 </li>
               </ol>
             </div>
-            <div className="toolkit">
+            <div className="toolkit grid">
               <span className="eyebrow">TOOLS</span>
               <p>
                 React / Angular / TypeScript / NgRx /<br />
@@ -395,7 +398,8 @@ export function EditorialPortfolio() {
             </div>
           </div>
         </section>
-
+      </main>
+      <footer className="contact-screen">
         <section
           className="contact-section ed-wrap"
           id="links"
@@ -403,7 +407,7 @@ export function EditorialPortfolio() {
           aria-labelledby="contact-title"
         >
           <SectionLabel number="03">START A CONVERSATION</SectionLabel>
-          <div className="contact-intro">
+          <div className="contact-intro grid items-end">
             <h2 id="contact-title">
               Something complex?
               <br />
@@ -414,11 +418,14 @@ export function EditorialPortfolio() {
               teams that care about the people using what they build.
             </p>
           </div>
-          <a className="email-link" href="mailto:ziomran@gmail.com">
+          <a
+            className="email-link flex items-center justify-between font-display"
+            href="mailto:ziomran@gmail.com"
+          >
             <span>ziomran@gmail.com</span>
             <Arrow diagonal />
           </a>
-          <div className="contact-bottom">
+          <div className="contact-bottom flex items-center justify-between">
             <CopyEmail />
             <div>
               <a
@@ -442,12 +449,14 @@ export function EditorialPortfolio() {
             </div>
           </div>
         </section>
-      </main>
-      <footer className="ed-footer ed-wrap">
-        <p className="footer-name">Zeyad Omran</p>
-        <div>
-          <span>© {new Date().getFullYear()}</span>
-          <a href="#home">Back to top ↑</a>
+        <div className="ed-footer ed-wrap">
+          <p className="footer-name flex items-center justify-between font-display text-ink whitespace-nowrap">
+            Zeyad Omran
+          </p>
+          <div>
+            <span>© {new Date().getFullYear()}</span>
+            <a href="#home">Back to top ↑</a>
+          </div>
         </div>
       </footer>
     </>

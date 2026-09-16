@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "buildCommand": "yarn build",
+  "outputDirectory": "dist",
+  "installCommand": "yarn install --frozen-lockfile",
+  "redirects": [
+    {
+      "source": "/opengraph-image",
+      "destination": "/opengraph-image.png",
+      "permanent": true
+    }
+  ]
+}

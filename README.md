@@ -1,34 +1,34 @@
 # Zeyad Omran's portfolio
 
-An editorial portfolio for product teams hiring a design-minded software engineer. Built with Next.js App Router, React, TypeScript, local PP Neue Montreal typography, and authored CSS. The story connects AI assistant interfaces, reusable frontend systems, performance, and an HCI-informed approach to work.
+An editorial portfolio built with Vite, React, TypeScript, Tailwind CSS, local PP Neue Montreal typography, and authored CSS. The story connects AI assistant interfaces, reusable frontend systems, performance, and an HCI-informed approach to work.
 
 ## Local development
 
-Use Node.js 20.9 or newer and the checked-in Yarn Classic 1.22.22 release.
+Use Node.js 22.12 or newer (Node.js 20.19+ in the 20.x line is also supported) and the checked-in Yarn Classic release.
 
 ```sh
 node .yarn/releases/yarn-1.22.22.cjs install --frozen-lockfile
 node .yarn/releases/yarn-1.22.22.cjs dev
 ```
 
-Open http://localhost:3000. Before building a fresh checkout, provision the three local font files described in `src/app/fonts/README.md`; raw font binaries are intentionally ignored by Git.
+Open http://127.0.0.1:3000. The font files are tracked in `src/fonts/`; see its README for typography and license context.
 
 ## Editing the story
 
-- `src/components/editorial/portfolio.tsx`: server-rendered story, work chapters, native disclosures, experience, and contact information.
-- `src/components/editorial/interactions.tsx`: navigation state, pointer response, scroll progress, restrained parallax, assistant workspace, component configurator, timing illustration, and copy-email action.
-- `src/app/globals.css`: color and spacing tokens, typography, composition, interaction states, mobile layouts, reduced-motion and print styles.
-- `src/app/layout.tsx`: local font loading and metadata.
-- `src/lib/seo.ts`: public identity, canonical URL, structured data, and social metadata.
-- `src/app/opengraph-image.tsx`: generated 1200×630 social image.
+- `src/components/editorial/portfolio.tsx`: story, work chapters, native disclosures, experience, and contact information.
+- `src/components/editorial/interactions.tsx`: navigation, hero layers, assistant workspace, component configurator, timing illustration, and copy-email action.
+- `src/styles.css`: Tailwind theme and utilities, typography, editorial layout, responsive behavior, reduced motion, and print styles. The existing reset is intentional; Tailwind Preflight is omitted to preserve the design.
+- `src/App.tsx`, `src/main.tsx`, and `src/entry-server.tsx`: shared page, browser hydration, and HTML rendering.
+- `src/lib/seo.ts`: public identity, canonical URL, and connected WebSite/ProfilePage/Person structured data.
+- `scripts/site-metadata.ts`: HTML metadata and crawler files; `public/icon.svg` and `public/opengraph-image.png`: static identity assets.
 
-The assistant study keeps chat in a full-height right-hand panel. Opening the workspace changes only the remaining area to its left; the chat retains its width and position. Demo form values survive closing and reopening. The fictional content illustrates the interaction and is labeled accordingly.
+Vite renders the page in development. Production builds prerender the same React tree into `dist/index.html`, then hydrate it in the browser. Core text, navigation, contact links, structured data, and native disclosures remain available without JavaScript. Update the static 1200×630 social image when its copy or visual identity changes.
 
-The component study exposes real local configuration state. The performance illustration uses a common eight-second scale for the reported eight-to-three-second rendering result at 50 rows; it is not a live benchmark. That result belongs to the field-template/parser optimization, separate from the shared-table migration.
+The assistant study keeps chat in a full-height right-hand panel while the workspace fills the area to its left. Chat positioning and demo form values survive opening and closing the workspace. Fictional content stays labeled as illustrative.
 
-Native scrolling is retained. The desktop layout uses modest parallax and sticky figures where the viewport has enough room. On narrow screens, chapter titles precede figures and content stacks. Reduced-motion CSS removes animation and transforms. Core text, navigation, contact links, and native disclosures are server rendered.
+Modularity exposes real local configuration state and retains its sticky desktop figure. Optimization uses a common eight-second scale for the reported eight-to-three-second rendering result at 50 rows; it is an illustration, not a live benchmark. That result belongs to the field-template/parser optimization, separate from the shared-table migration. Preserve the `#assistant`, `#systems`, and `#optimization` anchors.
 
-Older components under `src/components/portfolio/`, the old runtime, and the original `design/` reference remain in the repository for reference but are not imported by the current home page. The current experience does not use Lenis.
+Native scrolling, restrained parallax, narrow-screen stacking, and reduced-motion behavior remain part of the design. Older components and runtime code are retained under `design/archive/` as reference; they are outside the active application.
 
 ## Validation
 
@@ -36,15 +36,20 @@ Older components under `src/components/portfolio/`, the old runtime, and the ori
 node .yarn/releases/yarn-1.22.22.cjs lint
 node .yarn/releases/yarn-1.22.22.cjs typecheck
 node .yarn/releases/yarn-1.22.22.cjs build
+node .yarn/releases/yarn-1.22.22.cjs test
 node .yarn/releases/yarn-1.22.22.cjs test:e2e
 ```
 
-The Playwright specifications cover five responsive widths, assistant positioning and retained form state, component configuration, navigation, reduced motion, keyboard access, no-JavaScript content, contact layout, and SEO. They use installed Google Chrome by default; set `PLAYWRIGHT_CHANNEL=chromium` after installing the Playwright browser to use Chromium instead. Use a production build for production browser checks; the configuration can reuse an existing local server.
+Build before running the tests: the Node tests inspect static output, and Playwright starts the production preview at http://127.0.0.1:4173. `yarn preview` or `yarn start` serves that same output for manual review. The development and preview ports are strict.
+
+Playwright covers responsive layouts, assistant positioning and retained form state, configuration, navigation, reduced motion, keyboard access, no-JavaScript content, and SEO. It uses installed Google Chrome by default; set `PLAYWRIGHT_CHANNEL=chromium` after installing the Playwright browser to use Chromium instead. The configuration may reuse an existing preview server, so ensure it serves the current build.
 
 ## Deployment and search
 
-The canonical domain remains https://zeyadomran.com. For a Next.js deployment, use `yarn install --frozen-lockfile` and `yarn build`, with the project root as the build directory. Provision the local fonts in the build environment before building. The redesign was prepared and checked locally; it has not been published.
+`vercel.json` selects Vite, runs `yarn install --frozen-lockfile` and `yarn build`, and publishes `dist/` as static files. It redirects the former `/opengraph-image` URL to `/opengraph-image.png`. This migration configures deployment; it does not publish the site.
 
-Title, description, canonical metadata, Open Graph, Twitter metadata, connected WebSite/ProfilePage/Person JSON-LD, robots, and the sitemap remain supported. Vercel preview/development environments receive `noindex` and an empty sitemap. Optional `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` values emit verification tags; see `.env.example`.
+The canonical domain remains https://zeyadomran.com. Builds preserve title, description, canonical metadata, Open Graph, Twitter metadata, structured data, robots, and sitemap. `VERCEL_ENV=preview` or `development` produces `noindex, follow` and an empty sitemap while allowing crawlers to read the HTML. Other environments produce a sitemap containing only the canonical homepage.
 
-Keep contribution claims generic and evidence-backed. Do not insert internal service or repository names, imply ownership of AI models/backend systems, or turn an illustrative graphic into a claimed product screenshot.
+Optional `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` values emit verification tags. Configure them for the intended build environment and rebuild; `.env.example` documents local setup. These values are read by build tooling, not browser environment variables.
+
+Keep contribution claims generic and evidence-backed. Use confirmed frontend scope, omit internal service and repository names, and label illustrative graphics accurately.

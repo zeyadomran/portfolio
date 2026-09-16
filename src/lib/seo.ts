@@ -13,10 +13,6 @@ export const site = {
   ],
 } as const;
 
-export const isPreviewDeployment =
-  process.env.VERCEL_ENV === "preview" ||
-  process.env.VERCEL_ENV === "development";
-
 export function siteUrl(path = "/") {
   return new URL(path, site.url).href;
 }

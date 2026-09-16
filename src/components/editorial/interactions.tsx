@@ -1,5 +1,3 @@
-"use client";
-
 import { BrandMark } from "./brand-mark";
 
 import {
@@ -285,6 +283,8 @@ export function AssistantFigure() {
             </span>
           </div>
           {workspace && (
+            // This inline region handles Escape bubbling from its form controls.
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
             <section
               ref={workspaceRef}
               className="side-workspace"

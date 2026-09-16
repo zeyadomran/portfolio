@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
-import { isPreviewDeployment, site } from "../src/lib/seo";
+import { site } from "../src/lib/seo";
+import { isPreviewDeployment as checkPreview } from "../scripts/site-metadata";
+const isPreviewDeployment = checkPreview();
 
 test("server HTML exposes canonical metadata and connected profile structured data", async ({
   page,
@@ -34,7 +36,7 @@ test("server HTML exposes canonical metadata and connected profile structured da
     );
   }
   await expect(page.locator('head link[rel="canonical"]')).toHaveCount(1);
-  // Next.js normalizes the root URL without a trailing slash; both identify the same URL.
+  // Compare canonical URLs after standard URL normalization.
   const canonical = await page
     .locator('head link[rel="canonical"]')
     .getAttribute("href");
@@ -126,6 +128,6 @@ test("social sharing image is an actual 1200 by 630 PNG", async ({
   ).toHaveAttribute("content", site.socialImageAlt);
   await expect(page.locator('head meta[name="twitter:image"]')).toHaveAttribute(
     "content",
-    `${site.url}opengraph-image`,
+    `${site.url}opengraph-image.png`,
   );
 });
