@@ -443,8 +443,13 @@ main:focus {
   right: 17px;
   bottom: 10px;
   font-size: 40px;
-  font-family: Arial;
-  font-weight: 300;
+}
+.plane-arrow svg,
+.plane-label > svg,
+.assistant-symbol svg {
+  display: block;
+  width: 1em;
+  height: 1em;
 }
 .wire-grid {
   @apply grid;

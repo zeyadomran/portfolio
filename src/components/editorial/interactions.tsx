@@ -174,7 +174,7 @@ export function HeroFigure() {
           <div className="interface-plane">
             <div className="plane-label">
               <span>02 / INTERFACE</span>
-              <span>↗</span>
+              <Arrow diagonal />
             </div>
             <div className="plane-layout">
               <i />
@@ -195,7 +195,9 @@ export function HeroFigure() {
               <br />
               next step.
             </p>
-            <span className="plane-arrow">↗</span>
+            <span className="plane-arrow">
+              <Arrow diagonal />
+            </span>
           </div>
         </div>
         <span className="stage-coordinate bottom">COMPLEXITY → CLARITY</span>
@@ -363,7 +365,14 @@ export function AssistantFigure() {
           <div className="panel-conversation">
             <p className="panel-user-message">Can I create an overview here?</p>
             <span className="assistant-symbol" aria-hidden="true">
-              ✳
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 2v20M2 12h20M5 5l14 14M19 5 5 19"
+                  stroke="currentColor"
+                  strokeWidth="1.25"
+                  strokeLinecap="round"
+                />
+              </svg>
             </span>
             <h4>Stay in context.</h4>
             <p>Open the task beside this conversation.</p>
