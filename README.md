@@ -48,6 +48,8 @@ Playwright covers responsive layouts, assistant positioning and retained form st
 
 `vercel.json` selects Vite, runs `yarn install --frozen-lockfile` and `yarn build`, and publishes `dist/` as static files. It redirects the former `/opengraph-image` URL to `/opengraph-image.png`. This migration configures deployment; it does not publish the site.
 
+Vercel Web Analytics is mounted in `src/App.tsx`. Enable Web Analytics for the project in the Vercel dashboard, then deploy these changes to start collecting page views. See the [Vercel setup guide](https://vercel.com/docs/analytics/quickstart).
+
 The canonical domain remains https://zeyadomran.com. Builds preserve title, description, canonical metadata, Open Graph, Twitter metadata, structured data, robots, and sitemap. `VERCEL_ENV=preview` or `development` produces `noindex, follow` and an empty sitemap while allowing crawlers to read the HTML. Other environments produce a sitemap containing only the canonical homepage.
 
 Optional `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` values emit verification tags. Configure them for the intended build environment and rebuild; `.env.example` documents local setup. These values are read by build tooling, not browser environment variables.

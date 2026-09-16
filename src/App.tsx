@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import { EditorialPortfolio } from "./components/editorial/portfolio";
 import { portfolioStructuredData } from "./lib/seo";
 
@@ -15,6 +16,7 @@ export function App() {
         }}
       />
       <EditorialPortfolio />
+      <Analytics />
     </>
   );
 }
