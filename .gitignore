@@ -12,7 +12,3 @@ next-env.d.ts
 !.env.example
 yarn-error.log
 .DS_Store
-
-# Supplied personal-use font files: keep raw binaries out of the source repository.
-src/app/fonts/*.otf
-src/app/fonts/*.woff*
