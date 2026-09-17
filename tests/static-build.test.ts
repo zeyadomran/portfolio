@@ -82,3 +82,25 @@ test("crawler files and social assets match the build environment", async () => 
   assert.equal(png.readUInt32BE(20), 630);
   assert.match(await readFile(resolve("dist/icon.svg"), "utf8"), /<svg/);
 });
+
+test("the language-model guide links to existing portfolio sections and files", async () => {
+  const guide = await readFile(resolve("dist/llms.txt"), "utf8");
+  assert.equal(guide.split(/\r?\n/, 1)[0], `# ${site.name}`);
+  const links = [...guide.matchAll(/\]\((https:\/\/[^)]+)\)/g)];
+  assert.ok(links.length > 0, "The guide has no links");
+  for (const [, href] of links) {
+    const url = new URL(href);
+    if (url.origin !== new URL(site.url).origin) continue;
+    if (url.hash) {
+      assert.ok(
+        html.includes(`id="${url.hash.slice(1)}"`),
+        `Missing section: ${href}`,
+      );
+    }
+    const path = url.pathname === "/" ? "index.html" : url.pathname.slice(1);
+    assert.ok(
+      (await stat(resolve("dist", path))).size > 0,
+      `Missing file: ${href}`,
+    );
+  }
+});

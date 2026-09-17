@@ -42,6 +42,11 @@ export function metadataTags(
     { tag: "link", attrs: { rel: "author", href: site.url }, injectTo: "head" },
     {
       tag: "link",
+      attrs: { rel: "describedby", href: "/llms.txt", type: "text/plain" },
+      injectTo: "head",
+    },
+    {
+      tag: "link",
       attrs: { rel: "icon", type: "image/svg+xml", href: "/icon.svg" },
       injectTo: "head",
     },

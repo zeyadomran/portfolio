@@ -36,6 +36,10 @@ test("server HTML exposes canonical metadata and connected profile structured da
     );
   }
   await expect(page.locator('head link[rel="canonical"]')).toHaveCount(1);
+  await expect(page.locator('head link[rel="describedby"]')).toHaveAttribute(
+    "href",
+    "/llms.txt",
+  );
   // Compare canonical URLs after standard URL normalization.
   const canonical = await page
     .locator('head link[rel="canonical"]')
@@ -89,7 +93,9 @@ test("crawler endpoints contain only the canonical home page", async ({
 }) => {
   const robots = await request.get("/robots.txt");
   expect(robots.ok()).toBe(true);
+  expect(robots.headers()["content-type"]).toContain("text/plain");
   const rules = await robots.text();
+  expect(rules).toContain("User-agent: *");
   expect(rules).toContain("Allow: /");
   const sitemap = await request.get("/sitemap.xml");
   expect(sitemap.ok()).toBe(true);
@@ -104,6 +110,18 @@ test("crawler endpoints contain only the canonical home page", async ({
   }
   expect(xml).not.toContain("localhost");
   expect(xml).not.toContain("<lastmod>");
+});
+
+test("the language-model guide is served as plain text", async ({
+  request,
+}) => {
+  const response = await request.get("/llms.txt");
+  expect(response.ok()).toBe(true);
+  expect(response.headers()["content-type"]).toContain("text/plain");
+  const guide = await response.text();
+  expect(guide).toMatch(new RegExp(`^# ${site.name}\\r?\\n`));
+  expect(guide).toContain(site.url);
+  expect(guide).not.toContain("<!doctype html>");
 });
 
 test("social sharing image is an actual 1200 by 630 PNG", async ({
