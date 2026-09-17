@@ -381,16 +381,13 @@ export function EditorialPortfolio() {
                   <div>
                     <h3>Computer Science, BSc</h3>
                     <p>University of Calgary</p>
-                    <p>
-                      Internship Program · Human Computer Interaction
-                      concentration
-                    </p>
+                    <p>Human Computer Interaction concentration</p>
                   </div>
                 </li>
               </ol>
             </div>
             <div className="toolkit grid">
-              <span className="eyebrow">TOOLS</span>
+              <span className="eyebrow">SKILLS</span>
               <p>
                 React / Angular / TypeScript / NgRx /<br />
                 Next.js / AI assisted development
