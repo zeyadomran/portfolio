@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { EditorialPortfolio } from "./components/editorial/portfolio";
 import { portfolioStructuredData } from "./lib/seo";
 
@@ -17,6 +18,7 @@ export function App() {
       />
       <EditorialPortfolio />
       <Analytics />
+      <SpeedInsights />
     </>
   );
 }

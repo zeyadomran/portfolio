@@ -50,6 +50,8 @@ Playwright covers responsive layouts, assistant positioning and retained form st
 
 Vercel Web Analytics is mounted in `src/App.tsx`. Enable Web Analytics for the project in the Vercel dashboard, then deploy these changes to start collecting page views. See the [Vercel setup guide](https://vercel.com/docs/analytics/quickstart).
 
+Vercel Speed Insights is also mounted in `src/App.tsx` to collect real-user performance metrics. Deploy these changes and visit the site, then view the results in the project's Speed Insights dashboard. See the [Speed Insights setup guide](https://vercel.com/docs/speed-insights/quickstart).
+
 The canonical domain remains https://zeyadomran.com. Builds preserve title, description, canonical metadata, Open Graph, Twitter metadata, structured data, robots, and sitemap. `VERCEL_ENV=preview` or `development` produces `noindex, follow` and an empty sitemap while allowing crawlers to read the HTML. Other environments produce a sitemap containing only the canonical homepage.
 
 Optional `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` values emit verification tags. Configure them for the intended build environment and rebuild; `.env.example` documents local setup. These values are read by build tooling, not browser environment variables.

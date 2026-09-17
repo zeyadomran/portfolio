@@ -398,6 +398,46 @@ export function EditorialPortfolio() {
             </div>
           </div>
         </section>
+
+        <section
+          className="writing-section ed-wrap"
+          id="writing"
+          data-chapter
+          aria-labelledby="writing-title"
+        >
+          <SectionLabel number="03">WRITING</SectionLabel>
+          <div className="writing-grid grid">
+            <div>
+              <p className="eyebrow">DESIGN BLOG</p>
+              <h2 id="writing-title">
+                Behind the
+                <br />
+                <span>Interface.</span>
+              </h2>
+            </div>
+            <div className="writing-copy">
+              <p>
+                I write about the design decisions behind interesting websites,
+                from typography and layout to motion and interaction.
+              </p>
+              <p>
+                An open research notebook, with interactive stories and a closer
+                look at the details that shape an experience.
+              </p>
+              <a
+                className="editorial-link inline-flex items-center"
+                href="https://design.zeyadomran.com/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Explore the design blog
+                <Arrow diagonal />
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+              <span className="writing-domain">design.zeyadomran.com</span>
+            </div>
+          </div>
+        </section>
       </main>
       <footer className="contact-screen">
         <section
@@ -406,7 +446,7 @@ export function EditorialPortfolio() {
           data-chapter
           aria-labelledby="contact-title"
         >
-          <SectionLabel number="03">START A CONVERSATION</SectionLabel>
+          <SectionLabel number="04">START A CONVERSATION</SectionLabel>
           <div className="contact-intro grid items-end">
             <h2 id="contact-title">
               Something complex?

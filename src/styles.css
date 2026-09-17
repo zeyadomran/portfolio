@@ -1188,6 +1188,50 @@ main:focus {
   color: #e1ebdc;
 }
 
+.writing-section {
+  padding-top: 70px;
+  padding-bottom: 80px;
+  border-bottom: 1px solid var(--line);
+}
+.writing-grid {
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(40px, 8vw, 130px);
+  margin-top: 60px;
+}
+.writing-grid .eyebrow {
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.writing-grid h2 {
+  font-size: clamp(42px, 5vw, 76px);
+  letter-spacing: -0.05em;
+  line-height: 1.05;
+  color: var(--ink);
+}
+.writing-grid h2 > span {
+  color: var(--green);
+}
+.writing-copy > p:first-child {
+  font-size: 24px;
+  line-height: 1.35;
+  letter-spacing: -0.018em;
+  margin-bottom: 22px;
+}
+.writing-copy > p + p {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.writing-copy .editorial-link {
+  min-height: 44px;
+}
+.writing-domain {
+  display: block;
+  margin-top: 15px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
 .contact-screen {
   @apply flex flex-col;
   min-height: 100vh;
@@ -1769,6 +1813,18 @@ main:focus {
   }
   .toolkit > p {
     font-size: 23px;
+  }
+  .writing-section {
+    padding-top: 45px;
+    padding-bottom: 50px;
+  }
+  .writing-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-top: 38px;
+  }
+  .writing-copy > p:first-child {
+    font-size: 22px;
   }
   .contact-section {
     padding-top: clamp(24px, 4svh, 40px);

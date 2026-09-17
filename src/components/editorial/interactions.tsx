@@ -104,6 +104,7 @@ export function Navigation() {
         {[
           ["work", "Work"],
           ["about", "About"],
+          ["writing", "Writing"],
           ["links", "Contact"],
         ].map(([id, name]) => (
           <a
