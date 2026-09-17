@@ -473,7 +473,7 @@ export function EditorialPortfolio() {
                 href="/Zeyad_Omran_Resume_SWE_AI.pdf"
                 download="Zeyad_Omran_Resume_SWE_AI.pdf"
               >
-                Download resume
+                Resume
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
