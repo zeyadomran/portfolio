@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" role="img" aria-labelledby="title desc">
-<title id="title">Baseline / Single-color symbol - Zeyad Omran</title>
-<desc id="desc">Two offset horizontal rails end in a black square, echoing the two lines of the lowercase wordmark. Transparent background. Black single-color artwork for a light background.</desc>
-<metadata>Identity directions / Zeyad Omran. Lettering derived from Space Mono under SIL Open Font License 1.1; see assets/OFL-SpaceMono.txt. Geometry and lettering remain editable SVG paths.</metadata>
-<style>:root{--identity-ink:#000000;--identity-line:#000000;--identity-accent:#000000}.ink{fill:var(--identity-ink)}.neutral{fill:var(--identity-line)}.line{stroke:var(--identity-line)}.accent{fill:var(--identity-accent)}</style>
-<g stroke-linecap="butt" stroke-linejoin="miter"><g id="baseline-rails" class="neutral"><rect x="32" y="56" width="104" height="16"/><rect x="64" y="104" width="80" height="16"/></g>
-<rect id="terminal" class="accent" x="152" y="104" width="16" height="16"/></g>
-</svg>

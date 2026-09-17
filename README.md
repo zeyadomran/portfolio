@@ -1,36 +1,51 @@
 # Zeyad Omran's portfolio
 
-An editorial portfolio built with Vite, React, TypeScript, Tailwind CSS, local PP Neue Montreal typography, and authored CSS. The story connects AI assistant interfaces, reusable frontend systems, performance, and an HCI-informed approach to work.
+**Complexity, made human.**
 
-## Local development
+My personal portfolio explores how I approach frontend engineering and interface design: helping people understand complex systems and take the next step. It brings together selected work at IBM, my background in human computer interaction, and the details I care about when building for the web.
 
-Use Node.js 22.12 or newer (Node.js 20.19+ in the 20.x line is also supported) and the checked-in Yarn Classic release.
+[Visit the website](https://zeyadomran.com)
 
-```sh
-node .yarn/releases/yarn-1.22.22.cjs install --frozen-lockfile
-node .yarn/releases/yarn-1.22.22.cjs dev
-```
+## Selected work
 
-Open http://127.0.0.1:3000. The font files are tracked in `src/fonts/`; see its README for typography and license context.
+Three chapters connect the interface someone uses with the systems behind it:
 
-## Editing the story
+- **AI assistant interfaces:** Bringing conversation and action together. An interactive layout study lets you open a workspace beside an assistant panel, edit a sample form, and return to it without losing your changes during the session.
+- **Reusable interfaces and UI builders:** Building shared components that support different workflows. The component demo lets you switch layouts, choose widgets, and see the configuration behind the resulting view.
+- **Rendering performance:** Reducing waiting through parallel execution and early exits. A replay illustrates the reported change from eight seconds to three in a table parsing scenario.
 
-- `src/components/editorial/portfolio.tsx`: story, work chapters, native disclosures, experience, and contact information.
-- `src/components/editorial/interactions.tsx`: navigation, hero layers, assistant workspace, component configurator, timing illustration, and copy-email action.
-- `src/styles.css`: Tailwind theme and utilities, typography, editorial layout, responsive behavior, reduced motion, and print styles. The existing reset is intentional; Tailwind Preflight is omitted to preserve the design.
-- `src/App.tsx`, `src/main.tsx`, and `src/entry-server.tsx`: shared page, browser hydration, and HTML rendering.
-- `src/lib/seo.ts`: public identity, canonical URL, and connected WebSite/ProfilePage/Person structured data.
-- `scripts/site-metadata.ts`: HTML metadata and crawler files; `public/icon.svg` and `public/opengraph-image.png`: static identity assets.
+Each chapter includes a “Behind the work” section covering the challenge, my contribution, and the principle behind the approach. The interactive figures are illustrations with sample content; the timing replay illustrates a reported result rather than measuring the visitor's browser.
 
-Vite renders the page in development. Production builds prerender the same React tree into `dist/index.html`, then hydrate it in the browser. Core text, navigation, contact links, structured data, and native disclosures remain available without JavaScript. Update the static 1200×630 social image when its copy or visual identity changes.
+## Beyond the work
 
-The assistant study keeps chat in a full-height right-hand panel while the workspace fills the area to its left. Chat positioning and demo form values survive opening and closing the workspace. Fictional content stays labeled as illustrative.
+The About section connects my interest in visual design with my HCI studies and frontend work, followed by experience, education, and tools. Writing introduces [Behind the Interface](https://design.zeyadomran.com/), my design blog about typography, layout, motion, and interaction.
 
-Modularity exposes real local configuration state and retains its sticky desktop figure. Optimization uses a common eight-second scale for the reported eight-to-three-second rendering result at 50 rows; it is an illustration, not a live benchmark. That result belongs to the field-template/parser optimization, separate from the shared-table migration. Preserve the `#assistant`, `#systems`, and `#optimization` anchors.
+The page ends with a place to start a conversation: email, a downloadable resume, and links to LinkedIn and GitHub.
 
-Native scrolling, restrained parallax, narrow-screen stacking, and reduced-motion behavior remain part of the design. Older components and runtime code are retained under `design/archive/` as reference; they are outside the active application.
+## Design and experience
 
-## Validation
+The site uses an editorial layout with a pale paper background, dark green text, large PP Neue Montreal headings, fine rules, and numbered chapters. Interactive diagrams sit alongside the writing to make the ideas easier to explore. The opening illustration moves between three layers: People, Interface, and System.
+
+Native scrolling, subtle motion, and a reading progress indicator connect the sections. Layouts adapt to smaller screens, controls support keyboard use, and motion respects reduced-motion preferences. Core content, navigation, contact links, and expandable case-study details remain available without JavaScript.
+
+## Built with
+
+React, TypeScript, Vite, Tailwind CSS, and authored CSS, with locally hosted typography. Production pages are prerendered as HTML, then enhanced with interactive React components in the browser.
+
+<details>
+<summary>Maintenance notes</summary>
+
+### Editing the story
+
+Content lives in `src/components/editorial/portfolio.tsx`, interactions in `src/components/editorial/interactions.tsx`, and visual styling in `src/styles.css`. Keep the authored reset; Tailwind Preflight is intentionally omitted. Font provenance is documented in [src/fonts/README.md](src/fonts/README.md).
+
+Preserve the `#assistant`, `#systems`, and `#optimization` anchors and keep prerendered HTML consistent with hydration. The assistant panel stays on the right while its workspace opens on the left, retaining form values across toggles. The builder retains local configuration and its sticky desktop figure. The timing illustration uses a shared eight-second scale for the reported 50-row scenario; that parser optimization is separate from the shared-table migration.
+
+Keep public IBM claims within confirmed frontend scope, use generic names, and label illustrative content.
+
+### Validation
+
+Use the checked-in Yarn Classic release. Build before static-output tests and Playwright:
 
 ```sh
 node .yarn/releases/yarn-1.22.22.cjs lint
@@ -40,20 +55,12 @@ node .yarn/releases/yarn-1.22.22.cjs test
 node .yarn/releases/yarn-1.22.22.cjs test:e2e
 ```
 
-Build before running the tests: the Node tests inspect static output, and Playwright starts the production preview at http://127.0.0.1:4173. `yarn preview` or `yarn start` serves that same output for manual review. The development and preview ports are strict.
+Playwright uses installed Chrome and the production preview on port 4173. Ensure any reused preview serves the current build.
 
-Playwright covers responsive layouts, assistant positioning and retained form state, configuration, navigation, reduced motion, keyboard access, no-JavaScript content, and SEO. It uses installed Google Chrome by default; set `PLAYWRIGHT_CHANNEL=chromium` after installing the Playwright browser to use Chromium instead. The configuration may reuse an existing preview server, so ensure it serves the current build.
+### Deployment and search
 
-## Deployment and search
+Vercel publishes `dist/` using `vercel.json`. Canonical identity lives in `src/lib/seo.ts`; metadata and crawler files are generated by `scripts/site-metadata.ts`. Preserve the canonical domain, social metadata, structured data, and `/opengraph-image` redirect. Update the static 1200×630 social image when its copy or identity changes.
 
-`vercel.json` selects Vite, runs `yarn install --frozen-lockfile` and `yarn build`, and publishes `dist/` as static files. It redirects the former `/opengraph-image` URL to `/opengraph-image.png`. This migration configures deployment; it does not publish the site.
+`VERCEL_ENV=preview` or `development` produces `noindex, follow` and an empty sitemap. Other environments list only the canonical homepage. Optional search-verification variables are documented in `.env.example` and read at build time.
 
-Vercel Web Analytics is mounted in `src/App.tsx`. Enable Web Analytics for the project in the Vercel dashboard, then deploy these changes to start collecting page views. See the [Vercel setup guide](https://vercel.com/docs/analytics/quickstart).
-
-Vercel Speed Insights is also mounted in `src/App.tsx` to collect real-user performance metrics. Deploy these changes and visit the site, then view the results in the project's Speed Insights dashboard. See the [Speed Insights setup guide](https://vercel.com/docs/speed-insights/quickstart).
-
-The canonical domain remains https://zeyadomran.com. Builds preserve title, description, canonical metadata, Open Graph, Twitter metadata, structured data, robots, and sitemap. `VERCEL_ENV=preview` or `development` produces `noindex, follow` and an empty sitemap while allowing crawlers to read the HTML. Other environments produce a sitemap containing only the canonical homepage.
-
-Optional `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` values emit verification tags. Configure them for the intended build environment and rebuild; `.env.example` documents local setup. These values are read by build tooling, not browser environment variables.
-
-Keep contribution claims generic and evidence-backed. Use confirmed frontend scope, omit internal service and repository names, and label illustrative graphics accurately.
+</details>

@@ -10,7 +10,6 @@ export default defineConfig([
   globalIgnores([
     "dist/**",
     ".next/**",
-    "design/**",
     ".yarn/**",
     ".verification/**",
     "playwright-report/**",

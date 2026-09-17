@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" role="img" aria-labelledby="title desc">
-<title id="title">Fold / Single-color symbol - Zeyad Omran</title>
-<desc id="desc">A filled angular Z wraps a cut-out O counter, with a small black rectangular terminal. Transparent background. Black single-color artwork for a light background.</desc>
-<metadata>Identity directions / Zeyad Omran. Lettering derived from Space Mono under SIL Open Font License 1.1; see assets/OFL-SpaceMono.txt. Geometry and lettering remain editable SVG paths.</metadata>
-<style>:root{--identity-ink:#000000;--identity-line:#000000;--identity-accent:#000000}.ink{fill:var(--identity-ink)}.neutral{fill:var(--identity-line)}.line{stroke:var(--identity-line)}.accent{fill:var(--identity-accent)}</style>
-<g stroke-linecap="butt" stroke-linejoin="miter"><path id="folded-monogram" class="ink" fill-rule="evenodd" d="M32 40H152L176 64V136L152 160H32V136L112 64H32Z M136 80L88 136H144L152 128V80Z"/>
-<rect id="terminal-plane" class="accent" x="136" y="44" width="16" height="16"/></g>
-</svg>
