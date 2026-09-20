@@ -38,6 +38,8 @@ jobs:
         run: node .yarn/releases/yarn-1.22.22.cjs lint
       - name: Check types
         run: node .yarn/releases/yarn-1.22.22.cjs typecheck
+      - name: Check pre-commit merge handling
+        run: node .yarn/releases/yarn-1.22.22.cjs test:hooks
 
   site:
     name: portfolio-site (${{ matrix.environment }})
