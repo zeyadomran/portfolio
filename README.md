@@ -55,6 +55,8 @@ node .yarn/releases/yarn-1.22.22.cjs test
 node .yarn/releases/yarn-1.22.22.cjs test:e2e
 ```
 
+Run `node .yarn/releases/yarn-1.22.22.cjs install --frozen-lockfile` to install dependencies and activate the local Husky hook. Before each commit, staged files are formatted, then lint (including warnings), type checks, a fresh build, and static-output tests must pass. Unstaged tracked edits are temporarily hidden and restored afterward; untracked and ignored local files remain visible to tools. Run `node .yarn/releases/yarn-1.22.22.cjs precommit` to check staged changes manually. Hook installation is skipped in CI, Vercel, and production-only installs. The full browser suite runs in required CI.
+
 Playwright uses installed Chrome and the production preview on port 4173. Ensure any reused preview serves the current build.
 
 GitHub Actions runs lint and type checks, then builds and checks both production and preview output. The production job runs the complete browser suite; the preview job checks indexing and metadata in the browser. CI uses Google Chrome preinstalled on the Ubuntu 24.04 runner and invokes the checked-in Yarn release. Browser failure traces and screenshots are retained for seven days.
@@ -64,6 +66,12 @@ The stable `portfolio-ci` check succeeds only when all validation jobs succeed. 
 The active [main-required-checks ruleset](https://github.com/zeyadomran/portfolio/rules/23731339) requires pull requests, an up-to-date branch, resolved review conversations, and all ten current checks: `portfolio-ci`, `portfolio-quality`, both `portfolio-site` jobs, `portfolio-dependencies`, both `portfolio-codeql` jobs, `CodeQL`, `Vercel`, and `Vercel Preview Comments`. Each check is restricted to its expected GitHub App. Direct changes must go through a pull request; force pushes and deletion are blocked. The bypass list is empty, including for administrators, and required approvals remain at zero for solo maintenance. When adding or renaming checks, update the ruleset as well. These protections are configured in GitHub separately from the workflow files.
 
 Squash merging is suitable for ordinary changes, but keep merge commits available for Dependabot pull requests and leave required linear history off. Dependabot-authored squash commits can give the subsequent CodeQL push run a read-only token, preventing result uploads; see [GitHub's troubleshooting guidance](https://docs.github.com/en/code-security/reference/code-scanning/troubleshoot-analysis-errors/resource-not-accessible#analysis-still-failing-on-the-default-branch).
+
+### Security
+
+Report vulnerabilities through the private route in [SECURITY.md](SECURITY.md). Dependency graph, Dependabot alerts and security updates, secret scanning, push protection, and private vulnerability reporting are enabled. Dependabot version updates follow the weekly schedule in `.github/dependabot.yml`; dependency changes still require the protected-branch checks.
+
+GitHub Actions requires full commit-SHA pins and allows GitHub-owned external actions. Workflows from all external contributors require maintainer approval before running. Default workflow tokens remain read-only, and workflow approval of pull requests is disabled.
 
 ### Deployment and search
 
