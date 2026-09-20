@@ -57,7 +57,7 @@ node .yarn/releases/yarn-1.22.22.cjs test:e2e
 
 Playwright uses installed Chrome and the production preview on port 4173. Ensure any reused preview serves the current build.
 
-GitHub Actions runs lint and type checks, then builds and checks both production and preview output. The production job runs the complete browser suite; the preview job checks indexing and metadata in the browser. CI installs Chromium explicitly and invokes the checked-in Yarn release. Browser failure traces and screenshots are retained for seven days.
+GitHub Actions runs lint and type checks, then builds and checks both production and preview output. The production job runs the complete browser suite; the preview job checks indexing and metadata in the browser. CI uses Google Chrome preinstalled on the Ubuntu 24.04 runner and invokes the checked-in Yarn release. Browser failure traces and screenshots are retained for seven days.
 
 The stable `portfolio-ci` check succeeds only when all validation jobs succeed. Pull requests also run `portfolio-dependencies`, which rejects newly introduced dependencies with high or critical known vulnerabilities, and CodeQL scans JavaScript/TypeScript and workflow code. Dependabot proposes weekly package and action updates; updates are not automatically merged.
 

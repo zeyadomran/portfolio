@@ -49,7 +49,7 @@ jobs:
         environment: [production, preview]
     env:
       VERCEL_ENV: ${{ matrix.environment }}
-      PLAYWRIGHT_CHANNEL: chromium
+      PLAYWRIGHT_CHANNEL: chrome
     steps:
       - name: Check out source
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -62,8 +62,8 @@ jobs:
           package-manager-cache: false
       - name: Install locked dependencies
         run: node .yarn/releases/yarn-1.22.22.cjs install --frozen-lockfile --non-interactive
-      - name: Install Chromium and system dependencies
-        run: node .yarn/releases/yarn-1.22.22.cjs playwright install --with-deps chromium
+      - name: Check runner Chrome
+        run: google-chrome --version
       - name: Build and prerender
         run: node .yarn/releases/yarn-1.22.22.cjs build
       - name: Check static output
