@@ -61,7 +61,9 @@ GitHub Actions runs lint and type checks, then builds and checks both production
 
 The stable `portfolio-ci` check succeeds only when all validation jobs succeed. Pull requests also run `portfolio-dependencies`, which rejects newly introduced dependencies with high or critical known vulnerabilities, and CodeQL scans JavaScript/TypeScript and workflow code. Dependabot proposes weekly package and action updates; updates are not automatically merged.
 
-Recommended protection for `main`: require pull requests, `portfolio-ci`, and `portfolio-dependencies`; require branches to be up to date and review conversations resolved; block force pushes and deletion; use squash merging and an empty bypass list. Keep required approvals at zero while the repository has one maintainer. Enable required checks only after their first successful run. Configure CodeQL merge protection separately to block high or critical security findings after the initial scan is reviewed. These repository settings are separate from the workflow files.
+Recommended protection for `main`: require pull requests, `portfolio-ci`, and `portfolio-dependencies`; require branches to be up to date and review conversations resolved; block force pushes and deletion; keep the bypass list empty. Keep required approvals at zero while the repository has one maintainer. Enable required checks only after their first successful run. Configure CodeQL merge protection separately to block high or critical security findings after the initial scan is reviewed. These repository settings are separate from the workflow files.
+
+Squash merging is suitable for ordinary changes, but keep merge commits available for Dependabot pull requests and leave required linear history off. Dependabot-authored squash commits can give the subsequent CodeQL push run a read-only token, preventing result uploads; see [GitHub's troubleshooting guidance](https://docs.github.com/en/code-security/reference/code-scanning/troubleshoot-analysis-errors/resource-not-accessible#analysis-still-failing-on-the-default-branch).
 
 ### Deployment and search
 
