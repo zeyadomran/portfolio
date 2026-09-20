@@ -45,7 +45,7 @@ Keep public IBM claims within confirmed frontend scope, use generic names, and l
 
 ### Validation
 
-Use the checked-in Yarn Classic release. Build before static-output tests and Playwright:
+Use Node.js 22.22.1 or newer and the checked-in Yarn Classic release. Build before static-output tests and Playwright:
 
 ```sh
 node .yarn/releases/yarn-1.22.22.cjs lint
