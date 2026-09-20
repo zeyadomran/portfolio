@@ -1,0 +1,100 @@
+name: Portfolio CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  CI: "true"
+
+jobs:
+  quality:
+    name: portfolio-quality
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "22"
+          package-manager-cache: false
+      - name: Install locked dependencies
+        run: node .yarn/releases/yarn-1.22.22.cjs install --frozen-lockfile --non-interactive
+      - name: Lint
+        run: node .yarn/releases/yarn-1.22.22.cjs lint
+      - name: Check types
+        run: node .yarn/releases/yarn-1.22.22.cjs typecheck
+
+  site:
+    name: portfolio-site (${{ matrix.environment }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        environment: [production, preview]
+    env:
+      VERCEL_ENV: ${{ matrix.environment }}
+      PLAYWRIGHT_CHANNEL: chromium
+    steps:
+      - name: Check out source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "22"
+          package-manager-cache: false
+      - name: Install locked dependencies
+        run: node .yarn/releases/yarn-1.22.22.cjs install --frozen-lockfile --non-interactive
+      - name: Install Chromium and system dependencies
+        run: node .yarn/releases/yarn-1.22.22.cjs playwright install --with-deps chromium
+      - name: Build and prerender
+        run: node .yarn/releases/yarn-1.22.22.cjs build
+      - name: Check static output
+        run: node .yarn/releases/yarn-1.22.22.cjs test
+      - name: Test production browser behavior
+        if: matrix.environment == 'production'
+        run: node .yarn/releases/yarn-1.22.22.cjs test:e2e
+      - name: Test preview indexing and metadata
+        if: matrix.environment == 'preview'
+        run: node .yarn/releases/yarn-1.22.22.cjs test:e2e tests/seo.spec.ts
+      - name: Upload browser failure evidence
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-${{ matrix.environment }}-${{ github.run_attempt }}
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  complete:
+    name: portfolio-ci
+    if: always()
+    needs: [quality, site]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    permissions: {}
+    env:
+      QUALITY_RESULT: ${{ needs.quality.result }}
+      SITE_RESULT: ${{ needs.site.result }}
+    steps:
+      - name: Require every validation job to succeed
+        run: |
+          test "$QUALITY_RESULT" = "success"
+          test "$SITE_RESULT" = "success"
