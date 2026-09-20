@@ -65,7 +65,7 @@ The stable `portfolio-ci` check succeeds only when all validation jobs succeed. 
 
 The active [main-required-checks ruleset](https://github.com/zeyadomran/portfolio/rules/23731339) requires pull requests, an up-to-date branch, resolved review conversations, and all ten current checks: `portfolio-ci`, `portfolio-quality`, both `portfolio-site` jobs, `portfolio-dependencies`, both `portfolio-codeql` jobs, `CodeQL`, `Vercel`, and `Vercel Preview Comments`. Each check is restricted to its expected GitHub App. Direct changes must go through a pull request; force pushes and deletion are blocked. The bypass list is empty, including for administrators, and required approvals remain at zero for solo maintenance. When adding or renaming checks, update the ruleset as well. These protections are configured in GitHub separately from the workflow files.
 
-Squash merging is suitable for ordinary changes, but keep merge commits available for Dependabot pull requests and leave required linear history off. Dependabot-authored squash commits can give the subsequent CodeQL push run a read-only token, preventing result uploads; see [GitHub's troubleshooting guidance](https://docs.github.com/en/code-security/reference/code-scanning/troubleshoot-analysis-errors/resource-not-accessible#analysis-still-failing-on-the-default-branch).
+The repository uses squash merges. Dependabot pull requests must pass the same required checks before merging.
 
 ### Security
 
