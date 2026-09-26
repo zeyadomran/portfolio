@@ -45,7 +45,7 @@ export const portfolioStructuredData = {
           url: siteUrl("#assistant"),
           name: "AI Assistant",
           description:
-            "Frontend delivery of an AI assistant with expandable workspaces that keep tasks and conversation together.",
+            "Frontend architecture and delivery of an AI assistant from proof of concept to production with five partner teams, and a workspace layout that keeps tasks beside the conversation.",
           isPartOf: { "@id": siteUrl("#profile") },
         },
         {
@@ -54,7 +54,7 @@ export const portfolioStructuredData = {
           url: siteUrl("#systems"),
           name: "Modularity",
           description:
-            "Shared frontend components and UI builders that help teams deliver new pages and use cases faster.",
+            "Shared frontend components and UI builders that help teams deliver new pages and use cases faster, including a table component used across 50+ product pages.",
           isPartOf: { "@id": siteUrl("#profile") },
         },
         {
@@ -63,7 +63,7 @@ export const portfolioStructuredData = {
           url: siteUrl("#optimization"),
           name: "Optimization",
           description:
-            "Frontend performance optimization using parallel execution and early exit guards, reducing reported rendering time from eight seconds to three.",
+            "Frontend performance optimization of a shared parsing path used across 100+ product pages. Parallel execution and early exit guards reduced the reported 50-row rendering time from eight seconds to three.",
           isPartOf: { "@id": siteUrl("#profile") },
         },
       ],

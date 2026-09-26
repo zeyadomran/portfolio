@@ -182,20 +182,17 @@ main:focus {
 .eyebrow,
 .section-label,
 .hero-meta,
-.hero-foot,
 .case-header,
 .figure-topline,
 .plane-label,
 .stage-coordinate,
 .time-label,
 .story-tools,
-.header-note,
 .experience li > span,
 .figure-step-controls,
 .layer-controls,
 .layer-caption,
-.work-index,
-.personal-note,
+.work-index-number,
 .ed-footer > div,
 .contact-bottom {
   font-size: 12px;
@@ -254,13 +251,6 @@ main:focus {
   width: 32px;
   height: 32px;
 }
-.header-note {
-  margin-left: auto;
-  margin-right: auto;
-  color: var(--muted);
-  letter-spacing: 0;
-  font-size: 13px;
-}
 .ed-header nav {
   @apply flex;
   gap: 30px;
@@ -289,7 +279,7 @@ main:focus {
   padding-top: 32px;
 }
 .hero-meta {
-  font-size: 10px;
+  font-size: 12px;
 }
 .hero-composition {
   grid-template-columns: 1.18fr 1fr;
@@ -331,28 +321,6 @@ main:focus {
 .editorial-link:hover svg {
   transform: translate(4px, 0);
 }
-.hero-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 24px 0;
-  border-top: 1px solid var(--line);
-  font-size: 12px;
-  letter-spacing: 0;
-}
-.hero-foot > a {
-  display: flex;
-  gap: 40px;
-  align-items: center;
-}
-.hero-foot > a span {
-  font-size: 22px;
-}
-.hero-foot > span:last-child {
-  font-size: 10px;
-  letter-spacing: 0.08em;
-}
 .hero-figure {
   @apply min-w-0 self-center;
 }
@@ -365,7 +333,7 @@ main:focus {
 }
 .stage-coordinate {
   position: absolute;
-  font-size: 8px;
+  font-size: 10px;
   color: var(--muted);
   z-index: 3;
 }
@@ -508,7 +476,7 @@ main:focus {
   opacity: 1;
 }
 .layer-controls button span {
-  font-size: 9px;
+  font-size: 10px;
 }
 .layer-controls button[aria-pressed="true"] span {
   color: var(--green);
@@ -542,33 +510,49 @@ main:focus {
   font-size: 19px;
   line-height: 1.5;
 }
+/* Case-study index: a contents row that doubles as a first glance at the proof. */
 .work-index {
-  grid-column: 1/-1;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  margin-top: 48px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 30px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
 }
 .work-index a {
-  display: flex;
-  gap: 15px;
-  padding: 17px 0;
-  border-top: 1px solid var(--line);
-  font-size: 15px;
-  align-items: center;
+  gap: 16px;
+  min-height: 72px;
+  padding: 16px 0;
+  border-top: 1px solid var(--ink);
+  color: var(--ink);
 }
-.work-index a > span {
-  font-size: 10px;
+.work-index-number {
+  align-self: flex-start;
+  padding-top: 5px;
+  color: var(--muted);
+}
+.work-index-text {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.work-index-text > span:first-child {
+  font-size: 21px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.work-index-text > span:last-child {
+  font-size: 14px;
+  line-height: 1.4;
   color: var(--muted);
 }
 .work-index svg {
   margin-left: auto;
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
   transition: transform 0.25s;
 }
 .work-index a:hover svg {
-  transform: translate(3px, -3px);
+  transform: translateY(3px);
 }
 
 .case-section {
@@ -580,7 +564,7 @@ main:focus {
   border-top: 1px solid var(--line);
   padding-top: 20px;
   margin-bottom: 36px;
-  font-size: 10px;
+  font-size: 12px;
 }
 .case-grid {
   grid-template-columns: 1.3fr 1fr;
@@ -590,7 +574,7 @@ main:focus {
   padding-top: 25px;
 }
 .case-intro > .eyebrow {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
   margin-bottom: 25px;
 }
@@ -628,7 +612,9 @@ main:focus {
   letter-spacing: -0.04em;
 }
 .case-facts span {
-  font-size: 12px;
+  font-size: 13px;
+  line-height: 1.35;
+  max-width: 17ch;
 }
 .story-detail {
   border-top: 1px solid var(--line);
@@ -689,28 +675,8 @@ main:focus {
   color: var(--muted);
 }
 .story-detail .story-tools {
-  font-size: 11px;
+  font-size: 12px;
   margin-top: 22px;
-}
-.system-principles {
-  margin-top: 30px;
-  border-top: 1px solid var(--line);
-}
-.system-principles span {
-  font-size: 12px;
-  padding: 10px 12px 10px 0;
-  margin-right: 14px;
-}
-.result-note {
-  gap: 14px;
-  margin-top: 30px;
-}
-.result-note p {
-  font-size: 17px;
-}
-.result-note p span {
-  font-size: 12px;
-  color: var(--muted);
 }
 
 .case-figure {
@@ -719,11 +685,11 @@ main:focus {
 }
 .figure-topline {
   @apply flex justify-between;
-  font-size: 9px;
+  font-size: 11px;
   gap: 20px;
 }
 .case-figure > figcaption > p {
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.01em;
   margin-top: 18px;
   opacity: 0.68;
@@ -731,14 +697,6 @@ main:focus {
 .assistant-figure {
   background: #dce6f1;
   --figure-accent: var(--blue);
-}
-.assistant-window {
-  margin: 58px 0 42px;
-  background: #f8fafb;
-  box-shadow: 0 20px 35px #34506f18;
-  transform: translateY(var(--parallax-y, 0px));
-  border: 1px solid #c5d1dd;
-  transition: transform 0.15s linear;
 }
 .window-bar {
   @apply flex items-center justify-between;
@@ -757,75 +715,10 @@ main:focus {
   background: var(--blue);
   border-radius: 50%;
 }
-.conversation {
-  padding: 26px 22px 16px;
-  min-height: 300px;
-}
-.user-message {
-  margin-left: auto;
-  max-width: 88%;
-  background: #e9edf3;
-  padding: 12px 15px;
-  font-size: 13px;
-  color: #243749;
-  border-radius: 3px;
-}
-.assistant-message {
-  display: flex;
-  gap: 12px;
-  margin: 27px 0 18px;
-}
 .assistant-symbol {
   color: var(--blue);
   font-size: 28px;
   line-height: 1;
-}
-.assistant-message h4 {
-  font-size: 17px;
-  letter-spacing: -0.015em;
-  margin-bottom: 7px;
-  color: #183248;
-}
-.assistant-message p {
-  font-size: 12px;
-  line-height: 1.5;
-  color: #597080;
-  max-width: 33ch;
-}
-.response-actions {
-  margin-left: 36px;
-  display: grid;
-  gap: 8px;
-}
-.response-actions > div {
-  font-size: 11px;
-  border: 1px solid #d3dce5;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  color: #314c64;
-}
-.response-actions > div > span:last-child {
-  margin-left: auto;
-}
-.response-actions .tiny-square {
-  width: 4px;
-  height: 4px;
-  color: var(--blue);
-}
-.input-illustration {
-  margin-top: 28px;
-  padding: 13px 14px;
-  border: 1px solid #d2dce8;
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 10px;
-  color: #6d7c8b;
-}
-.input-illustration > span:last-child {
-  color: var(--blue);
 }
 .figure-step-controls {
   @apply flex;
@@ -844,7 +737,7 @@ main:focus {
   border-bottom-color: currentColor;
 }
 .figure-step-controls button > span:first-child {
-  font-size: 9px;
+  font-size: 10px;
 }
 :is(
   .layer-controls button,
@@ -888,10 +781,13 @@ main:focus {
   gap: 24px;
   padding-top: 15px;
 }
+/* A half-filled square, drawn in CSS so it renders identically everywhere. */
 .builder-mark {
-  font-size: 20px;
-  color: var(--purple);
-  margin-bottom: 12px;
+  width: 16px;
+  height: 16px;
+  margin: 3px 0 15px;
+  border: 1.5px solid var(--purple);
+  background: linear-gradient(90deg, var(--purple) 50%, transparent 50%);
 }
 .builder-menu > i {
   width: 10px;
@@ -911,13 +807,15 @@ main:focus {
   @apply flex items-center justify-between;
   margin-bottom: 20px;
 }
-.builder-heading h4 {
+.builder-heading > p {
+  font-family: var(--display);
   font-size: 20px;
   letter-spacing: -0.025em;
 }
-.builder-heading > span {
+.builder-heading > svg {
   color: var(--purple);
-  font-size: 17px;
+  width: 17px;
+  height: 17px;
 }
 .builder-widgets {
   @apply grid;
@@ -931,7 +829,7 @@ main:focus {
   min-width: 0;
 }
 .widget > span {
-  font-size: 9px;
+  font-size: 10px;
   color: #70617e;
 }
 .chart-widget {
@@ -976,17 +874,22 @@ main:focus {
   border-top: 1px solid #eeeaf3;
   margin-top: 8px;
   padding-top: 8px;
-  font-size: 8px;
+  font-size: 10px;
 }
 .table-widget > div > span:first-child {
   color: #776587;
-  font-size: 7px;
+  font-size: 9px;
 }
 .table-widget > div > i {
   margin-left: auto;
   width: 30px;
   height: 4px;
   background: #d5cce2;
+}
+.table-widget > div > svg {
+  width: 9px;
+  height: 9px;
+  color: var(--purple);
 }
 .view-analysis .chart-widget {
   grid-column: span 2;
@@ -1010,7 +913,7 @@ main:focus {
 }
 .view-detail .table-widget > div {
   padding: 24px 0 10px;
-  font-size: 10px;
+  font-size: 12px;
 }
 .performance-figure {
   background: #ebdfd7;
@@ -1022,7 +925,7 @@ main:focus {
   padding: 65px 0 45px;
 }
 .time-label {
-  font-size: 9px;
+  font-size: 11px;
 }
 .time-comparison p {
   font-family: var(--display);
@@ -1036,10 +939,11 @@ main:focus {
   margin-left: 5px;
 }
 .time-arrow {
-  font-family: Arial;
-  font-size: 35px;
-  font-weight: 300;
   color: #a76b51;
+}
+.time-arrow svg {
+  width: 36px;
+  height: 36px;
 }
 .timing-tracks {
   @apply grid;
@@ -1050,7 +954,7 @@ main:focus {
   @apply grid items-center;
   grid-template-columns: 45px 1fr 20px;
   gap: 14px;
-  font-size: 10px;
+  font-size: 11px;
 }
 .timing-tracks > div > div {
   height: 7px;
@@ -1083,8 +987,9 @@ main:focus {
   width: 18px;
   height: 18px;
 }
-.replay-button > span {
-  font-size: 20px;
+.replay-icon svg {
+  width: 19px;
+  height: 19px;
 }
 .replay-button:hover > svg {
   transform: translateX(4px);
@@ -1125,11 +1030,6 @@ main:focus {
   color: #c8d7c7;
   margin-bottom: 22px;
 }
-.about-copy > .personal-note {
-  margin-top: 35px;
-  color: #a9c9ae;
-  font-size: 13px;
-}
 .experience {
   grid-template-columns: 1fr 2.1fr;
   gap: 40px;
@@ -1137,7 +1037,7 @@ main:focus {
   padding-top: 30px;
 }
 .experience .eyebrow {
-  font-size: 10px;
+  font-size: 11px;
 }
 .experience ol {
   @apply list-none p-0;
@@ -1151,7 +1051,7 @@ main:focus {
   margin-bottom: 30px;
 }
 .experience li > span {
-  font-size: 10px;
+  font-size: 11px;
   color: #b6ccb7;
   padding-top: 6px;
 }
@@ -1176,7 +1076,7 @@ main:focus {
   padding-top: 20px;
 }
 .toolkit .eyebrow {
-  font-size: 9px;
+  font-size: 11px;
   color: #a9c5ad;
   padding-top: 8px;
 }
@@ -1186,6 +1086,9 @@ main:focus {
   letter-spacing: -0.02em;
   line-height: 1.4;
   color: #e1ebdc;
+}
+.toolkit + .toolkit {
+  margin-top: 24px;
 }
 
 .writing-section {
@@ -1297,6 +1200,10 @@ main:focus {
   gap: 25px;
   font-size: 13px;
 }
+.copy-mark .icon-check {
+  width: 14px;
+  height: 14px;
+}
 .contact-bottom > div:last-child {
   @apply flex;
   gap: 30px;
@@ -1332,15 +1239,13 @@ main:focus {
   letter-spacing: -0.065em;
   line-height: 1.1;
 }
-.footer-name > span {
-  font-size: 0.6em;
-  font-family: Arial;
-  font-weight: 300;
-}
 .ed-footer > div {
-  @apply flex justify-between text-muted;
+  @apply flex items-center justify-between text-muted;
   margin-top: clamp(16px, 2.5svh, 30px);
-  font-size: 11px;
+  font-size: 12px;
+}
+.back-to-top {
+  @apply inline-flex min-h-[44px] items-center;
 }
 
 @keyframes timing {
@@ -1433,12 +1338,8 @@ main:focus {
   .case-figure {
     padding: 20px;
   }
-  .assistant-window,
   .builder-window {
     margin: 42px 0 32px;
-  }
-  .conversation {
-    padding: 20px 16px;
   }
   .case-copy > p {
     font-size: 16px;
@@ -1590,21 +1491,6 @@ main:focus {
     font-size: 11px;
     height: 30px;
   }
-  .hero-foot {
-    padding: 16px 0;
-    gap: 14px;
-    font-size: 10px;
-  }
-  .hero-foot > span:first-child {
-    display: none;
-  }
-  .hero-foot > a {
-    gap: 18px;
-    font-size: 12px;
-  }
-  .hero-foot > span:last-child {
-    font-size: 8px;
-  }
   .work-intro {
     padding-top: 65px;
     grid-template-columns: 1fr;
@@ -1629,19 +1515,18 @@ main:focus {
     margin-top: 22px;
   }
   .work-index {
-    margin-top: 4px;
-    gap: 12px;
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 0;
+  }
+  .work-index li:last-child a {
+    border-bottom: 1px solid var(--ink);
   }
   .work-index a {
-    font-size: 12px;
-    gap: 8px;
+    min-height: 64px;
+    padding: 13px 0;
   }
-  .work-index a > span {
-    font-size: 8px;
-  }
-  .work-index svg {
-    width: 12px;
-    height: 12px;
+  .work-index-text > span:first-child {
+    font-size: 19px;
   }
   .case-section {
     padding-top: 24px;
@@ -1656,7 +1541,7 @@ main:focus {
   }
   .case-header > span:last-child {
     text-align: right;
-    max-width: 50%;
+    max-width: 62%;
   }
   .case-grid {
     grid-template-columns: 1fr;
@@ -1698,44 +1583,11 @@ main:focus {
     margin-top: 27px;
   }
   .case-figure > figcaption > p {
-    font-size: 9px;
+    font-size: 11px;
     margin-top: 14px;
   }
   .figure-topline {
-    font-size: 8px;
-  }
-  .assistant-window {
-    margin: 30px 0 25px;
-    transform: none;
-  }
-  .conversation {
-    padding: 20px 14px 14px;
-    min-height: 285px;
-  }
-  .user-message {
-    font-size: 12px;
-    padding: 10px 12px;
-  }
-  .assistant-message h4 {
-    font-size: 16px;
-  }
-  .assistant-message p {
-    font-size: 11px;
-  }
-  .response-actions {
-    margin-left: 28px;
-  }
-  .response-actions > div {
     font-size: 10px;
-    padding: 9px;
-  }
-  .assistant-message {
-    gap: 8px;
-  }
-  .input-illustration {
-    font-size: 9px;
-    padding: 11px;
-    margin-top: 24px;
   }
   .figure-step-controls button {
     font-size: 11px;
@@ -1782,9 +1634,6 @@ main:focus {
   .about-copy > p {
     font-size: 17px;
   }
-  .about-copy > .personal-note {
-    margin-top: 25px;
-  }
   .experience {
     grid-template-columns: 1fr;
     gap: 25px;
@@ -1797,7 +1646,7 @@ main:focus {
     padding-bottom: 25px;
   }
   .experience li > span {
-    font-size: 9px;
+    font-size: 11px;
   }
   .experience h3 {
     font-size: 25px;
@@ -1875,7 +1724,7 @@ main:focus {
     letter-spacing: -0.06em;
   }
   .ed-footer > div {
-    font-size: 9px;
+    font-size: 11px;
     gap: 10px;
     flex-wrap: wrap;
     margin-top: 22px;
@@ -1885,15 +1734,11 @@ main:focus {
   }
   .ed-footer > div > a {
     margin-left: auto;
-    min-height: 30px;
   }
 }
 @media (max-width: 360px) {
   :root {
     --gutter: 17px;
-  }
-  .ed-brand > span {
-    font-size: 12px;
   }
   .ed-header nav {
     gap: 12px;
@@ -1904,9 +1749,6 @@ main:focus {
   }
   .hero-intro > p {
     font-size: 18px;
-  }
-  .hero-foot > span:last-child {
-    display: none;
   }
   .layer-stage {
     height: 265px;
@@ -1920,15 +1762,6 @@ main:focus {
   .layer-object {
     inset: 25px 13% 25px 7%;
   }
-  .work-index {
-    gap: 8px;
-  }
-  .work-index a {
-    font-size: 11px;
-  }
-  .work-index a > span {
-    display: none;
-  }
   .case-intro h3 {
     font-size: 37px;
   }
@@ -1937,15 +1770,6 @@ main:focus {
   }
   .figure-step-controls button {
     gap: 6px;
-  }
-  .assistant-message h4 {
-    font-size: 15px;
-  }
-  .assistant-message p {
-    font-size: 10px;
-  }
-  .response-actions > div {
-    font-size: 9px;
   }
   .contact-intro h2 {
     font-size: 36px;
@@ -1974,7 +1798,6 @@ main:focus {
   .layer-object {
     transform: none !important;
   }
-  .assistant-window,
   .builder-window {
     transform: none !important;
   }
@@ -2023,62 +1846,12 @@ main:focus {
   }
 }
 
-.demo-workspace {
-  margin: 14px 0 0 36px;
-  border: 1px solid #b8c8de;
-  background: #f0f4fa;
-}
-.demo-workspace summary {
-  list-style: none;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  padding: 12px;
-  font-size: 11px;
-  color: #3156ab;
-  min-height: 44px;
-  align-items: center;
-}
-.demo-workspace summary::-webkit-details-marker {
-  display: none;
-}
-.demo-workspace > div {
-  border-top: 1px solid #ccd8e9;
-  padding: 13px;
-}
 .workspace-label {
   display: block;
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 0.08em;
   color: #5f7186;
   margin-bottom: 12px;
-}
-.demo-workspace label {
-  display: grid;
-  gap: 4px;
-  font-size: 10px;
-  margin-top: 10px;
-}
-.demo-workspace input,
-.demo-workspace select {
-  width: 100%;
-  background: white;
-  border: 1px solid #cbd6e3;
-  border-radius: 0;
-  padding: 9px;
-  font: 12px var(--reading);
-  color: #243e58;
-  min-height: 38px;
-}
-.demo-workspace p {
-  font-size: 10px;
-  margin-top: 12px;
-  color: #597080;
-}
-@media (max-width: 767px) {
-  .demo-workspace {
-    margin-left: 28px;
-  }
 }
 
 /* Narrative precedes the demonstration in the document and on narrow screens. */
@@ -2119,6 +1892,7 @@ main:focus {
   color: inherit;
 }
 .figure-step-controls button[aria-pressed="true"] {
+  font-family: var(--display);
   font-weight: 600;
 }
 .case-figure > figcaption > p {
@@ -2145,28 +1919,16 @@ main:focus {
   text-align: left;
   transition: background-color 0.2s ease;
 }
+.demo-save {
+  @apply flex items-center;
+  gap: 8px;
+}
+.demo-save .icon-check {
+  width: 15px;
+  height: 15px;
+}
 .demo-save:is(:hover, :focus-visible) {
   background-color: color-mix(in srgb, var(--blue) 85%, black);
-}
-.workspace-toggle {
-  position: relative;
-  width: 12px;
-  height: 12px;
-}
-.workspace-toggle:before,
-.workspace-toggle:after {
-  content: "";
-  height: 1px;
-  width: 12px;
-  position: absolute;
-  top: 6px;
-  background: currentColor;
-}
-.workspace-toggle:after {
-  transform: rotate(90deg);
-}
-.demo-workspace[open] .workspace-toggle:after {
-  transform: none;
 }
 @media (max-width: 767px) {
   .case-grid {
@@ -2193,30 +1955,6 @@ main:focus {
   }
 }
 
-.demo-workspace > div {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-.demo-workspace > div > .workspace-label,
-.demo-workspace > div > button,
-.demo-workspace > div > p {
-  grid-column: 1/-1;
-}
-.demo-workspace label {
-  margin: 0;
-}
-.demo-workspace .workspace-label {
-  margin: 0;
-}
-.demo-workspace .demo-save,
-.demo-workspace p {
-  margin-top: 0;
-}
-.assistant-window {
-  margin-top: 38px;
-  margin-bottom: 28px;
-}
 body {
   font-weight: 375;
 }
@@ -2229,7 +1967,7 @@ body {
   gap: 8px;
 }
 .builder-options legend {
-  font-size: 10px;
+  font-size: 12px;
   margin-bottom: 5px;
 }
 .builder-options label {
@@ -2274,7 +2012,7 @@ body {
   color: #79688f;
 }
 .timing-caption {
-  font-size: 10px;
+  font-size: 12px;
   margin: 0 8px 20px;
   opacity: 1;
 }
@@ -2284,10 +2022,10 @@ body {
 }
 
 .case-role {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.5;
   margin-top: 16px;
-  color: var(--muted);
+  color: var(--body);
 }
 .layer-stage[data-layer="2"] .people-plane {
   transform: translate(-16px, 15px) rotate(-8deg);
@@ -2297,29 +2035,14 @@ body {
 }
 @media (max-width: 767px) {
   .case-header {
-    font-size: 10px;
+    font-size: 11px;
   }
   .case-intro > .eyebrow,
   .section-label {
     font-size: 11px;
   }
   .hero-meta {
-    font-size: 10px;
-  }
-  .demo-workspace > div {
-    grid-template-columns: 1fr;
-  }
-  .demo-workspace input,
-  .demo-workspace select {
-    font-size: 16px;
-    min-height: 44px;
-  }
-  .demo-workspace label {
     font-size: 11px;
-  }
-  .demo-save {
-    font-size: 12px;
-    min-height: 44px;
   }
   .layer-stage[data-layer="2"] .people-plane {
     transform: translate(-10px, 6px) rotate(-7deg);
@@ -2349,7 +2072,7 @@ body {
   background: linear-gradient(130deg, #e8edf2, #f2f5f8);
 }
 .underlying-view > span:first-child {
-  font-size: 8px;
+  font-size: 9px;
   letter-spacing: 0.04em;
 }
 .context-heading {
@@ -2413,13 +2136,14 @@ body {
   display: block;
   margin-bottom: 12px;
 }
-.panel-conversation > h4 {
+.panel-conversation > .panel-title {
+  font-family: var(--display);
   font-size: 18px;
   line-height: 1.1;
   letter-spacing: -0.025em;
   margin-bottom: 10px;
 }
-.panel-conversation > p:not(.panel-user-message) {
+.panel-conversation > p:not(.panel-user-message, .panel-title) {
   font-size: 12px;
   line-height: 1.5;
   color: #536b82;
@@ -2445,7 +2169,7 @@ body {
   margin: 0 13px 15px;
   padding: 12px 8px;
   border: 1px solid #c8d5e3;
-  font-size: 9px;
+  font-size: 10px;
   color: #526c82;
 }
 .side-workspace {
@@ -2462,7 +2186,7 @@ body {
   padding-left: 16px;
   height: 45px;
   border-bottom: 1px solid #d3deea;
-  font-size: 11px;
+  font-size: 12px;
 }
 .workspace-heading > button {
   width: 40px;
@@ -2474,7 +2198,9 @@ body {
 .workspace-content {
   padding: 22px 17px;
 }
-.workspace-content > h4 {
+.workspace-content > .workspace-title {
+  font-family: var(--display);
+  color: #243e58;
   font-size: 27px;
   line-height: 1.05;
   letter-spacing: -0.035em;
@@ -2483,7 +2209,7 @@ body {
 .workspace-content > label {
   display: grid;
   gap: 5px;
-  font-size: 10px;
+  font-size: 12px;
   margin-top: 12px;
 }
 .workspace-content input,
@@ -2502,7 +2228,7 @@ body {
   margin-top: 20px;
 }
 .workspace-content > p {
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1.5;
   color: #586e83;
   margin-top: 13px;
@@ -2530,12 +2256,12 @@ body {
   .workspace-content {
     padding: 18px 12px;
   }
-  .workspace-content > h4 {
+  .workspace-content > .workspace-title {
     font-size: 24px;
   }
   .workspace-heading {
     padding-left: 10px;
-    font-size: 10px;
+    font-size: 11px;
   }
 }
 @media (max-width: 767px) {
@@ -2548,31 +2274,31 @@ body {
   }
   .right-assistant .window-bar {
     padding: 0 8px;
-    font-size: 9px;
+    font-size: 10px;
   }
   .panel-conversation {
     padding: 20px 10px;
   }
   .panel-user-message {
-    font-size: 10px;
+    font-size: 11px;
     padding: 9px;
     margin-bottom: 23px;
   }
-  .panel-conversation > h4 {
-    font-size: 15px;
+  .panel-conversation > .panel-title {
+    font-size: 16px;
   }
-  .panel-conversation > p:not(.panel-user-message) {
-    font-size: 10px;
+  .panel-conversation > p:not(.panel-user-message, .panel-title) {
+    font-size: 11px;
   }
   .launch-workspace {
     padding: 8px;
-    font-size: 10px;
+    font-size: 11px;
     flex-wrap: wrap;
     margin-top: 18px;
     min-height: 52px;
   }
   .panel-input {
-    font-size: 8px;
+    font-size: 9px;
     margin: 0 7px 10px;
     padding: 10px 5px;
   }
@@ -2580,7 +2306,7 @@ body {
     padding: 15px;
   }
   .underlying-view > span:first-child {
-    font-size: 7px;
+    font-size: 8px;
   }
   .context-heading {
     font-size: 20px;
@@ -2598,7 +2324,7 @@ body {
   .workspace-heading {
     height: 45px;
     padding-left: 10px;
-    font-size: 10px;
+    font-size: 11px;
     line-height: 1.2;
   }
   .workspace-heading > button {
@@ -2608,16 +2334,16 @@ body {
   .workspace-content {
     padding: 18px 10px;
   }
-  .workspace-content > h4 {
+  .workspace-content > .workspace-title {
     font-size: 22px;
     margin-top: 13px;
     margin-bottom: 20px;
   }
   .workspace-content > .workspace-label {
-    font-size: 7px;
+    font-size: 9px;
   }
   .workspace-content > label {
-    font-size: 9px;
+    font-size: 11px;
   }
   .workspace-content input,
   .workspace-content select {
@@ -2627,13 +2353,13 @@ body {
     letter-spacing: -0.02em;
   }
   .workspace-content .demo-save {
-    font-size: 10px;
+    font-size: 11px;
     padding: 8px;
-    min-height: 40px;
+    min-height: 44px;
     margin-top: 16px;
   }
   .workspace-content > p {
-    font-size: 9px;
+    font-size: 10px;
   }
   .context-lines {
     gap: 10px;
