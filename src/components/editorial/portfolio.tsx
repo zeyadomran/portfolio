@@ -86,12 +86,13 @@ export function EditorialPortfolio() {
             <h2 id="work-title">A clearer path. At every level.</h2>
             <p>
               My work spans AI assistant interfaces, reusable UI builders and
-              rendering performance.
+              rendering performance. Each chapter pairs the story with a figure
+              you can try.
             </p>
           </div>
           <ol className="work-index grid" aria-label="Case studies">
             {caseStudies.map(([id, number, title, note]) => (
-              <li key={id}>
+              <li key={id} data-case={id}>
                 <a className="flex items-center" href={`#${id}`}>
                   <span className="work-index-number">{number}</span>
                   <span className="work-index-text">
@@ -106,7 +107,7 @@ export function EditorialPortfolio() {
         </section>
 
         <article
-          className="case-section ed-wrap"
+          className="case-section case-assistant ed-wrap"
           id="assistant"
           data-chapter
           data-nav="work"
@@ -281,7 +282,7 @@ export function EditorialPortfolio() {
         </article>
 
         <article
-          className="case-section ed-wrap"
+          className="case-section case-optimization ed-wrap"
           id="optimization"
           data-chapter
           data-nav="work"
@@ -378,8 +379,8 @@ export function EditorialPortfolio() {
               </h2>
               <div className="about-copy">
                 <p className="about-statement">
-                  I enjoy making complex systems easier to use, and building
-                  shared tools that other developers can build on.
+                  I’m a curious developer who enjoys turning complex problems
+                  into intuitive interfaces.
                 </p>
                 <p>
                   It started with spending my free time exploring websites on
@@ -390,13 +391,48 @@ export function EditorialPortfolio() {
                   use?
                 </p>
                 <p>
-                  That question follows me into my work at IBM: collaborating
-                  with designers, building shared interfaces and thinking about
-                  how AI can fit into a real workflow. I enjoy the visual craft,
-                  but I care just as much about whether someone knows what to do
-                  next.
+                  That question follows me into my work at IBM, across supply
+                  chain, environmental risk, sustainability and order management
+                  products. I build reusable frontend components, led the UI
+                  development of an AI assistant from proof of concept to
+                  production, and experiment with AI agents that make everyday
+                  work easier. I like making useful things, understanding how
+                  people use them, and sharing what I learn along the way.
                 </p>
               </div>
+            </div>
+            <div className="beyond grid">
+              <span className="eyebrow">BEYOND THE CHAPTERS</span>
+              <ul>
+                <li>
+                  <span>01</span>
+                  <h3>Tools for developers</h3>
+                  <p>
+                    I develop AI coding workflows and shared agent guidance for
+                    implementation, code review and documentation. I also built
+                    a retrieval pipeline over the documentation for 35 shared
+                    components and exposed it through MCP to 15 teammates.
+                  </p>
+                </li>
+                <li>
+                  <span>02</span>
+                  <h3>Mentoring</h3>
+                  <p>
+                    I mentored five engineers through onboarding, pair
+                    programming and code reviews, until they could deliver
+                    features and review code on their own.
+                  </p>
+                </li>
+                <li>
+                  <span>03</span>
+                  <h3>Research first</h3>
+                  <p>
+                    In IBM’s Developer Jumpstart program, our team improved a VS
+                    Code extension after user research, adding parsing and
+                    language server support. It won the Judge’s Choice award.
+                  </p>
+                </li>
+              </ul>
             </div>
             <div className="experience grid">
               <div>
@@ -409,29 +445,64 @@ export function EditorialPortfolio() {
                     <h3>Software Developer</h3>
                     <p>IBM · Markham, Ontario</p>
                     <p>
-                      AI assistant interfaces, reusable frontend systems and AI
-                      developer tooling for supply chain, environmental risk,
-                      sustainability and order management products.
+                      Building enterprise web applications across IBM Supply
+                      Chain Intelligence Suite (SCIS), Environmental
+                      Intelligence Suite (EIS), Envizi, and Sterling Order
+                      Management System (OMS). My focus is on making complex
+                      workflows easier to use through reusable components,
+                      accessible interfaces, and frontend performance
+                      improvements.
+                    </p>
+                    <p>
+                      Led the frontend architecture and delivery of Envizi’s AI
+                      assistant from proof of concept to production, working
+                      with five partner teams and integrating React into
+                      Angular. Built streaming responses, conversation history,
+                      and guided workflows, alongside reusable tables and UI
+                      builders. I also develop AI coding workflows and shared
+                      agent guidance to support implementation, code review, and
+                      documentation.
                     </p>
                   </div>
                 </li>
                 <li>
-                  <span>MAY 2022 TO MAY 2024</span>
+                  <span>SEP 2023 TO MAY 2024</span>
+                  <div>
+                    <h3>Frontend Developer Intern SOC</h3>
+                    <p>IBM · SOC (student on call)</p>
+                    <p>
+                      Built interfaces for exploring climate risk, including six
+                      views covering locations, assets, financial risk
+                      reporting, and exports. Used configurable dashboards and
+                      widgets to support these workflows, improved GraphQL
+                      configuration parsing, and added Cypress regression tests
+                      for dashboard interactions.
+                    </p>
+                  </div>
+                </li>
+                <li>
+                  <span>MAY 2022 TO AUG 2023</span>
                   <div>
                     <h3>Frontend Developer Intern</h3>
                     <p>IBM</p>
                     <p>
-                      Dashboards and interfaces for climate risk and supply
-                      chain applications.
+                      Developed dashboard features for IBM Supply Chain
+                      Intelligence Suite (SCIS), focusing on responsive
+                      interfaces and reliable data interactions. Moved text
+                      processing off the main thread using Web Workers and RxJS,
+                      automated GraphQL configuration migration with Node.js,
+                      and built reusable filtering across eight or more table
+                      configurations with isolated state and URL-based
+                      persistence.
                     </p>
                   </div>
                 </li>
                 <li>
-                  <span>SEP 2019 TO JUN 2024</span>
+                  <span>SEP 2019 TO MAY 2024</span>
                   <div>
-                    <h3>Computer Science, BSc</h3>
+                    <h3>Bachelor of Science, Computer Science</h3>
                     <p>University of Calgary</p>
-                    <p>Human Computer Interaction concentration</p>
+                    <p>Concentration in Human-Computer Interaction</p>
                   </div>
                 </li>
               </ol>
@@ -446,8 +517,8 @@ export function EditorialPortfolio() {
             <div className="toolkit grid">
               <span className="eyebrow">SKILLS</span>
               <p>
-                React / Angular / TypeScript / NgRx /<br />
-                Next.js / AI assisted development
+                React / Angular / TypeScript / NgRx / Node.js /<br />
+                Accessibility / Agentic AI and developer tools
               </p>
             </div>
           </div>
@@ -569,7 +640,8 @@ export function EditorialPortfolio() {
           <div>
             <span>© {new Date().getFullYear()}</span>
             <a className="back-to-top" href="#home">
-              Back to top ↑
+              Back to top
+              <Arrow up />
             </a>
           </div>
         </div>
