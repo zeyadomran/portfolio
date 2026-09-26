@@ -25,6 +25,12 @@ function SectionLabel({
   );
 }
 
+const caseStudies = [
+  ["assistant", "1.1", "AI assistant", "Proof of concept to production"],
+  ["systems", "1.2", "Modularity", "A shared table across 50+ pages"],
+  ["optimization", "1.3", "Optimization", "Eight seconds to three at 50 rows"],
+];
+
 export function EditorialPortfolio() {
   return (
     <>
@@ -83,6 +89,20 @@ export function EditorialPortfolio() {
               rendering performance.
             </p>
           </div>
+          <ol className="work-index grid" aria-label="Case studies">
+            {caseStudies.map(([id, number, title, note]) => (
+              <li key={id}>
+                <a className="flex items-center" href={`#${id}`}>
+                  <span className="work-index-number">{number}</span>
+                  <span className="work-index-text">
+                    <span className="font-display">{title}</span>
+                    <span>{note}</span>
+                  </span>
+                  <Arrow down />
+                </a>
+              </li>
+            ))}
+          </ol>
         </section>
 
         <article
@@ -93,7 +113,7 @@ export function EditorialPortfolio() {
           aria-labelledby="assistant-title"
         >
           <div className="case-header flex justify-between">
-            <span>01 / AI ASSISTANT</span>
+            <span>1.1 / AI ASSISTANT</span>
             <span>IBM · SOFTWARE DEVELOPER</span>
           </div>
           <div className="case-grid grid items-start">
@@ -114,11 +134,12 @@ export function EditorialPortfolio() {
             <AssistantFigure />
             <div className="case-copy">
               <p>
-                I led the frontend delivery of an AI assistant from proof of
-                concept to production, working with five partner teams. I pushed
-                for workspaces that open to the left of a full height assistant
-                panel. Forms and embedded screens fill the remaining space, so
-                people can work while keeping the conversation in view.
+                I led the frontend architecture and delivery of an AI assistant
+                from proof of concept to production, working with five partner
+                teams. I also pushed for workspaces that open to the left of a
+                full height assistant panel. In internal builds, forms and
+                embedded reports fill the remaining space, so people can work
+                while keeping the conversation in view.
               </p>
               <div className="case-facts flex">
                 <div>
@@ -144,9 +165,25 @@ export function EditorialPortfolio() {
                   </p>
                   <h4>My contribution</h4>
                   <p>
-                    I integrated a React chat interface into an Angular
-                    application and worked across product, design, content,
-                    backend and design system teams.
+                    I led frontend architecture and release planning, defined
+                    API contracts with the backend team, and integrated a React
+                    chat interface into an Angular application. I worked across
+                    product, design, content, backend and design system teams.
+                  </p>
+                  <h4>A decision under a deadline</h4>
+                  <p>
+                    The component library could not support conversation history
+                    in time for the preview release. I built custom history
+                    search, rename and delete, and coordinated accessibility
+                    fixes with the design system team, so the release kept its
+                    planned date.
+                  </p>
+                  <h4>What shipped</h4>
+                  <p>
+                    The preview release covers documentation help, feedback and
+                    conversation history. The workspace tasks, including forms
+                    and embedded reports, were built internally and have not
+                    been released.
                   </p>
                   <h4>The principle</h4>
                   <p>
@@ -171,7 +208,7 @@ export function EditorialPortfolio() {
           aria-labelledby="systems-title"
         >
           <div className="case-header flex justify-between">
-            <span>02 / MODULARITY</span>
+            <span>1.2 / MODULARITY</span>
             <span>IBM · SHARED FRONTEND PLATFORMS</span>
           </div>
           <div className="case-grid grid items-start">
@@ -192,15 +229,22 @@ export function EditorialPortfolio() {
             <BuilderFigure />
             <div className="case-copy">
               <p>
-                I built shared frontend widgets and product pages, expanded
-                Angular UI builders, and redesigned how widgets coordinate and
-                share data. The goal was to deliver new pages and use cases
-                faster without rebuilding the same interfaces.
+                I built shared frontend widgets and product pages, and
+                redesigned how widgets coordinate and share data. I also led the
+                expansion of Angular UI builders, so charts, tables and filters
+                can be configured without writing JSON by hand. The goal was to
+                deliver new pages and use cases faster without rebuilding the
+                same interfaces.
               </p>
-              <div className="system-principles flex flex-wrap gap-0">
-                <span>Shared components</span>
-                <span>Coordinated data</span>
-                <span>Consistent interactions</span>
+              <div className="case-facts flex">
+                <div>
+                  <strong>50+</strong>
+                  <span>product pages use the shared table</span>
+                </div>
+                <div>
+                  <strong>3</strong>
+                  <span>shared packages across two teams</span>
+                </div>
               </div>
               <details className="story-detail">
                 <summary>
@@ -215,10 +259,18 @@ export function EditorialPortfolio() {
                   </p>
                   <h4>My contribution</h4>
                   <p>
-                    I expanded UI builder capabilities and introduced NgRx
-                    patterns for widget data dependencies and reuse. In separate
-                    table work, I built a TanStack Table replacement designed to
-                    let consumers migrate through a single configuration change.
+                    I expanded UI builder capabilities, added raw source viewing
+                    and editing, and introduced NgRx patterns for widget data
+                    dependencies and reuse. In separate table work, I
+                    architected a TanStack Table component used across 50+
+                    product pages. It kept existing configurations, so migrating
+                    a table meant changing only its widget type.
+                  </p>
+                  <p>
+                    I also published three TypeScript packages, used by three
+                    repositories and two teams, for shared components, messaging
+                    between the application shell and its pages, and loading
+                    states.
                   </p>
                   <h4>The principle</h4>
                   <p>
@@ -243,7 +295,7 @@ export function EditorialPortfolio() {
           aria-labelledby="optimization-title"
         >
           <div className="case-header flex justify-between">
-            <span>03 / OPTIMIZATION</span>
+            <span>1.3 / OPTIMIZATION</span>
             <span>IBM · INTERFACE PERFORMANCE</span>
           </div>
           <div className="case-grid grid items-start">
@@ -264,16 +316,19 @@ export function EditorialPortfolio() {
             <PerformanceFigure />
             <div className="case-copy">
               <p>
-                I optimized a table parsing path, reducing reported rendering
-                time from eight seconds to three.
+                I optimized a shared parsing path used across 100+ product
+                pages. In the reported 50 row table scenario, rendering time
+                fell from eight seconds to three.
               </p>
-              <div className="result-note flex items-baseline">
-                <span className="tiny-square" />
-                <p>
-                  Five seconds faster
-                  <br />
-                  <span>in the reported scenario.</span>
-                </p>
+              <div className="case-facts flex">
+                <div>
+                  <strong>62%</strong>
+                  <span>less rendering time at 50 rows</span>
+                </div>
+                <div>
+                  <strong>100+</strong>
+                  <span>product pages share the path</span>
+                </div>
               </div>
               <details className="story-detail">
                 <summary>
@@ -283,8 +338,9 @@ export function EditorialPortfolio() {
                 <div>
                   <h4>The challenge</h4>
                   <p>
-                    The field template rendering path relied on sequential
-                    promise work. The goal was to reduce rendering time.
+                    A shared field template parser, used by widgets and layouts
+                    across the product, relied on sequential promise work. At 50
+                    rows, a table took about eight seconds to render.
                   </p>
                   <h4>My contribution</h4>
                   <p>
@@ -360,8 +416,9 @@ export function EditorialPortfolio() {
                     <h3>Software Developer</h3>
                     <p>IBM · Markham, Ontario</p>
                     <p>
-                      AI assistant interfaces, reusable frontend systems and
-                      developer enablement.
+                      AI assistant interfaces, reusable frontend systems and AI
+                      developer tooling for supply chain, environmental risk,
+                      sustainability and order management products.
                     </p>
                   </div>
                 </li>
@@ -385,6 +442,13 @@ export function EditorialPortfolio() {
                   </div>
                 </li>
               </ol>
+            </div>
+            <div className="toolkit grid">
+              <span className="eyebrow">RECOGNITION</span>
+              <p>
+                IBM Growth Award, 2025 /<br />
+                Developer Jumpstart Judge’s Choice, team award
+              </p>
             </div>
             <div className="toolkit grid">
               <span className="eyebrow">SKILLS</span>
@@ -467,8 +531,8 @@ export function EditorialPortfolio() {
               <CopyEmail />
               <a
                 className="resume-download"
-                href="/Zeyad_Omran_Resume_SWE_AI.pdf"
-                download="Zeyad_Omran_Resume_SWE_AI.pdf"
+                href="/Zeyad_Omran_Resume.pdf"
+                download="Zeyad_Omran_Resume.pdf"
               >
                 Resume
                 <svg
@@ -511,7 +575,9 @@ export function EditorialPortfolio() {
           </p>
           <div>
             <span>© {new Date().getFullYear()}</span>
-            <a href="#home">Back to top ↑</a>
+            <a className="back-to-top" href="#home">
+              Back to top ↑
+            </a>
           </div>
         </div>
       </footer>

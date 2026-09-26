@@ -9,6 +9,11 @@
       "source": "/opengraph-image",
       "destination": "/opengraph-image.png",
       "permanent": true
+    },
+    {
+      "source": "/Zeyad_Omran_Resume_SWE_AI.pdf",
+      "destination": "/Zeyad_Omran_Resume.pdf",
+      "permanent": true
     }
   ]
 }
