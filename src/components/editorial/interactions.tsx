@@ -65,11 +65,49 @@ export function StoryMotion() {
   return <div className="reading-progress" aria-hidden="true" />;
 }
 
-export function Arrow({ diagonal = false }: { diagonal?: boolean }) {
+export function Arrow({
+  diagonal = false,
+  down = false,
+}: {
+  diagonal?: boolean;
+  down?: boolean;
+}) {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
-        d={diagonal ? "M5 19 19 5M5 5h14v14" : "M4 12h16m-7-7 7 7-7 7"}
+        d={
+          diagonal
+            ? "M5 19 19 5M5 5h14v14"
+            : down
+              ? "M12 4v16m-7-7 7 7 7-7"
+              : "M4 12h16m-7-7 7 7-7 7"
+        }
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+    </svg>
+  );
+}
+
+// Symbols the typefaces lack are drawn as SVG so every platform shows the same shape.
+function Check() {
+  return (
+    <svg
+      className="icon-check"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path d="m4.5 12.5 5 5 10-11" stroke="currentColor" strokeWidth="1.75" />
+    </svg>
+  );
+}
+
+function Replay() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M20 12a8 8 0 1 1-8-8c2.2 0 4.3.9 5.9 2.4L20 8.5M20 3.5v5h-5"
         stroke="currentColor"
         strokeWidth="1.5"
       />
@@ -261,7 +299,7 @@ export function AssistantFigure() {
     <figure className="case-figure assistant-figure">
       <div className="figure-topline">
         <span>CONVERSATION + WORKSPACE</span>
-        <span>01</span>
+        <span>FIG. 02</span>
       </div>
       <div className={`assistant-shell ${workspace ? "workspace-open" : ""}`}>
         <div className="product-context">
@@ -313,11 +351,11 @@ export function AssistantFigure() {
               </div>
               <div className="workspace-content">
                 <span className="workspace-label">ILLUSTRATIVE FORM</span>
-                <h4>
+                <p className="workspace-title">
                   Create an
                   <br />
                   overview
-                </h4>
+                </p>
                 <label>
                   Overview name
                   <input
@@ -344,7 +382,14 @@ export function AssistantFigure() {
                   </select>
                 </label>
                 <button className="demo-save" onClick={() => setSaved(true)}>
-                  {saved ? "Draft ready ✓" : "Prepare draft"}
+                  {saved ? (
+                    <>
+                      Draft ready
+                      <Check />
+                    </>
+                  ) : (
+                    "Prepare draft"
+                  )}
                 </button>
                 <p role="status">
                   {saved
@@ -375,7 +420,7 @@ export function AssistantFigure() {
                 />
               </svg>
             </span>
-            <h4>Stay in context.</h4>
+            <p className="panel-title">Stay in context.</p>
             <p>Open the task beside this conversation.</p>
             <button
               ref={launcher}
@@ -440,11 +485,11 @@ export function BuilderFigure() {
     <figure className="case-figure builder-figure">
       <div className="figure-topline">
         <span>SHARED FOUNDATION → MANY VIEWS</span>
-        <span>02</span>
+        <span>FIG. 03</span>
       </div>
       <div className="builder-window">
         <div className="builder-menu">
-          <span className="builder-mark">◧</span>
+          <span className="builder-mark" aria-hidden="true" />
           <i />
           <i />
           <i />
@@ -452,8 +497,8 @@ export function BuilderFigure() {
         </div>
         <div className="builder-page" id="builder-demo">
           <div className="builder-heading">
-            <h4>{view}</h4>
-            <span>↗</span>
+            <p>{view}</p>
+            <Arrow diagonal />
           </div>
           <div
             className={`builder-widgets view-${view.toLowerCase()}`}
@@ -485,7 +530,7 @@ export function BuilderFigure() {
                     <span>0{i + 1}</span>
                     <span>{label}</span>
                     <i />
-                    <span>↗</span>
+                    <Arrow diagonal />
                   </div>
                 ))}
               </div>
@@ -571,7 +616,7 @@ export function PerformanceFigure() {
     <figure className="case-figure performance-figure">
       <div className="figure-topline">
         <span>RENDERING TIME</span>
-        <span>03</span>
+        <span>FIG. 04</span>
       </div>
       <div className="time-comparison">
         <div>
@@ -580,7 +625,9 @@ export function PerformanceFigure() {
             8<span>s</span>
           </p>
         </div>
-        <span className="time-arrow">→</span>
+        <span className="time-arrow">
+          <Arrow />
+        </span>
         <div>
           <span className="time-label">AFTER</span>
           <p>
@@ -619,7 +666,9 @@ export function PerformanceFigure() {
             );
           }}
         >
-          <span aria-hidden="true">↻</span>
+          <span className="replay-icon" aria-hidden="true">
+            <Replay />
+          </span>
           {playing ? "Replay from start" : "Replay comparison"}
           <Arrow />
         </button>
@@ -651,7 +700,9 @@ export function CopyEmail() {
         }}
       >
         {copied ? "Copied" : "Copy email"}
-        <span aria-hidden="true">{copied ? "✓" : "+"}</span>
+        <span className="copy-mark" aria-hidden="true">
+          {copied ? <Check /> : "+"}
+        </span>
       </button>
       <span className="sr-only" role="status">
         {copied

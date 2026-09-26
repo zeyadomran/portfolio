@@ -8,7 +8,7 @@ My personal portfolio explores how I approach frontend engineering and interface
 
 ## Selected work
 
-Three chapters connect the interface someone uses with the systems behind it:
+A short case index opens the work, then three chapters connect the interface someone uses with the systems behind it:
 
 - **AI assistant interfaces:** Bringing conversation and action together. An interactive layout study lets you open a workspace beside an assistant panel, edit a sample form, and return to it without losing your changes during the session.
 - **Reusable interfaces and UI builders:** Building shared components that support different workflows. The component demo lets you switch layouts, choose widgets, and see the configuration behind the resulting view.
@@ -41,7 +41,9 @@ Content lives in `src/components/editorial/portfolio.tsx`, interactions in `src/
 
 Preserve the `#assistant`, `#systems`, and `#optimization` anchors and keep prerendered HTML consistent with hydration. The assistant panel stays on the right while its workspace opens on the left, retaining form values across toggles. The builder retains local configuration and its sticky desktop figure. The timing illustration uses a shared eight-second scale for the reported 50-row scenario; that parser optimization is separate from the shared-table migration.
 
-Keep public IBM claims within confirmed frontend scope, use generic names, and label illustrative content.
+Keep public IBM claims within confirmed frontend scope, use generic names, and label illustrative content. The assistant's preview release covers documentation help, feedback and conversation history; its workspace forms and embedded reports were built internally, and the copy must not imply they shipped. Keep the 50+ page table adoption and the 100+ page rendering reach as separate facts, and keep the 62% result tied to the 50-row scenario.
+
+Sections are numbered 01 to 04, case studies 1.1 to 1.3, and figures FIG. 01 to FIG. 04. Draw symbols the typefaces lack (such as check and replay marks) as inline SVG rather than Unicode glyphs. The downloadable resume is `public/Zeyad_Omran_Resume.pdf`; the older `/Zeyad_Omran_Resume_SWE_AI.pdf` path redirects to it.
 
 ### Validation
 
