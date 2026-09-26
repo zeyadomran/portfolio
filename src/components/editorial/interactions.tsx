@@ -68,9 +68,11 @@ export function StoryMotion() {
 export function Arrow({
   diagonal = false,
   down = false,
+  up = false,
 }: {
   diagonal?: boolean;
   down?: boolean;
+  up?: boolean;
 }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -80,7 +82,9 @@ export function Arrow({
             ? "M5 19 19 5M5 5h14v14"
             : down
               ? "M12 4v16m-7-7 7 7 7-7"
-              : "M4 12h16m-7-7 7 7-7 7"
+              : up
+                ? "M12 20V4m-7 7 7-7 7 7"
+                : "M4 12h16m-7-7 7 7-7 7"
         }
         stroke="currentColor"
         strokeWidth="1.5"
@@ -115,16 +119,28 @@ function Replay() {
   );
 }
 
+const chapterLabels: Record<string, string> = {
+  work: "01 Selected work",
+  assistant: "1.1 AI assistant",
+  systems: "1.2 Modularity",
+  optimization: "1.3 Optimization",
+  about: "02 About",
+  writing: "03 Writing",
+  links: "04 Contact",
+};
+
 export function Navigation() {
   const [active, setActive] = useState("");
+  const [chapter, setChapter] = useState("");
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries)
-          if (entry.isIntersecting)
-            setActive(
-              (entry.target as HTMLElement).dataset.nav || entry.target.id,
-            );
+          if (entry.isIntersecting) {
+            const target = entry.target as HTMLElement;
+            setActive(target.dataset.nav || target.id);
+            setChapter(target.id);
+          }
       },
       { rootMargin: "-15% 0px -65% 0px" },
     );
@@ -135,9 +151,15 @@ export function Navigation() {
   }, []);
   return (
     <header className="ed-header">
-      <a href="#home" className="ed-brand" aria-label="Zeyad Omran, home">
-        <BrandMark />
-      </a>
+      <div className="header-start">
+        <a href="#home" className="ed-brand" aria-label="Zeyad Omran, home">
+          <BrandMark />
+        </a>
+        {/* Wayfinding for sighted readers; the headings already announce each chapter. */}
+        <span className="header-context" aria-hidden="true" key={chapter}>
+          {chapterLabels[chapter] ?? ""}
+        </span>
+      </div>
       <nav aria-label="Main navigation">
         {[
           ["work", "Work"],
@@ -227,7 +249,7 @@ export function HeroFigure() {
           <div className="people-plane">
             <div className="plane-label">
               <span>01 / PEOPLE</span>
-              <span>●</span>
+              <span className="plane-dot" />
             </div>
             <p>
               A clear
@@ -239,7 +261,6 @@ export function HeroFigure() {
             </span>
           </div>
         </div>
-        <span className="stage-coordinate bottom">COMPLEXITY → CLARITY</span>
         <span className="stage-cross">+</span>
       </div>
       <figcaption>
@@ -269,18 +290,50 @@ export function HeroFigure() {
   );
 }
 
+const assistantSteps = [
+  "Name the overview",
+  "Choose a period",
+  "Prepare the draft",
+];
+
 export function AssistantFigure() {
   const [workspace, setWorkspace] = useState(false);
+  const shell = useRef<HTMLDivElement>(null);
   const launcher = useRef<HTMLButtonElement>(null);
   const workspaceRef = useRef<HTMLElement>(null);
   const workspaceOpener = useRef<HTMLButtonElement>(null);
-  const [overviewName, setOverviewName] = useState("Monthly overview");
-  const [period, setPeriod] = useState("This month");
+  const [overviewName, setOverviewName] = useState("");
+  const [period, setPeriod] = useState("");
   const [saved, setSaved] = useState(false);
+  const [attempted, setAttempted] = useState(false);
+  const done = [overviewName.trim() !== "", period !== "", saved];
+  const ready = done[0] && done[1];
 
   useEffect(() => {
     if (workspace) workspaceRef.current?.focus({ preventScroll: true });
   }, [workspace]);
+
+  // The reply arrives in sequence the first time the figure scrolls into view.
+  useEffect(() => {
+    const el = shell.current;
+    if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const box = el.getBoundingClientRect();
+    if (box.top < innerHeight && box.bottom > 0) return;
+    el.dataset.reveal = "waiting";
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        el.dataset.reveal = "play";
+        observer.disconnect();
+      },
+      { threshold: 0.35 },
+    );
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      delete el.dataset.reveal;
+    };
+  }, []);
 
   function openWorkspace(opener: HTMLButtonElement) {
     workspaceOpener.current = opener;
@@ -295,13 +348,17 @@ export function AssistantFigure() {
         preventScroll: true,
       });
   }
+
   return (
     <figure className="case-figure assistant-figure">
       <div className="figure-topline">
         <span>CONVERSATION + WORKSPACE</span>
         <span>FIG. 02</span>
       </div>
-      <div className={`assistant-shell ${workspace ? "workspace-open" : ""}`}>
+      <div
+        ref={shell}
+        className={`assistant-shell ${workspace ? "workspace-open" : ""}`}
+      >
         <div className="product-context">
           <div className="underlying-view" aria-hidden="true">
             <span>YOUR CURRENT SCREEN</span>
@@ -346,7 +403,13 @@ export function AssistantFigure() {
                   aria-label="Close workspace"
                   onClick={() => closeWorkspace()}
                 >
-                  ×
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path
+                      d="m6 6 12 12M18 6 6 18"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    />
+                  </svg>
                 </button>
               </div>
               <div className="workspace-content">
@@ -360,7 +423,9 @@ export function AssistantFigure() {
                   Overview name
                   <input
                     value={overviewName}
+                    placeholder="Monthly overview"
                     aria-label="Illustrative overview name"
+                    aria-invalid={attempted && !done[0]}
                     onChange={(e) => {
                       setOverviewName(e.target.value);
                       setSaved(false);
@@ -371,17 +436,27 @@ export function AssistantFigure() {
                   Reporting period
                   <select
                     aria-label="Illustrative reporting period"
+                    aria-invalid={attempted && !done[1]}
                     value={period}
                     onChange={(e) => {
                       setPeriod(e.target.value);
                       setSaved(false);
                     }}
                   >
+                    <option value="" disabled>
+                      Choose a period
+                    </option>
                     <option>This month</option>
                     <option>Last month</option>
                   </select>
                 </label>
-                <button className="demo-save" onClick={() => setSaved(true)}>
+                <button
+                  className="demo-save"
+                  onClick={() => {
+                    setAttempted(true);
+                    if (ready) setSaved(true);
+                  }}
+                >
                   {saved ? (
                     <>
                       Draft ready
@@ -394,7 +469,9 @@ export function AssistantFigure() {
                 <p role="status">
                   {saved
                     ? "Your draft is ready. Your conversation stays in view."
-                    : "Work here. Keep the conversation beside you."}
+                    : attempted && !ready
+                      ? "Add a name and a period to prepare the draft."
+                      : "The steps stay beside you as you work."}
                 </p>
               </div>
             </section>
@@ -406,7 +483,7 @@ export function AssistantFigure() {
               <i />
               Assistant
             </span>
-            <span>−</span>
+            <span className="window-minimize" aria-hidden="true" />
           </div>
           <div className="panel-conversation">
             <p className="panel-user-message">Can I create an overview here?</p>
@@ -420,8 +497,20 @@ export function AssistantFigure() {
                 />
               </svg>
             </span>
-            <p className="panel-title">Stay in context.</p>
-            <p>Open the task beside this conversation.</p>
+            <p className="panel-title">Yes. Open it beside this chat.</p>
+            <ol className="panel-steps" aria-label="Steps">
+              {assistantSteps.map((step, i) => (
+                <li key={step} data-done={done[i]}>
+                  <span className="step-mark" aria-hidden="true">
+                    {done[i] ? <Check /> : i + 1}
+                  </span>
+                  <span>
+                    {step}
+                    {done[i] && <span className="sr-only"> (done)</span>}
+                  </span>
+                </li>
+              ))}
+            </ol>
             <button
               ref={launcher}
               className="launch-workspace"
@@ -437,7 +526,7 @@ export function AssistantFigure() {
           </div>
           <div className="panel-input" aria-hidden="true">
             <span>Ask a question</span>
-            <span>↑</span>
+            <Arrow up />
           </div>
         </aside>
       </div>
@@ -466,21 +555,49 @@ export function AssistantFigure() {
   );
 }
 
+type WidgetKey = "chart" | "progress" | "table";
+
+const builderPresets: Record<string, Record<WidgetKey, boolean>> = {
+  Overview: { chart: true, progress: true, table: true },
+  Analysis: { chart: true, progress: false, table: true },
+  Detail: { chart: false, progress: false, table: true },
+};
+
+const widgetIcons: Record<WidgetKey, string> = {
+  chart: "M4 20V10m6 10V4m6 16v-7m4 7H3",
+  progress: "M12 3a9 9 0 1 1-9 9m9-9v9h9",
+  table: "M3 5h18v14H3zM3 10h18M3 15h18M9 5v14",
+};
+
 export function BuilderFigure() {
   const [view, setView] = useState("Overview");
-  const [widgets, setWidgets] = useState({
-    chart: true,
-    progress: true,
-    table: true,
-  });
+  const [widgets, setWidgets] = useState(builderPresets.Overview);
+  const [sharedTable, setSharedTable] = useState(false);
+  // The most recent change is highlighted in the configuration.
+  const [change, setChange] = useState({ line: "", count: 0 });
+  const mark = (line: string) =>
+    setChange((current) => ({ line, count: current.count + 1 }));
+
   const chooseView = (next: string) => {
     setView(next);
-    setWidgets({
-      chart: next !== "Detail",
-      progress: next === "Overview",
-      table: true,
-    });
+    setWidgets(builderPresets[next]);
+    mark("page");
   };
+  const enabled = (Object.keys(widgets) as WidgetKey[]).filter(
+    (key) => widgets[key],
+  );
+  const configuration = [
+    { key: "open", text: "{" },
+    { key: "page", text: `  "page": "${view.toLowerCase()}",` },
+    { key: "widgets", text: `  "widgets": [${enabled.length ? "" : "]"}` },
+    ...enabled.map((key, i) => ({
+      key,
+      text: `    { "type": "${key === "table" && sharedTable ? "shared-table" : key}" }${i < enabled.length - 1 ? "," : ""}`,
+    })),
+    ...(enabled.length ? [{ key: "end", text: "  ]" }] : []),
+    { key: "close", text: "}" },
+  ];
+
   return (
     <figure className="case-figure builder-figure">
       <div className="figure-topline">
@@ -488,12 +605,26 @@ export function BuilderFigure() {
         <span>FIG. 03</span>
       </div>
       <div className="builder-window">
-        <div className="builder-menu">
-          <span className="builder-mark" aria-hidden="true" />
-          <i />
-          <i />
-          <i />
-          <i />
+        <div
+          className="builder-tabs"
+          role="group"
+          aria-label="Explore reusable interface layouts"
+        >
+          {Object.keys(builderPresets).map((preset) => (
+            <button
+              key={preset}
+              aria-controls="builder-demo"
+              aria-pressed={view === preset}
+              onClick={() => chooseView(preset)}
+            >
+              {preset}
+            </button>
+          ))}
+          {view === "Custom" && (
+            <span className="builder-custom" aria-hidden="true">
+              Custom
+            </span>
+          )}
         </div>
         <div className="builder-page" id="builder-demo">
           <div className="builder-heading">
@@ -523,10 +654,33 @@ export function BuilderFigure() {
               </div>
             )}
             {widgets.table && (
-              <div className="widget table-widget">
-                <span>Details</span>
+              <div
+                className={`widget table-widget ${sharedTable ? "is-shared" : ""}`}
+              >
+                <div className="table-head">
+                  <span>Details</span>
+                  {sharedTable && (
+                    <span className="table-tools" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M4 5h16v14H4zM9.5 5v14M14.5 5v14"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                        />
+                      </svg>
+                      Columns
+                    </span>
+                  )}
+                </div>
                 {["Explore", "Compare", "Understand"].map((label, i) => (
-                  <div key={label}>
+                  <div className="table-row" key={label}>
+                    {sharedTable && (
+                      <span
+                        className="row-select"
+                        data-selected={i === 1}
+                        aria-hidden="true"
+                      />
+                    )}
                     <span>0{i + 1}</span>
                     <span>{label}</span>
                     <i />
@@ -535,7 +689,7 @@ export function BuilderFigure() {
                 ))}
               </div>
             )}
-            {!Object.values(widgets).some(Boolean) && (
+            {!enabled.length && (
               <p className="empty-builder">
                 Choose a component to build this view.
               </p>
@@ -544,74 +698,160 @@ export function BuilderFigure() {
         </div>
       </div>
       <figcaption>
-        <fieldset className="builder-options">
-          <legend>Choose components</legend>
-          {(
-            [
-              ["chart", "Chart"],
-              ["progress", "Progress"],
-              ["table", "Table"],
-            ] as const
-          ).map(([key, label]) => (
-            <label key={key}>
-              <input
-                type="checkbox"
-                checked={widgets[key]}
-                onChange={(e) => {
-                  setView("Custom");
-                  setWidgets({ ...widgets, [key]: e.target.checked });
-                }}
-              />
-              {label}
-            </label>
-          ))}
-        </fieldset>
-        <div
-          className="figure-step-controls"
-          role="group"
-          aria-label="Explore reusable interface layouts"
-        >
-          {["Overview", "Analysis", "Detail"].map((v) => (
-            <button
-              key={v}
-              aria-controls="builder-demo"
-              aria-pressed={view === v}
-              onClick={() => chooseView(v)}
-            >
-              {v}
-            </button>
-          ))}
+        <div className="builder-controls">
+          <fieldset className="builder-options">
+            <legend>Components</legend>
+            {(
+              [
+                ["chart", "Chart"],
+                ["progress", "Progress"],
+                ["table", "Table"],
+              ] as const
+            ).map(([key, label]) => (
+              <label key={key}>
+                <input
+                  type="checkbox"
+                  checked={widgets[key]}
+                  onChange={(e) => {
+                    setView("Custom");
+                    setWidgets({ ...widgets, [key]: e.target.checked });
+                    mark(e.target.checked ? key : "widgets");
+                  }}
+                />
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d={widgetIcons[key]}
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  />
+                </svg>
+                {label}
+              </label>
+            ))}
+          </fieldset>
+          <fieldset className="table-version" disabled={!widgets.table}>
+            <legend>Table widget</legend>
+            {(
+              [
+                [false, "Existing"],
+                [true, "Shared"],
+              ] as const
+            ).map(([shared, label]) => (
+              <label key={label}>
+                <input
+                  type="radio"
+                  name="builder-table-version"
+                  checked={sharedTable === shared}
+                  onChange={() => {
+                    setSharedTable(shared);
+                    mark("table");
+                  }}
+                />
+                {label}
+              </label>
+            ))}
+          </fieldset>
         </div>
-        <details className="configuration">
-          <summary>
-            See the configuration<span aria-hidden="true">+</span>
-          </summary>
-          <pre>
-            {JSON.stringify(
-              {
-                components: Object.entries(widgets)
-                  .filter(([, enabled]) => enabled)
-                  .map(([key]) => key),
-              },
-              null,
-              2,
-            )}
+        <div className="configuration">
+          <p className="configuration-label">
+            <span>Configuration</span>
+            <span>Updates as you build</span>
+          </p>
+          <pre aria-label="Configuration for this view">
+            <code>
+              {configuration.map((line) => (
+                <span
+                  key={
+                    line.key === change.line
+                      ? `${line.key}-${change.count}`
+                      : line.key
+                  }
+                  className={
+                    line.key === change.line ? "is-changed" : undefined
+                  }
+                >
+                  {line.text}
+                  {"\n"}
+                </span>
+              ))}
+            </code>
           </pre>
-        </details>
+        </div>
         <p>Illustrative component system · not a product screenshot</p>
       </figcaption>
     </figure>
   );
 }
 
+const timingScale = 8;
+const reportedAfter = 3;
+// Schematic only: the block sizes are illustrative, the totals are the reported result.
+const sequentialSteps: [number, number][] = [
+  [0, 1.6],
+  [1.6, 3.1],
+  [3.1, 4.5],
+  [4.5, 6.3],
+  [6.3, 8],
+];
+const parallelSteps: [number, number, boolean][] = [
+  [0, 2.4, false],
+  [0, 3, false],
+  [0, 0.6, true],
+  [0, 2.7, false],
+  [0, 0.4, true],
+];
+
+function StepBar({
+  from,
+  to,
+  time,
+  early = false,
+}: {
+  from: number;
+  to: number;
+  time: number;
+  early?: boolean;
+}) {
+  const fill = Math.max(0, Math.min(1, (time - from) / (to - from)));
+  return (
+    <span
+      className={early ? "step-bar is-early" : "step-bar"}
+      style={
+        {
+          "--from": from / timingScale,
+          "--to": to / timingScale,
+          "--fill": fill,
+        } as CSSProperties
+      }
+    />
+  );
+}
+
 export function PerformanceFigure() {
-  const [run, setRun] = useState(0);
+  const [time, setTime] = useState(timingScale);
   const [playing, setPlaying] = useState(false);
+  const [run, setRun] = useState(0);
+
   useEffect(() => {
     if (!playing) return;
-    const id = setTimeout(() => setPlaying(false), 8100);
-    return () => clearTimeout(id);
+    let frame = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const next = Math.min(timingScale, (now - start) / 1000);
+      setTime(next);
+      if (next < timingScale) frame = requestAnimationFrame(tick);
+      else setPlaying(false);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
   }, [playing, run]);
+
+  const progress = (total: number) =>
+    time >= total
+      ? `finished at ${total} seconds`
+      : `${Math.round((time / total) * 100)}% done`;
+  const status = `${time.toFixed(1)} seconds. After: ${progress(reportedAfter)}. Before: ${progress(timingScale)}.`;
+
   return (
     <figure className="case-figure performance-figure">
       <div className="figure-topline">
@@ -635,44 +875,101 @@ export function PerformanceFigure() {
           </p>
         </div>
       </div>
-      <p className="timing-caption">Elapsed time · shared scale of 8 seconds</p>
       <div
-        key={run}
-        className={`timing-tracks ${playing ? "is-playing" : ""}`}
-        aria-hidden="true"
+        className={playing ? "timing-tracks is-playing" : "timing-tracks"}
+        role="img"
+        aria-label="Schematic. Before, five steps run one after another and finish at 8 seconds. After, the same steps run together, two exit early, and all finish at 3 seconds."
+        style={{ "--time": time / timingScale } as CSSProperties}
       >
-        <div>
-          <span>Before</span>
-          <div>
-            <i style={{ "--duration": "8s" } as CSSProperties} />
-          </div>
-          <span>8s</span>
+        <div className="timing-axis" aria-hidden="true">
+          {[0, 2, 4, 6, 8].map((tick) => (
+            <span
+              key={tick}
+              style={{ "--at": tick / timingScale } as CSSProperties}
+            >
+              {tick}
+              {tick === 8 && " s"}
+            </span>
+          ))}
         </div>
-        <div>
-          <span>After</span>
-          <div>
-            <i style={{ "--duration": "3s" } as CSSProperties} />
+        <div className="timing-lane" data-done={time >= timingScale}>
+          <p>
+            <b>Before</b>
+            <span>One after another</span>
+          </p>
+          <div className="lane-steps">
+            {sequentialSteps.map(([from, to]) => (
+              <StepBar key={from} from={from} to={to} time={time} />
+            ))}
+            <span className="lane-end" style={{ "--at": 1 } as CSSProperties} />
           </div>
-          <span>3s</span>
         </div>
+        <div className="timing-lane" data-done={time >= reportedAfter}>
+          <p>
+            <b>After</b>
+            <span>In parallel, with early exits</span>
+          </p>
+          <div className="lane-steps">
+            {parallelSteps.map(([from, to, early], i) => (
+              <StepBar key={i} from={from} to={to} time={time} early={early} />
+            ))}
+            <span
+              className="lane-end"
+              style={{ "--at": reportedAfter / timingScale } as CSSProperties}
+            />
+          </div>
+        </div>
+        <span className="playhead" aria-hidden="true" />
       </div>
       <figcaption>
-        <button
-          className="replay-button"
-          onClick={() => {
-            setRun((r) => r + 1);
-            setPlaying(
-              !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-            );
-          }}
-        >
-          <span className="replay-icon" aria-hidden="true">
-            <Replay />
-          </span>
-          {playing ? "Replay from start" : "Replay comparison"}
-          <Arrow />
-        </button>
-        <p>Reported rendering time · illustrative replay</p>
+        <div className="timing-controls">
+          <button
+            className="replay-button"
+            onClick={() => {
+              if (
+                window.matchMedia("(prefers-reduced-motion: reduce)").matches
+              ) {
+                setPlaying(false);
+                setTime(timingScale);
+                return;
+              }
+              setTime(0);
+              setRun((r) => r + 1);
+              setPlaying(true);
+            }}
+          >
+            <span className="replay-icon" aria-hidden="true">
+              <Replay />
+            </span>
+            Replay comparison
+          </button>
+          <label className="timing-scrub">
+            <span>Elapsed</span>
+            <input
+              type="range"
+              min={0}
+              max={timingScale}
+              step={0.1}
+              value={time}
+              aria-valuetext={status}
+              onChange={(event) => {
+                setPlaying(false);
+                setTime(Number(event.target.value));
+              }}
+            />
+            <output aria-hidden="true">{time.toFixed(1)} s</output>
+          </label>
+        </div>
+        <p className="timing-legend" aria-hidden="true">
+          <span className="legend-step" />
+          Step
+          <span className="legend-early" />
+          Early exit
+        </p>
+        <p>
+          Schematic · plays in real time. Block sizes are illustrative; the 8
+          and 3 second totals are the reported 50 row result.
+        </p>
       </figcaption>
     </figure>
   );
@@ -701,7 +998,17 @@ export function CopyEmail() {
       >
         {copied ? "Copied" : "Copy email"}
         <span className="copy-mark" aria-hidden="true">
-          {copied ? <Check /> : "+"}
+          {copied ? (
+            <Check />
+          ) : (
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M8 8V4h12v12h-4M4 8h12v12H4z"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+            </svg>
+          )}
         </span>
       </button>
       <span className="sr-only" role="status">

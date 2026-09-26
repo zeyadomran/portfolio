@@ -4,7 +4,7 @@
 
 The portfolio presents selected frontend contributions, experience, education, design writing, and contact information. Its theme is "Complexity, made human."
 
-The interactive figures use illustrative content. The assistant is a layout study with a scripted conversation and local form state. The assistant's preview release covers documentation help, feedback, and conversation history; its workspace forms and embedded reports were built internally and have not been released. The component builder demonstrates local configuration. The eight-to-three-second rendering comparison illustrates a reported field-template/parser optimization, separate from the shared-table replacement; it is not a live benchmark.
+The interactive figures use illustrative content. The assistant is a layout study with a scripted conversation and local form state. The assistant's preview release covers documentation help, feedback, and conversation history; its workspace forms and embedded reports were built internally and have not been released. The component builder demonstrates local configuration, including a one-value switch to a shared table. The eight-to-three-second rendering schematic illustrates a reported field-template/parser optimization, separate from the shared-table replacement; its block sizes are illustrative and it is not a live benchmark.
 
 ## Portfolio
 
@@ -12,7 +12,7 @@ The interactive figures use illustrative content. The assistant is a layout stud
 - [AI assistant interfaces](https://zeyadomran.com/#assistant): Frontend architecture and delivery of an assistant from proof of concept to production with five partner teams, custom conversation-history components, and a workspace layout that keeps tasks beside the conversation.
 - [Reusable interfaces and UI builders](https://zeyadomran.com/#systems): Shared frontend widgets, UI builder expansion, coordinated data, a TanStack Table component used across 50+ product pages, and three shared TypeScript packages.
 - [Rendering performance](https://zeyadomran.com/#optimization): Parallel execution and early exit guards in a shared parsing path used across 100+ product pages, with a reported 50-row reduction from eight seconds to three.
-- [About and experience](https://zeyadomran.com/#about): Background in human computer interaction, IBM experience, recognition, education, and skills.
+- [About and experience](https://zeyadomran.com/#about): Background in human computer interaction, developer tooling, mentoring, IBM experience, recognition, education, and skills.
 - [Writing](https://zeyadomran.com/#writing): Introduction to Behind the Interface, a design blog about typography, layout, motion, and interaction.
 - [Contact](https://zeyadomran.com/#links): Email, resume download, and professional profiles.
 - [Resume](https://zeyadomran.com/Zeyad_Omran_Resume.pdf): Downloadable resume in PDF format.

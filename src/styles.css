@@ -241,6 +241,23 @@ main:focus {
   background: rgba(241, 243, 239, 0.94);
   backdrop-filter: blur(15px);
 }
+.header-start {
+  @apply flex min-w-0 items-center;
+  gap: 18px;
+}
+/* Names the chapter being read, so the reader never has to look for their place. */
+.header-context {
+  @apply whitespace-nowrap text-muted;
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding-left: 18px;
+  border-left: 1px solid var(--line);
+  animation: context-in 0.4s ease both;
+}
+.header-context:empty {
+  display: none;
+}
 .ed-brand {
   @apply flex min-h-[44px] min-w-[44px] items-center whitespace-nowrap;
   gap: 10px;
@@ -256,6 +273,7 @@ main:focus {
   gap: 30px;
   font-size: 15px;
 }
+
 .ed-header nav a {
   @apply flex min-h-[44px] items-center;
   gap: 7px;
@@ -321,6 +339,7 @@ main:focus {
 .editorial-link:hover svg {
   transform: translate(4px, 0);
 }
+
 .hero-figure {
   @apply min-w-0 self-center;
 }
@@ -396,8 +415,14 @@ main:focus {
   box-shadow: 0 20px 35px #193f2920;
 }
 .plane-label {
-  @apply flex justify-between;
-  font-size: 8px;
+  @apply flex items-center justify-between;
+  font-size: 10px;
+}
+.plane-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
 }
 .people-plane p {
   font-family: var(--display);
@@ -459,31 +484,10 @@ main:focus {
 .layer-stage[data-layer="2"] .people-plane {
   transform: translate(-24px, 45px) rotate(-12deg);
 }
-.layer-controls {
-  @apply flex;
-  gap: 8px;
-  border-top: 1px solid var(--line);
-  padding-top: 10px;
-}
-.layer-controls button {
-  @apply flex min-h-[44px] items-center;
-  gap: 8px;
-  padding: 8px 10px;
-  font-size: 12px;
-  opacity: 0.5;
-}
-.layer-controls button[aria-pressed="true"] {
-  opacity: 1;
-}
-.layer-controls button span {
-  font-size: 10px;
-}
-.layer-controls button[aria-pressed="true"] span {
-  color: var(--green);
-}
 .layer-caption {
   height: 36px;
-  font-size: 12px;
+  padding: 10px 12px 0;
+  font-size: 15px;
   letter-spacing: 0;
   color: var(--muted);
 }
@@ -518,12 +522,48 @@ main:focus {
   padding: 0;
   list-style: none;
 }
+.work-index li {
+  --accent: var(--ink);
+}
+.work-index li[data-case="assistant"] {
+  --accent: var(--blue);
+}
+.work-index li[data-case="systems"] {
+  --accent: var(--purple);
+}
+.work-index li[data-case="optimization"] {
+  --accent: var(--orange);
+}
 .work-index a {
+  position: relative;
   gap: 16px;
-  min-height: 72px;
-  padding: 16px 0;
+  min-height: 96px;
+  padding: 20px 14px 20px 0;
   border-top: 1px solid var(--ink);
   color: var(--ink);
+  transition:
+    background-color 0.25s ease,
+    padding 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* The chapter color grows along the rule, previewing the chapter it leads to. */
+.work-index a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0.12);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.work-index a:is(:hover, :focus-visible) {
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  padding-left: 14px;
+}
+.work-index a:is(:hover, :focus-visible)::before {
+  transform: scaleX(1);
 }
 .work-index-number {
   align-self: flex-start;
@@ -536,12 +576,12 @@ main:focus {
   min-width: 0;
 }
 .work-index-text > span:first-child {
-  font-size: 21px;
+  font-size: 26px;
   line-height: 1.15;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 .work-index-text > span:last-child {
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.4;
   color: var(--muted);
 }
@@ -560,11 +600,34 @@ main:focus {
   padding-bottom: 100px;
   scroll-margin-top: 90px;
 }
+/* Each chapter carries one accent: blue for assistance, purple for systems, orange for performance. */
+.case-assistant {
+  --accent: var(--blue);
+}
+.case-systems {
+  --accent: var(--purple);
+}
+.case-optimization {
+  --accent: var(--orange);
+}
 .case-header {
+  position: relative;
   border-top: 1px solid var(--line);
   padding-top: 20px;
   margin-bottom: 36px;
   font-size: 12px;
+}
+.case-header::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 64px;
+  height: 3px;
+  background: var(--accent, var(--ink));
+}
+.case-header > span:first-child {
+  color: var(--accent, var(--ink));
 }
 .case-grid {
   grid-template-columns: 1.3fr 1fr;
@@ -606,10 +669,11 @@ main:focus {
 }
 .case-facts strong {
   font-family: var(--display);
-  font-size: 42px;
-  line-height: 1.2;
+  font-size: 48px;
+  line-height: 1.15;
   font-weight: 400;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.045em;
+  color: var(--accent, var(--ink));
 }
 .case-facts span {
   font-size: 13px;
@@ -682,6 +746,13 @@ main:focus {
 .case-figure {
   @apply sticky top-[110px] min-w-0 text-ink;
   padding: 26px;
+  /* A quiet dot grid marks figures as working surfaces rather than pictures. */
+  background-image: radial-gradient(
+    color-mix(in srgb, currentColor 16%, transparent) 1px,
+    transparent 1.5px
+  );
+  background-size: 18px 18px;
+  background-position: 8px 8px;
 }
 .figure-topline {
   @apply flex justify-between;
@@ -695,7 +766,7 @@ main:focus {
   opacity: 0.68;
 }
 .assistant-figure {
-  background: #dce6f1;
+  background-color: #dce6f1;
   --figure-accent: var(--blue);
 }
 .window-bar {
@@ -720,52 +791,12 @@ main:focus {
   font-size: 28px;
   line-height: 1;
 }
-.figure-step-controls {
-  @apply flex;
-  border-top: 1px solid #183d2b35;
-}
-.figure-step-controls button {
-  @apply flex min-h-[48px] flex-1 items-center;
-  font-size: 12px;
-  gap: 10px;
-  padding: 16px 12px;
-  opacity: 0.5;
-  border-bottom: 1px solid transparent;
-}
-.figure-step-controls button[aria-pressed="true"] {
-  opacity: 1;
-  border-bottom-color: currentColor;
-}
-.figure-step-controls button > span:first-child {
-  font-size: 10px;
-}
-:is(
-  .layer-controls button,
-  .figure-step-controls button,
-  .replay-button,
-  .workspace-heading > button,
-  .configuration summary,
-  .builder-options label
-) {
-  transition: background-color 0.2s ease;
-}
-:is(
-  .layer-controls button,
-  .figure-step-controls button,
-  .replay-button,
-  .workspace-heading > button,
-  .configuration summary,
-  .builder-options label
-):is(:hover, :focus-visible),
-.builder-options label:has(input:focus-visible) {
-  background-color: color-mix(in srgb, currentColor 8%, transparent);
-}
 .builder-figure {
-  background: #e5e0f0;
+  background-color: #e5e0f0;
   color: #39304e;
 }
 .builder-window {
-  @apply flex;
+  @apply flex flex-col;
   background: #f9f8fb;
   border: 1px solid #cbc4da;
   box-shadow: 0 20px 35px #54407314;
@@ -773,31 +804,6 @@ main:focus {
   min-height: 338px;
   transform: translateY(var(--parallax-y, 0px));
   transition: transform 0.15s linear;
-}
-.builder-menu {
-  @apply flex flex-none flex-col items-center;
-  width: 43px;
-  border-right: 1px solid #e4deeb;
-  gap: 24px;
-  padding-top: 15px;
-}
-/* A half-filled square, drawn in CSS so it renders identically everywhere. */
-.builder-mark {
-  width: 16px;
-  height: 16px;
-  margin: 3px 0 15px;
-  border: 1.5px solid var(--purple);
-  background: linear-gradient(90deg, var(--purple) 50%, transparent 50%);
-}
-.builder-menu > i {
-  width: 10px;
-  height: 10px;
-  border: 1px solid #b7afc6;
-  border-radius: 2px;
-}
-.builder-menu > i:first-of-type {
-  background: #9381ba;
-  border-color: #9381ba;
 }
 .builder-page {
   @apply min-w-0 flex-1;
@@ -867,29 +873,64 @@ main:focus {
 .table-widget {
   grid-column: span 2;
 }
-.table-widget > div {
+.table-head {
+  @apply flex items-center justify-between;
+}
+.table-head > span:first-child {
+  font-size: 11px;
+  color: #70617e;
+}
+.table-tools {
+  @apply flex items-center;
+  gap: 5px;
+  padding: 3px 7px;
+  border: 1px solid #dfd9e6;
+  font-size: 11px;
+  color: #39304e;
+  animation: detail-in 0.35s ease both;
+}
+.table-tools svg {
+  width: 12px;
+  height: 12px;
+}
+.table-row {
   display: flex;
   gap: 10px;
   align-items: center;
   border-top: 1px solid #eeeaf3;
   margin-top: 8px;
   padding-top: 8px;
-  font-size: 10px;
+  font-size: 12px;
 }
-.table-widget > div > span:first-child {
+.table-row > span:first-of-type:not(.row-select),
+.table-row > .row-select + span {
   color: #776587;
-  font-size: 9px;
+  font-size: 11px;
 }
-.table-widget > div > i {
+.table-row > i {
   margin-left: auto;
   width: 30px;
   height: 4px;
   background: #d5cce2;
 }
-.table-widget > div > svg {
-  width: 9px;
-  height: 9px;
+.table-row > svg {
+  width: 10px;
+  height: 10px;
   color: var(--purple);
+}
+.row-select {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border: 1px solid #b7afc6;
+  animation: detail-in 0.35s ease both;
+}
+.row-select[data-selected="true"] {
+  background: var(--purple);
+  border-color: var(--purple);
+}
+.table-widget.is-shared .table-row:nth-of-type(3) {
+  background: #f3f0f8;
 }
 .view-analysis .chart-widget {
   grid-column: span 2;
@@ -911,18 +952,18 @@ main:focus {
 .view-detail .table-widget {
   min-height: 245px;
 }
-.view-detail .table-widget > div {
+.view-detail .table-row {
   padding: 24px 0 10px;
-  font-size: 12px;
+  font-size: 13px;
 }
 .performance-figure {
-  background: #ebdfd7;
+  background-color: #ebdfd7;
   color: #69321d;
 }
 .time-comparison {
   @apply grid items-center text-center;
   grid-template-columns: 1fr auto 1fr;
-  padding: 65px 0 45px;
+  padding: 40px 0 26px;
 }
 .time-label {
   font-size: 11px;
@@ -945,54 +986,182 @@ main:focus {
   width: 36px;
   height: 36px;
 }
+/* A schematic on one shared axis: the staircase is the wait, the stack is the fix. */
 .timing-tracks {
-  @apply grid;
-  padding: 0 8px 50px;
-  gap: 23px;
+  --label: 150px;
+  --lane-gap: 16px;
+  position: relative;
+  display: grid;
+  gap: 20px;
+  padding: 4px 0 10px;
 }
-.timing-tracks > div {
-  @apply grid items-center;
-  grid-template-columns: 45px 1fr 20px;
-  gap: 14px;
+.timing-axis {
+  position: relative;
+  height: 22px;
+  margin-left: calc(var(--label) + var(--lane-gap));
+  border-bottom: 1px solid #69321d40;
   font-size: 11px;
+  font-variant-numeric: tabular-nums;
 }
-.timing-tracks > div > div {
-  height: 7px;
-  background: #cfb4a54d;
-  overflow: hidden;
+.timing-axis span {
+  position: absolute;
+  white-space: nowrap;
+  top: 0;
+  left: calc(var(--at) * 100%);
+  transform: translateX(-50%);
 }
-.timing-tracks i {
+.timing-axis span:first-child {
+  transform: none;
+}
+.timing-axis span:last-child {
+  transform: translateX(-100%);
+}
+.timing-lane {
+  display: grid;
+  grid-template-columns: var(--label) minmax(0, 1fr);
+  gap: var(--lane-gap);
+  align-items: center;
+}
+.timing-lane > p {
+  font-size: 12px;
+  line-height: 1.35;
+  max-width: none;
+}
+.timing-lane b {
   display: block;
-  width: 100%;
-  height: 100%;
-  background: #c69680;
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.timing-lane > p > span {
+  color: color-mix(in srgb, currentColor 78%, transparent);
+}
+.lane-steps {
+  position: relative;
+  display: grid;
+  gap: 5px;
+  padding: 4px 0;
+}
+.step-bar {
+  position: relative;
+  display: block;
+  height: 8px;
+  margin-left: calc(var(--from) * 100%);
+  width: calc((var(--to) - var(--from)) * 100%);
+  background: #cfb4a566;
+}
+.step-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #b98672;
+  transform: scaleX(var(--fill));
   transform-origin: left;
 }
-.timing-tracks > div:last-child i {
-  width: 37.5%;
+.timing-lane + .timing-lane .step-bar::after {
   background: var(--orange);
 }
-.timing-tracks.is-playing i {
-  animation: timing var(--duration) linear both;
+.step-bar.is-early::after {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--orange) 0 3px,
+    #ebdfd7 3px 5px
+  );
 }
-.replay-button {
-  @apply flex min-h-[48px] w-full items-center text-left;
-  font-size: 13px;
-  padding: 16px 12px;
-  gap: 10px;
-  border-top: 1px solid #69321d40;
+.step-bar.is-early::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  right: -1px;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: var(--orange);
 }
-.replay-button > svg {
-  margin-left: auto;
-  width: 18px;
-  height: 18px;
+.lane-end {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: calc(var(--at) * 100%);
+  border-left: 1px dashed #69321d70;
+}
+.timing-lane[data-done="true"] .lane-end {
+  border-left: 2px solid #69321d;
+}
+.playhead {
+  position: absolute;
+  top: 26px;
+  bottom: 0;
+  left: calc(
+    var(--label) + var(--lane-gap) + (100% - var(--label) - var(--lane-gap)) *
+      var(--time)
+  );
+  width: 2px;
+  margin-left: -1px;
+  background: #69321d;
+  pointer-events: none;
+}
+.playhead::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #69321d;
+}
+.timing-controls {
+  @apply flex flex-wrap items-center;
+  gap: 10px 20px;
+  margin-top: 18px;
 }
 .replay-icon svg {
   width: 19px;
   height: 19px;
 }
-.replay-button:hover > svg {
-  transform: translateX(4px);
+.timing-scrub {
+  @apply flex min-w-0 flex-1 items-center;
+  gap: 12px;
+  font-size: 12px;
+  min-width: 200px;
+}
+.timing-scrub input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  accent-color: var(--orange);
+  cursor: pointer;
+}
+.timing-scrub input:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.timing-scrub output {
+  min-width: 4.5ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.case-figure > figcaption > .timing-legend {
+  @apply flex items-center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.legend-step,
+.legend-early {
+  width: 18px;
+  height: 8px;
+  background: var(--orange);
+}
+.legend-early {
+  margin-left: 12px;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--orange) 0 3px,
+    #ebdfd7 3px 5px
+  );
+  box-shadow: 2px 0 0 var(--orange);
 }
 
 .about-section {
@@ -1030,6 +1199,41 @@ main:focus {
   color: #c8d7c7;
   margin-bottom: 22px;
 }
+.beyond {
+  grid-template-columns: 1fr 2.1fr;
+  gap: 40px;
+  border-top: 1px solid #ffffff30;
+  padding: 30px 0 70px;
+}
+.beyond .eyebrow {
+  font-size: 11px;
+  color: #b6ccb7;
+  padding-top: 6px;
+}
+.beyond ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 36px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.beyond li > span {
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  color: #afc8aa;
+}
+.beyond h3 {
+  margin: 12px 0 10px;
+  font-size: 26px;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+.beyond li > p {
+  font-size: 15px;
+  line-height: 1.55;
+  color: #c8d7c7;
+}
 .experience {
   grid-template-columns: 1fr 2.1fr;
   gap: 40px;
@@ -1066,7 +1270,7 @@ main:focus {
   color: #bdcfbc;
   margin-top: 3px;
 }
-.experience li p:last-child {
+.experience li p + p {
   margin-top: 10px;
   font-size: 15px;
 }
@@ -1195,11 +1399,6 @@ main:focus {
   @apply flex flex-wrap items-center;
   gap: 12px 24px;
 }
-.copy-email button {
-  @apply flex min-h-[44px] items-center p-0;
-  gap: 25px;
-  font-size: 13px;
-}
 .copy-mark .icon-check {
   width: 14px;
   height: 14px;
@@ -1216,16 +1415,6 @@ main:focus {
 .contact-bottom a svg {
   width: 14px;
   height: 14px;
-}
-.contact-bottom .resume-download {
-  border: 1px solid var(--line);
-  padding: 0 14px;
-  gap: 10px;
-}
-.resume-download:hover {
-  color: var(--paper);
-  background: var(--ink);
-  border-color: var(--ink);
 }
 .ed-footer {
   @apply w-full flex-none;
@@ -1246,14 +1435,51 @@ main:focus {
 }
 .back-to-top {
   @apply inline-flex min-h-[44px] items-center;
+  gap: 8px;
+}
+.back-to-top svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.25s;
+}
+.back-to-top:hover svg {
+  transform: translateY(-3px);
 }
 
-@keyframes timing {
+@keyframes context-in {
   from {
-    transform: scaleX(0);
+    opacity: 0;
   }
   to {
-    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+@keyframes stream-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes step-done {
+  from {
+    transform: scale(0.6);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes line-changed {
+  from {
+    background: color-mix(in srgb, var(--purple) 22%, transparent);
+    box-shadow: inset 3px 0 0 var(--purple);
+  }
+  to {
+    background: transparent;
+    box-shadow: inset 3px 0 0 transparent;
   }
 }
 @keyframes detail-in {
@@ -1286,6 +1512,16 @@ main:focus {
 @media (max-width: 1100px) {
   :root {
     --gutter: 32px;
+  }
+  .header-context {
+    display: none;
+  }
+  .ed-header nav {
+    gap: 22px;
+  }
+  .beyond ul {
+    grid-template-columns: 1fr;
+    gap: 26px;
   }
   .header-note {
     display: none;
@@ -1321,12 +1557,6 @@ main:focus {
   }
   .layer-object {
     inset: 30px 4%;
-  }
-  .layer-controls {
-    gap: 8px;
-  }
-  .layer-controls button {
-    font-size: 11px;
   }
   .case-grid {
     gap: 40px;
@@ -1388,6 +1618,19 @@ main:focus {
   .nav-dot {
     display: none;
   }
+  .beyond {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding-bottom: 45px;
+  }
+  .beyond h3 {
+    font-size: 24px;
+    margin-top: 12px;
+  }
+  .builder-controls {
+    display: grid;
+  }
+
   .ed-hero {
     padding-top: 22px;
   }
@@ -1479,17 +1722,10 @@ main:focus {
   .stage-cross {
     right: 0;
   }
-  .layer-controls {
-    justify-content: space-between;
-    padding-top: 5px;
-    gap: 4px;
-  }
-  .layer-controls button {
-    font-size: 12px;
-  }
   .layer-caption {
-    font-size: 11px;
+    font-size: 13px;
     height: 30px;
+    padding: 8px 6px 0;
   }
   .work-intro {
     padding-top: 65px;
@@ -1522,11 +1758,11 @@ main:focus {
     border-bottom: 1px solid var(--ink);
   }
   .work-index a {
-    min-height: 64px;
-    padding: 13px 0;
+    min-height: 76px;
+    padding: 16px 10px 16px 0;
   }
   .work-index-text > span:first-child {
-    font-size: 19px;
+    font-size: 22px;
   }
   .case-section {
     padding-top: 24px;
@@ -1589,10 +1825,6 @@ main:focus {
   .figure-topline {
     font-size: 10px;
   }
-  .figure-step-controls button {
-    font-size: 11px;
-    padding: 14px 8px;
-  }
   .builder-window {
     margin: 30px 0 25px;
     min-height: 310px;
@@ -1611,8 +1843,15 @@ main:focus {
     font-size: 27px;
   }
   .timing-tracks {
-    padding-bottom: 30px;
-    gap: 20px;
+    --label: 86px;
+    --lane-gap: 12px;
+    gap: 18px;
+  }
+  .timing-lane b {
+    font-size: 15px;
+  }
+  .timing-lane > p {
+    font-size: 11px;
   }
   .about-section {
     padding: 45px 0;
@@ -1651,9 +1890,8 @@ main:focus {
   .experience h3 {
     font-size: 25px;
   }
-  .experience li p:last-child {
+  .experience li p + p {
     font-size: 14px;
-    max-width: 36ch;
   }
   .toolkit {
     grid-template-columns: 1fr;
@@ -1711,10 +1949,6 @@ main:focus {
     font-size: 12px;
     gap: 5px;
   }
-  .copy-email button {
-    font-size: 12px;
-    gap: 10px;
-  }
   .ed-footer {
     padding-top: 22px;
     padding-bottom: 20px;
@@ -1768,9 +2002,6 @@ main:focus {
   .case-figure {
     padding: 16px;
   }
-  .figure-step-controls button {
-    gap: 6px;
-  }
   .contact-intro h2 {
     font-size: 36px;
   }
@@ -1811,9 +2042,10 @@ main:focus {
   .layer-controls,
   .figure-step-controls,
   .replay-button,
+  .timing-scrub,
   .copy-email,
   .reading-progress {
-    display: none;
+    display: none !important;
   }
   body {
     background: white;
@@ -1880,20 +2112,23 @@ main:focus {
   position: relative;
   top: 0;
 }
-.layer-controls button,
-.figure-step-controls button {
-  opacity: 1;
-  color: var(--muted);
+/* The middle chapter mirrors the layout so three chapters read as a sequence, not a template. */
+@media (min-width: 768px) {
+  .case-systems .case-grid {
+    grid-template-columns: 1fr 1.3fr;
+  }
+  .case-systems .case-intro,
+  .case-systems .case-copy {
+    grid-column: 1;
+  }
+  .case-systems .case-grid > .case-figure {
+    grid-column: 2;
+  }
 }
-.layer-controls button[aria-pressed="true"] {
-  color: var(--ink);
-}
-.figure-step-controls button {
-  color: inherit;
-}
-.figure-step-controls button[aria-pressed="true"] {
-  font-family: var(--display);
-  font-weight: 600;
+@media (min-width: 768px) and (max-width: 1100px) {
+  .case-systems .case-grid {
+    grid-template-columns: 1fr 1.13fr;
+  }
 }
 .case-figure > figcaption > p {
   opacity: 1;
@@ -1907,28 +2142,6 @@ main:focus {
 }
 .hero-figure .layer-caption {
   color: #516151;
-}
-.demo-save {
-  margin-top: 14px;
-  background: var(--blue);
-  color: white;
-  font-size: 11px;
-  min-height: 38px;
-  padding: 9px 13px;
-  width: 100%;
-  text-align: left;
-  transition: background-color 0.2s ease;
-}
-.demo-save {
-  @apply flex items-center;
-  gap: 8px;
-}
-.demo-save .icon-check {
-  width: 15px;
-  height: 15px;
-}
-.demo-save:is(:hover, :focus-visible) {
-  background-color: color-mix(in srgb, var(--blue) 85%, black);
 }
 @media (max-width: 767px) {
   .case-grid {
@@ -1959,51 +2172,40 @@ body {
   font-weight: 375;
 }
 
-.builder-options {
-  @apply flex flex-wrap;
-  border: 0;
-  padding: 0;
-  margin: 0 0 14px;
-  gap: 8px;
-}
-.builder-options legend {
-  font-size: 12px;
-  margin-bottom: 5px;
-}
-.builder-options label {
-  @apply flex min-h-[44px] cursor-pointer items-center;
-  font-size: 12px;
-  padding: 8px;
-  gap: 6px;
-}
-.builder-options input {
-  width: 15px;
-  height: 15px;
-  accent-color: var(--purple);
+.builder-controls {
+  @apply flex flex-wrap items-end justify-between;
+  gap: 14px 24px;
 }
 .configuration {
-  margin-top: 12px;
-  border-top: 1px solid #39304e40;
+  margin-top: 18px;
+  border: 1px solid #39304e30;
+  background: #f9f8fb;
 }
-.configuration summary {
-  @apply flex min-h-[44px] cursor-pointer list-none items-center justify-between;
+.configuration-label {
+  @apply flex justify-between;
+  max-width: none;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #39304e20;
   font-size: 12px;
-  padding: 12px;
 }
-.configuration summary::-webkit-details-marker {
-  display: none;
-}
-.configuration[open] summary > span {
-  transform: rotate(45deg);
+.configuration-label > span:last-child {
+  color: #70617e;
 }
 .configuration pre {
-  font-family: ui-monospace, monospace;
-  font-size: 11px;
-  line-height: 1.6;
-  background: #f9f8fb;
-  padding: 15px;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.65;
+  padding: 12px 0;
   white-space: pre-wrap;
-  margin: 0 0 14px;
+  margin: 0;
+}
+.configuration code > span {
+  display: block;
+  padding: 0 14px;
+}
+.configuration code > .is-changed {
+  animation: line-changed 1.6s ease both;
 }
 .empty-builder {
   font-size: 15px;
@@ -2011,11 +2213,7 @@ body {
   grid-column: 1/-1;
   color: #79688f;
 }
-.timing-caption {
-  font-size: 12px;
-  margin: 0 8px 20px;
-  opacity: 1;
-}
+
 .case-intro,
 .case-figure {
   animation: detail-in 0.5s ease both;
@@ -2143,26 +2341,93 @@ body {
   letter-spacing: -0.025em;
   margin-bottom: 10px;
 }
-.panel-conversation > p:not(.panel-user-message, .panel-title) {
+
+.window-minimize {
+  width: 10px;
+  height: 1px;
+  background: currentColor;
+}
+/* The reply keeps the steps in view and marks each one as the workspace changes. */
+.panel-steps {
+  display: grid;
+  gap: 2px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+.panel-steps li {
+  @apply flex items-center;
+  gap: 9px;
+  padding: 6px 0;
   font-size: 12px;
-  line-height: 1.5;
-  color: #536b82;
-}
-.launch-workspace {
-  @apply flex w-full items-center justify-between text-left;
-  gap: 8px;
-  font-size: 11px;
   line-height: 1.3;
-  min-height: 44px;
-  margin-top: 22px;
-  padding: 10px;
-  border: 1px solid #b9cae0;
-  color: #294fa3;
-  background: #edf3fa;
-  transition: background-color 0.2s ease;
+  color: #536b82;
+  transition: color 0.25s ease;
 }
-.launch-workspace:is(:hover, :focus-visible) {
-  background: #dfe9f7;
+.step-mark {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #b9cae0;
+  border-radius: 50%;
+  font-size: 10px;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+.step-mark .icon-check {
+  width: 12px;
+  height: 12px;
+}
+.panel-steps li[data-done="true"] {
+  color: #243e58;
+}
+.panel-steps li[data-done="true"] > span:last-child {
+  text-decoration: line-through;
+  text-decoration-color: #9fb3c8;
+}
+.panel-steps li[data-done="true"] .step-mark {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: white;
+  animation: step-done 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.panel-input svg {
+  width: 14px;
+  height: 14px;
+}
+.workspace-heading > button svg {
+  width: 20px;
+  height: 20px;
+  margin: auto;
+}
+.workspace-content :is(input, select)[aria-invalid="true"] {
+  border-color: var(--orange);
+  box-shadow: inset 3px 0 0 var(--orange);
+}
+.workspace-content input::placeholder {
+  color: #8397aa;
+}
+.assistant-shell[data-reveal="waiting"] .panel-conversation > * {
+  opacity: 0;
+}
+.assistant-shell[data-reveal="play"] .panel-conversation > * {
+  animation: stream-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.assistant-shell[data-reveal="play"] .panel-conversation > :nth-child(2) {
+  animation-delay: 0.45s;
+}
+.assistant-shell[data-reveal="play"] .panel-conversation > :nth-child(3) {
+  animation-delay: 0.6s;
+}
+.assistant-shell[data-reveal="play"] .panel-conversation > :nth-child(4) {
+  animation-delay: 0.85s;
+}
+.assistant-shell[data-reveal="play"] .panel-conversation > :nth-child(5) {
+  animation-delay: 1.15s;
 }
 .panel-input {
   @apply flex justify-between;
@@ -2287,15 +2552,17 @@ body {
   .panel-conversation > .panel-title {
     font-size: 16px;
   }
-  .panel-conversation > p:not(.panel-user-message, .panel-title) {
+  .panel-steps li {
     font-size: 11px;
+    gap: 6px;
+  }
+  .step-mark {
+    width: 18px;
+    height: 18px;
   }
   .launch-workspace {
-    padding: 8px;
-    font-size: 11px;
-    flex-wrap: wrap;
+    padding: 8px 10px;
     margin-top: 18px;
-    min-height: 52px;
   }
   .panel-input {
     font-size: 9px;
@@ -2353,9 +2620,7 @@ body {
     letter-spacing: -0.02em;
   }
   .workspace-content .demo-save {
-    font-size: 11px;
-    padding: 8px;
-    min-height: 44px;
+    padding: 0 10px;
     margin-top: 16px;
   }
   .workspace-content > p {
@@ -2481,4 +2746,184 @@ body {
     text-underline-offset: 6px;
     text-decoration-thickness: 1px;
   }
+}
+
+/* Shared controls. Three kinds, drawn the same way everywhere:
+   tabs choose a view, buttons perform an action, chips turn a part on or off. */
+.layer-controls,
+.figure-step-controls,
+.builder-tabs,
+.table-version {
+  display: flex;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+}
+.builder-tabs {
+  padding: 0 8px;
+  overflow-x: auto;
+}
+.layer-controls button,
+.figure-step-controls button,
+.builder-tabs button,
+.builder-custom,
+.table-version label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-bottom: -1px;
+  padding: 0 14px;
+  border-bottom: 2px solid transparent;
+  font-size: 13px;
+  line-height: 1.2;
+  letter-spacing: 0;
+  white-space: nowrap;
+  color: color-mix(in srgb, currentColor 70%, transparent);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+.layer-controls button > span:first-child,
+.figure-step-controls button > span:first-child {
+  font-size: 11px;
+}
+.layer-controls button[aria-pressed="true"],
+.figure-step-controls button[aria-pressed="true"],
+.builder-tabs button[aria-pressed="true"],
+.builder-custom,
+.table-version label:has(input:checked) {
+  color: inherit;
+  border-bottom-color: currentColor;
+}
+.builder-custom {
+  margin-left: auto;
+  cursor: default;
+}
+.replay-button,
+.copy-email button,
+.contact-bottom .resume-download,
+.builder-options label,
+.launch-workspace,
+.demo-save {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  background: transparent;
+  font-size: 13px;
+  line-height: 1.25;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+:is(
+  .layer-controls button,
+  .figure-step-controls button,
+  .builder-tabs button,
+  .table-version label,
+  .replay-button,
+  .copy-email button,
+  .contact-bottom .resume-download,
+  .builder-options label,
+  .launch-workspace,
+  .workspace-heading > button
+):is(:hover, :focus-visible, :has(input:focus-visible)) {
+  background-color: color-mix(in srgb, currentColor 8%, transparent);
+}
+:is(.builder-options, .table-version) label:has(input:focus-visible) {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.replay-button svg,
+.copy-email button svg,
+.contact-bottom .resume-download svg,
+.builder-options label svg {
+  width: 16px;
+  height: 16px;
+}
+/* The one primary action in a view is filled; a chip that is on is filled the same way. */
+.demo-save,
+.builder-options label:has(input:checked) {
+  background: var(--control-fill, var(--ink));
+  border-color: var(--control-fill, var(--ink));
+  color: white;
+}
+.demo-save:is(:hover, :focus-visible),
+.builder-options label:has(input:checked):hover {
+  background: color-mix(in srgb, var(--control-fill, var(--ink)) 86%, black);
+}
+.assistant-figure {
+  --control-fill: var(--blue);
+}
+.builder-figure {
+  --control-fill: #39304e;
+}
+.demo-save {
+  width: 100%;
+}
+.demo-save .icon-check {
+  width: 15px;
+  height: 15px;
+}
+.launch-workspace {
+  width: 100%;
+  margin-top: 22px;
+  padding: 0 12px;
+}
+.launch-workspace[aria-expanded="true"] {
+  border-color: currentColor;
+}
+.builder-controls fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.builder-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.builder-controls legend {
+  margin-bottom: 8px;
+  padding: 0;
+  font-size: 12px;
+}
+.builder-options input,
+.table-version input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.table-version:disabled {
+  opacity: 0.45;
+}
+.table-version:disabled label {
+  cursor: not-allowed;
+}
+.copy-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+}
+.copy-mark .icon-check {
+  width: 15px;
+  height: 15px;
 }

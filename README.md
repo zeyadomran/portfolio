@@ -10,15 +10,15 @@ My personal portfolio explores how I approach frontend engineering and interface
 
 A short case index opens the work, then three chapters connect the interface someone uses with the systems behind it:
 
-- **AI assistant interfaces:** Bringing conversation and action together. An interactive layout study lets you open a workspace beside an assistant panel, edit a sample form, and return to it without losing your changes during the session.
-- **Reusable interfaces and UI builders:** Building shared components that support different workflows. The component demo lets you switch layouts, choose widgets, and see the configuration behind the resulting view.
-- **Rendering performance:** Reducing waiting through parallel execution and early exits. A replay illustrates the reported change from eight seconds to three in a table parsing scenario.
+- **AI assistant interfaces:** Bringing conversation and action together. An interactive layout study lets you open a workspace beside an assistant panel and fill in a sample form. The assistant's steps check themselves off as you work, and your changes survive closing and reopening the workspace during the session.
+- **Reusable interfaces and UI builders:** Building shared components that support different workflows. The component demo lets you switch pages, toggle widgets, and move the table to its shared version, while a live configuration highlights exactly what changed.
+- **Rendering performance:** Reducing waiting through parallel execution and early exits. A schematic on one shared eight second axis compares steps running one after another with the same steps running together; you can replay it in real time or scrub through it.
 
 Each chapter includes a “Behind the work” section covering the challenge, my contribution, and the principle behind the approach. The interactive figures are illustrations with sample content; the timing replay illustrates a reported result rather than measuring the visitor's browser.
 
 ## Beyond the work
 
-The About section connects my interest in visual design with my HCI studies and frontend work, followed by experience, education, and tools. Writing introduces [Behind the Interface](https://design.zeyadomran.com/), my design blog about typography, layout, motion, and interaction.
+The About section connects my interest in visual design with my HCI studies and frontend work, followed by developer tooling, mentoring and research beyond the chapters, then experience, education, and tools. Writing introduces [Behind the Interface](https://design.zeyadomran.com/), my design blog about typography, layout, motion, and interaction.
 
 The page ends with a place to start a conversation: email, a downloadable resume, and links to LinkedIn and GitHub.
 
@@ -26,7 +26,7 @@ The page ends with a place to start a conversation: email, a downloadable resume
 
 The site uses an editorial layout with a pale paper background, dark green text, large PP Neue Montreal headings, fine rules, and numbered chapters. Interactive diagrams sit alongside the writing to make the ideas easier to explore. The opening illustration moves between three layers: People, Interface, and System.
 
-Native scrolling, subtle motion, and a reading progress indicator connect the sections. Layouts adapt to smaller screens, controls support keyboard use, and motion respects reduced-motion preferences. Core content, navigation, contact links, and expandable case-study details remain available without JavaScript.
+Native scrolling, subtle motion, a reading progress indicator, and a header label naming the current chapter connect the sections. Controls share one visual language: tabs choose a view, outlined buttons perform an action, and chips fill when a component is on. Layouts adapt to smaller screens, controls support keyboard use, and motion respects reduced-motion preferences. Core content, navigation, contact links, and expandable case-study details remain available without JavaScript.
 
 ## Built with
 
@@ -39,7 +39,9 @@ React, TypeScript, Vite, Tailwind CSS, and authored CSS, with locally hosted typ
 
 Content lives in `src/components/editorial/portfolio.tsx`, interactions in `src/components/editorial/interactions.tsx`, and visual styling in `src/styles.css`. Keep the authored reset; Tailwind Preflight is intentionally omitted. Font provenance is documented in [src/fonts/README.md](src/fonts/README.md).
 
-Preserve the `#assistant`, `#systems`, and `#optimization` anchors and keep prerendered HTML consistent with hydration. The assistant panel stays on the right while its workspace opens on the left, retaining form values across toggles. The builder retains local configuration and its sticky desktop figure. The timing illustration uses a shared eight-second scale for the reported 50-row scenario; that parser optimization is separate from the shared-table migration.
+Preserve the `#assistant`, `#systems`, and `#optimization` anchors and keep prerendered HTML consistent with hydration. The assistant panel stays on the right while its workspace opens on the left, retaining form values across toggles. The assistant's step list reflects the workspace form's state. The builder retains local configuration, its live configuration view, and its sticky desktop figure; the shared-table switch changes only the table's widget type. The timing schematic uses a shared eight-second scale for the reported 50-row scenario, labels its block sizes as illustrative, and jumps to the result when reduced motion is requested; that parser optimization is separate from the shared-table migration.
+
+Tabs, buttons, and chips are styled together in the shared controls section at the end of `src/styles.css`. Reuse those classes for new controls rather than adding one-off styles.
 
 Keep public IBM claims within confirmed frontend scope, use generic names, and label illustrative content. The assistant's preview release covers documentation help, feedback and conversation history; its workspace forms and embedded reports were built internally, and the copy must not imply they shipped. Keep the 50+ page table adoption and the 100+ page rendering reach as separate facts, and keep the 62% result tied to the 50-row scenario.
 
