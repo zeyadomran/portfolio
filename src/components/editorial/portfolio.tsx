@@ -178,13 +178,6 @@ export function EditorialPortfolio() {
                     fixes with the design system team, so the release kept its
                     planned date.
                   </p>
-                  <h4>What shipped</h4>
-                  <p>
-                    The preview release covers documentation help, feedback and
-                    conversation history. The workspace tasks, including forms
-                    and embedded reports, were built internally and have not
-                    been released.
-                  </p>
                   <h4>The principle</h4>
                   <p>
                     An assistant should make the next action clearer. The
