@@ -59,7 +59,7 @@ node .yarn/releases/yarn-1.22.22.cjs test
 node .yarn/releases/yarn-1.22.22.cjs test:e2e
 ```
 
-Run `node .yarn/releases/yarn-1.22.22.cjs install --frozen-lockfile` to install dependencies and activate the local Husky hook. Before each commit, staged files are formatted, then lint (including warnings), type checks, a fresh build, and static-output tests must pass. Unstaged tracked edits are temporarily hidden and restored afterward; untracked and ignored local files remain visible to tools. Run `node .yarn/releases/yarn-1.22.22.cjs precommit` to check staged changes manually. Hook installation is skipped in CI, Vercel, and production-only installs. The full browser suite runs in required CI.
+Run `node .yarn/releases/yarn-1.22.22.cjs install --frozen-lockfile` to install dependencies and activate the local Husky hook. Before each commit, staged files are formatted, then lint (including warnings), type checks, a fresh build, and static-output tests must pass. During a merge, only files that differ from both parents count as staged, so a merge that takes every file unchanged from one side skips these checks; required CI still validates the merged branch. Unstaged tracked edits are temporarily hidden and restored afterward; untracked and ignored local files remain visible to tools. Run `node .yarn/releases/yarn-1.22.22.cjs precommit` to check staged changes manually. Hook installation is skipped in CI, Vercel, and production-only installs. The full browser suite runs in required CI.
 
 Playwright uses installed Chrome and the production preview on port 4173. Ensure any reused preview serves the current build.
 

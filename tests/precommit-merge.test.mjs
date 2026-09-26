@@ -52,10 +52,13 @@ function createFixture(t) {
   const write = (name, content) =>
     writeFileSync(join(directory, name), content);
   const read = (name) => readFileSync(join(directory, name), "utf8");
+  // lint-staged checks only merge files that differ from both parents, so
+  // both branches edit separate lines of the story.
+  const story = (local, incoming) => `${local}\nshared\n${incoming}\n`;
 
   git(["init", "--initial-branch=main"]);
   git(["config", "core.autocrlf", "false"]);
-  write("story.txt", "base\n");
+  write("story.txt", story("base", "base"));
   write("draft.txt", "baseline draft\n");
   write(
     "validate.mjs",
@@ -68,12 +71,12 @@ function createFixture(t) {
   git(["add", "."]);
   git(["commit", "-m", "Base"]);
   git(["switch", "--create", "incoming"]);
-  write("story.txt", "incoming\n");
+  write("story.txt", story("base", "incoming"));
   git(["add", "story.txt"]);
   git(["commit", "-m", "Incoming"]);
   git(["switch", "main"]);
-  write("local.txt", "local\n");
-  git(["add", "local.txt"]);
+  write("story.txt", story("local", "base"));
+  git(["add", "story.txt"]);
   git(["commit", "-m", "Local"]);
   git(["merge", "--no-commit", "incoming"]);
 
