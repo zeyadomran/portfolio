@@ -6,7 +6,7 @@ test("contact destinations fit phone and desktop viewports", async ({
   await page.emulateMedia({ reducedMotion: "reduce" });
   for (const width of [320, 390, 600, 820, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    await page.goto("/#links");
+    await page.goto("/#contact");
     const email = page.getByRole("link", {
       name: "ziomran@gmail.com",
       exact: true,
@@ -30,4 +30,48 @@ test("contact destinations fit phone and desktop viewports", async ({
       ),
     ).toBe(true);
   }
+});
+
+test("copy email reports success and retains a usable fallback on rejection", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: {
+        writeText: async (value: string) => {
+          document.body.dataset.copiedEmail = value;
+        },
+      },
+    });
+  });
+  await page.goto("/#contact");
+  const contact = page.locator("#contact");
+  await contact
+    .getByRole("button", { name: "Copy email address", exact: true })
+    .click();
+  await expect(page.locator("body")).toHaveAttribute(
+    "data-copied-email",
+    "ziomran@gmail.com",
+  );
+  await expect(contact.getByRole("status")).toHaveText("Email copied.");
+  await page.evaluate(() => {
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: {
+        writeText: async () => {
+          throw new Error("Clipboard permission denied");
+        },
+      },
+    });
+  });
+  await contact
+    .getByRole("button", { name: "Copied email address", exact: true })
+    .click();
+  await expect(contact.getByRole("status")).toContainText(
+    "Couldn’t copy. Select the email address",
+  );
+  await expect(
+    contact.getByRole("link", { name: "ziomran@gmail.com", exact: true }),
+  ).toHaveAttribute("href", "mailto:ziomran@gmail.com");
 });

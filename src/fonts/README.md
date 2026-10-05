@@ -11,3 +11,7 @@ The personal portfolio includes these tracked, user-supplied font files:
 Original local source: the `otf` folder inside the user-supplied PP Neue Montreal Free for Personal Use v3.0 download.
 
 Pangram Pangram's [official FAQ](https://pangrampangram.com/pages/faq), checked September 16, 2026, lists personal portfolios in PDF, print, and web as personal-use examples. Retain the supplied license materials and consult the foundry's current terms if the project's use changes.
+
+## IBM Plex Mono
+
+IBM Plex Mono Regular (400) and Medium (500) are self-hosted alongside the existing typography. Downloaded from Google Fonts on October 5, 2026; licensed under the SIL Open Font License 1.1 in `IBMPlexMono-OFL.txt`. Source: https://github.com/google/fonts/tree/main/ofl/ibmplexmono. No remote font requests are required at runtime.
