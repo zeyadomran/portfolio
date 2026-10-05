@@ -1,4 +1,5 @@
 import type { HtmlTagDescriptor } from "vite";
+import { theme, themeColors } from "../src/lib/theme.ts";
 import { site, siteUrl } from "../src/lib/seo.ts";
 
 export function isPreviewDeployment(environment = process.env.VERCEL_ENV) {
@@ -32,8 +33,11 @@ export function metadataTags(
       "googlebot",
       `${robots}, max-image-preview:large, max-snippet:-1, max-video-preview:-1`,
     ),
-    meta("theme-color", "#f1f3ef"),
-    meta("color-scheme", "light"),
+    meta("theme-color", themeColors[0]),
+    meta(
+      "color-scheme",
+      theme === "paper" || theme === "bone" ? "light" : "dark",
+    ),
     {
       tag: "link",
       attrs: { rel: "canonical", href: site.url },

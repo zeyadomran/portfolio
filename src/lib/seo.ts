@@ -4,9 +4,9 @@ export const site = {
   url: "https://zeyadomran.com/",
   title: "Zeyad Omran | Software Developer & Interface Design",
   description:
-    "Software developer at IBM focused on clear interfaces. Explore Zeyad Omran's work in AI assistants, reusable UI builders and frontend optimization.",
+    "Hard things, made easy to use. Explore Zeyad Omran’s frontend work at IBM, AI assistant interfaces, shared components, performance improvements and independent projects.",
   socialImageAlt:
-    "Zeyad Omran. Complexity, made human. Software developer at IBM.",
+    "Zeyad Omran. Hard things, made easy to use. Software developer at IBM.",
   profiles: [
     "https://linkedin.com/in/zeyadomran",
     "https://github.com/zeyadomran",
@@ -52,7 +52,7 @@ export const portfolioStructuredData = {
           "@type": "WebPageElement",
           "@id": siteUrl("#systems"),
           url: siteUrl("#systems"),
-          name: "Modularity",
+          name: "Shared components",
           description:
             "Shared frontend components and UI builders that help teams deliver new pages and use cases faster, including a table component used across 50+ product pages.",
           isPartOf: { "@id": siteUrl("#profile") },
@@ -61,7 +61,7 @@ export const portfolioStructuredData = {
           "@type": "WebPageElement",
           "@id": siteUrl("#optimization"),
           url: siteUrl("#optimization"),
-          name: "Optimization",
+          name: "Performance",
           description:
             "Frontend performance optimization of a shared parsing path used across 100+ product pages. Parallel execution and early exit guards reduced the reported 50-row rendering time from eight seconds to three.",
           isPartOf: { "@id": siteUrl("#profile") },

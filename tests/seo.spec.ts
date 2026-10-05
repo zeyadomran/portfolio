@@ -83,7 +83,7 @@ test("server HTML exposes canonical metadata and connected profile structured da
     await expect(article).toHaveCount(1);
     await expect(article).toContainText(new RegExp(section.name, "i"));
     await expect(article.locator("details.story-detail")).toContainText(
-      "My contribution",
+      "Read the story",
     );
   }
 });

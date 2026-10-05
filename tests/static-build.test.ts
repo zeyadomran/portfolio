@@ -9,9 +9,13 @@ const html = await readFile(resolve("dist/index.html"), "utf8");
 
 test("the static build contains the complete story before JavaScript runs", () => {
   assert.match(html, /id="root" data-prerendered/);
-  assert.equal((html.match(/<article\b/g) || []).length, 3);
+  assert.equal((html.match(/<article\b/g) || []).length, 5);
   for (const id of [
     "home",
+    "top",
+    "projects",
+    "contact",
+    "writing",
     "work",
     "assistant",
     "systems",
@@ -56,9 +60,9 @@ test("all emitted scripts, styles and local fonts exist", async () => {
   ).join("\n");
   assert.doesNotMatch(css, /@apply\s|@source\s/);
   const fonts = [
-    ...css.matchAll(/url\(["']?(\/assets\/[^\s)"']+\.otf)["']?\)/g),
+    ...css.matchAll(/url\(["']?(\/assets\/[^\s)"']+\.(?:otf|ttf))["']?\)/g),
   ];
-  assert.equal(new Set(fonts.map((match) => match[1])).size, 3);
+  assert.equal(new Set(fonts.map((match) => match[1])).size, 5);
   for (const [, path] of fonts)
     assert.ok((await stat(resolve("dist", path.slice(1)))).size > 0);
 });
