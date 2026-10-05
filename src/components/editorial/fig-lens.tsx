@@ -149,8 +149,8 @@ export function FigLens() {
           if (e.pointerType === "mouse") point(e);
         }}
         onPointerDown={point}
-        onPointerLeave={() => {
-          target.current = null;
+        onPointerLeave={(e) => {
+          if (e.pointerType === "mouse") target.current = null;
         }}
       >
         <div className="lens-mess" aria-hidden="true">

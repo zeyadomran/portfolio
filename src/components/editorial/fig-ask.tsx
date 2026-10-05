@@ -30,13 +30,36 @@ export function FigAsk() {
   const workspace = useRef<HTMLElement>(null);
   const launcher = useRef<HTMLButtonElement>(null);
   const log = useRef<HTMLDivElement>(null);
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    const motion = matchMedia("(prefers-reduced-motion: reduce)");
+    const finishAnimations = (event: MediaQueryListEvent) => {
+      if (!event.matches) return;
+      if (streamTimer.current !== undefined) {
+        clearTimeout(streamTimer.current);
+        streamTimer.current = undefined;
+        setMessages((current) =>
+          current.map((message) => ({
+            ...message,
+            text: answers[message.prompt],
+            complete: true,
+          })),
+        );
+        setStreaming(false);
+      }
+      if (fillTimer.current !== undefined) {
+        clearTimeout(fillTimer.current);
+        fillTimer.current = undefined;
+        if (!nameEdited.current) setName("September overview");
+        if (!periodEdited.current) setPeriod("Last month");
+      }
+    };
+    motion.addEventListener("change", finishAnimations);
+    return () => {
+      motion.removeEventListener("change", finishAnimations);
       clearTimeout(streamTimer.current);
       clearTimeout(fillTimer.current);
-    },
-    [],
-  );
+    };
+  }, []);
   useEffect(() => {
     if (!open) {
       if (hasOpened) launcher.current?.focus();
@@ -48,6 +71,7 @@ export function FigAsk() {
       if (e.key === "Escape") {
         e.preventDefault();
         clearTimeout(fillTimer.current);
+        fillTimer.current = undefined;
         setOpen(false);
       }
       if (e.key !== "Tab" || !matchMedia("(max-width: 759px)").matches) return;
@@ -94,8 +118,10 @@ export function FigAsk() {
             : m,
         ),
       );
-      if (complete) setStreaming(false);
-      else streamTimer.current = setTimeout(next, 55);
+      if (complete) {
+        streamTimer.current = undefined;
+        setStreaming(false);
+      } else streamTimer.current = setTimeout(next, 55);
     };
     streamTimer.current = setTimeout(next, 420);
   }
@@ -116,6 +142,7 @@ export function FigAsk() {
         fillTimer.current = setTimeout(next, 45);
       else
         fillTimer.current = setTimeout(() => {
+          fillTimer.current = undefined;
           if (!periodEdited.current) setPeriod("Last month");
         }, 350);
     };
@@ -123,11 +150,14 @@ export function FigAsk() {
   }
   function closeWorkspace() {
     clearTimeout(fillTimer.current);
+    fillTimer.current = undefined;
     setOpen(false);
   }
   function reset() {
     clearTimeout(streamTimer.current);
     clearTimeout(fillTimer.current);
+    streamTimer.current = undefined;
+    fillTimer.current = undefined;
     setMessages([]);
     setStreaming(false);
     setOpen(false);
@@ -188,6 +218,7 @@ export function FigAsk() {
                   nameEdited.current = true;
                   periodEdited.current = true;
                   clearTimeout(fillTimer.current);
+                  fillTimer.current = undefined;
                   setAttempted(true);
                   setSaved(Boolean(name.trim() && period));
                 }}

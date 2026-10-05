@@ -68,7 +68,7 @@ for (const width of [390, 1440]) {
   });
 }
 
-for (const width of [390, 1440]) {
+for (const width of [390, 768, 1440]) {
   test(`shared options update every sample page and survive mode changes at ${width}px`, async ({
     page,
   }) => {
@@ -87,6 +87,21 @@ for (const width of [390, 1440]) {
     await figure
       .getByRole("button", { name: "Row selection", exact: true })
       .click();
+    for (const slug of ["sites", "suppliers", "orders"]) {
+      if (width < 760)
+        await figure
+          .getByRole("tab", { name: `/${slug}`, exact: true })
+          .click();
+      const sample = figure.locator(`#page-${slug}`);
+      const card = (await sample.boundingBox())!;
+      const table = (await sample.getByRole("table").boundingBox())!;
+      expect(table.x).toBeGreaterThanOrEqual(card.x);
+      expect(table.x + table.width).toBeLessThanOrEqual(card.x + card.width);
+      for (const status of await sample.locator(".sample-status").all()) {
+        const box = (await status.boundingBox())!;
+        expect(box.x + box.width).toBeLessThanOrEqual(card.x + card.width);
+      }
+    }
     await figure
       .getByRole("button", { name: "Status column", exact: true })
       .click();

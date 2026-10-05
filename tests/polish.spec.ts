@@ -84,25 +84,42 @@ test("mobile Index traps focus, dismisses, restores focus and navigates", async 
   await expect(page.locator("#systems .case-header")).toBeInViewport();
 });
 
-test("assistant streaming and autofill do not overwrite the reader’s edits", async ({
+test("assistant streaming and autofill respect motion changes and the reader’s edits", async ({
   page,
 }) => {
-  await page.clock.install();
+  await page.clock.install({ time: new Date("2026-10-05T12:00:00Z") });
+  await page.clock.pauseAt(new Date("2026-10-05T12:00:01Z"));
   await page.goto("/#assistant");
   const figure = page.locator("#assistant figure");
   await figure
-    .getByRole("button", { name: "Help me make one", exact: true })
+    .getByRole("button", { name: "What’s an overview?", exact: true })
     .click();
   await expect(figure.getByRole("log")).toHaveAttribute("aria-busy", "true");
   await expect(
-    figure.getByRole("button", { name: "What’s an overview?" }),
+    figure.getByRole("button", { name: "Help me make one" }),
   ).toBeDisabled();
   await page.clock.runFor(2500);
   await expect(figure.getByRole("log")).toHaveAttribute("aria-busy", "false");
+  await figure
+    .getByRole("button", { name: "Help me make one", exact: true })
+    .click();
+  await page.clock.runFor(500);
+  await expect(figure.getByRole("log")).toHaveAttribute("aria-busy", "true");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(figure.getByRole("log")).toHaveAttribute("aria-busy", "false");
+  await expect(figure.getByRole("log")).toContainText(
+    "Change anything you like before you save.",
+  );
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await figure.getByRole("button", { name: /Open the form/ }).click();
   await figure
     .getByRole("textbox", { name: "Name", exact: true })
     .fill("My own overview");
+  await page.clock.runFor(90);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(
+    figure.getByRole("combobox", { name: "Period", exact: true }),
+  ).toHaveValue("Last month");
   await page.clock.runFor(1600);
   await expect(
     figure.getByRole("textbox", { name: "Name", exact: true }),
