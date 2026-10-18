@@ -2,11 +2,6 @@ name: Staged file size hook
 
 on:
   pull_request:
-    paths:
-      - scripts/git-hooks/**
-      - .husky/pre-commit
-      - package.json
-      - .github/workflows/staged-file-size.yml
   push:
     branches: [main, master]
     paths:
