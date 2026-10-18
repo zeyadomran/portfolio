@@ -1,1 +1,3 @@
+node scripts/git-hooks/check-staged-file-size.mjs
 node .yarn/releases/yarn-1.22.22.cjs precommit
+node scripts/git-hooks/check-staged-file-size.mjs
