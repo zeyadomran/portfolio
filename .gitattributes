@@ -1,3 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 .husky/* text eol=lf
+
+scripts/git-hooks/pre-commit text eol=lf

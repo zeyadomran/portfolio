@@ -19,7 +19,8 @@
     "format": "prettier --write src scripts tests *.json *.mjs *.ts *.md index.html",
     "test": "tsx --test tests/static-build.test.ts",
     "test:hooks": "node --test tests/precommit-merge.test.mjs",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:git-hooks": "node --test scripts/git-hooks/verify.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
