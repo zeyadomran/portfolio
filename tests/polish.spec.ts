@@ -11,7 +11,7 @@ for (const width of [320, 390, 768, 1280, 1440]) {
       "Hard things,made easy to use.",
     );
     await expect(page.locator("article.story")).toHaveCount(3);
-    await expect(page.locator(".project-card")).toHaveCount(2);
+    await expect(page.locator(".project-card")).toHaveCount(1);
     const index = page.getByRole("list", { name: "Case studies" });
     for (const id of ["assistant", "systems", "optimization"]) {
       await index.locator(`a[href='#${id}']`).click();
