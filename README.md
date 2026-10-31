@@ -15,7 +15,7 @@ The Instrument design uses a dark Midnight palette, a twelve-column hairline gri
 - **One table, many pages:** compare three separate tables with a shared component. Selection, column picker, compact rows and status options update all three sample pages together. Phones show one page at a time.
 - **Same table, two runs:** play or scrub a schematic of the reported eight-to-three-second result on one shared eight-second scale.
 
-The page includes native expandable stories, text-only project cards for Behind the Interface and Promptly, experience and education, and contact links. A sticky header tracks the active section and reading progress; phones get a keyboard-accessible Index dialog. Reduced motion disables idle animation and immediately completes scripted demonstrations.
+The page includes native expandable stories, a text-only project card for Behind the Interface, experience and education, and contact links. A sticky header tracks the active section and reading progress; phones get a keyboard-accessible Index dialog. Reduced motion disables idle animation and immediately completes scripted demonstrations.
 
 Core content, section navigation, native story disclosures, contact destinations and the resume download work without JavaScript. Figures prerender in a stable resting state; motion activates near the viewport or in response to input. The site uses React, TypeScript, Vite, Tailwind CSS and authored CSS.
 

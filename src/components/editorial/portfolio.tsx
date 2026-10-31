@@ -94,15 +94,6 @@ const projects = [
       ["Source", "https://github.com/zeyadomran/behind-the-interface"],
     ],
   },
-  {
-    title: "Promptly",
-    code: "02.2 · Windows app",
-    status: "Open source",
-    description:
-      "A small Windows app for the text you want to reuse: AI prompts, replies, notes, bits of code. Select some text, press a shortcut, and it’s saved. Tag it, search it, copy it back. Everything stays on your computer and works offline.",
-    tags: ["Windows", "Local-first", "Offline"],
-    links: [["Source", "https://github.com/zeyadomran/promptly"]],
-  },
 ];
 const products = [
   [

@@ -9,7 +9,7 @@ const html = await readFile(resolve("dist/index.html"), "utf8");
 
 test("the static build contains the complete story before JavaScript runs", () => {
   assert.match(html, /id="root" data-prerendered/);
-  assert.equal((html.match(/<article\b/g) || []).length, 5);
+  assert.equal((html.match(/<article\b/g) || []).length, 4);
   for (const id of [
     "home",
     "top",
